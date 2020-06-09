@@ -11,11 +11,5 @@ $docpath = "./docs/";
 
 date_default_timezone_set("Europe/Berlin");
 
-######## Menüeinträge ##############
-$menu_name['user'][1] = 'EB 2 MT940';
-
-
-######## spezifische Dateien ###########
-$menu_file['user'][1] = './eb_mt940.php';
 
 ?>
