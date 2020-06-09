@@ -1,5 +1,7 @@
+<html>
+<body>
 <H1>EB Zahlungsavis konvertieren</h1>
-<BR>
+<BR/>
 <form action=# method=POST enctype="multipart/form-data">
 Zahlungsavis: <input name="stldatei" type="file" label="EB Avis-Datei" required><BR>
 Buchdatum (TT.MM.JJ): 
@@ -165,9 +167,7 @@ Buchdatum (TT.MM.JJ):
 	print "<BR><h3><a href='".$basepath.$mt940datei."'>[Download MT940 Datei]</a></h3><BR></table>";
  
  }
-	 
-
-
-
 
 ?>
+</body>
+</html>
