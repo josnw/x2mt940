@@ -1,2 +1,3 @@
 # eb2mt940
-convert EB avis to MT940 format
+Modul to convert EB avis to MT940 format
+
