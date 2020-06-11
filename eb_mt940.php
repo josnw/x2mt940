@@ -20,10 +20,24 @@ Buchdatum (TT.MM.JJ):
  if ( (isset($_POST['import'])) and (is_uploaded_file($_FILES['stldatei']['tmp_name'])) ) {
 	 
 	include_once("./config.php");
+	 
+	 //alte Daten löschen
+	 $fileArray = array();
+	 foreach (glob($docpath."/*") as $filename) {
+	   if ((time() - fileatime($filename)) > 3600) 	  {
+	     unlink($filename);
+	    }
+	  }
+
+	 
+	 
 	$tag = preg_replace ( '/[^0-9]/i', '',$_POST["tag"]); 
 	$monat = preg_replace ( '/[^0-9]/i', '',$_POST["monat"]); 
 	$jahr = preg_replace ( '/[^0-9]/i', '',$_POST["jahr"]); 
 	$buchdatum = sprintf("%02d%02d%02d",$jahr,$monat,$tag);
+
+	$ebfilename = $docpath.'EBAVIS'.uniqid();  
+	$mt940datei = $ebfilename.".pcc";
 	 
 	move_uploaded_file($_FILES['stldatei']['tmp_name'],$ebfilename);
 	
@@ -170,9 +184,8 @@ Buchdatum (TT.MM.JJ):
 	$mt940 .= "-\n";
 	fclose($datei);
   
-	$mt940datei = "./docs/EBAVIS".date("ymdhis").".pcc";
 	file_put_contents($mt940datei, $mt940); 
-	print "<BR><h3><a href='".$basepath.$mt940datei."'>[Download MT940 Datei]</a></h3><BR></table>";
+	print "<BR><h3><a href='".$mt940datei."'>[Download MT940 Datei]</a></h3><BR></table>";
  
  }
 
