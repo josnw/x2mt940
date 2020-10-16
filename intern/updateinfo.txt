@@ -1,0 +1,2 @@
+2020-10-13;x2MT940 Konverter;Konvertieren verschiedener Listenformate in das MT940 Format zum automatischen Abgleich offener Posten in der Finanzbuchhaltung
+2020-10-15;Paypal Transaktionsdatei;Konvertieren der Paypal Transaktionsdatei (CSV) in MT940 

@@ -1,3 +1,4 @@
-# eb2mt940
-Modul to convert EB avis to MT940 format
+# x2mt940
+Modul to convert textfiles to MT940 format
+
 
