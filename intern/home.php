@@ -6,7 +6,7 @@
 <table width=70% border=0>
 <?php
 
- include './intern/autoload.php';
+ include_once './intern/autoload.php';
  include ("./intern/config.php");
  
  $updInfo = new myFile("./intern/updateinfo.txt","read");

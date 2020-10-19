@@ -1,0 +1,20 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
+
+	"TRANSACTION_EVENTCODE":	"Typ",
+	"TRANSACTION_TYPE": 		"Transaktion  Gutschrift oder Belastung",
+	"TRANSACTION_AMOUNT": 		"Auswirkung auf Guthaben",
+	"TRANSACTION_CHARGETYPE": 	"Auswirkung auf Guthaben",
+	"TRANSACTION_CHARGEAMOUNT":	"Gebühr",
+	"TRANSACTION_SELLER_ID": 	"--",
+	"TRANSACTION_SELLER_NAME":	"Name",
+	"TRANSACTION_DATE": 		"Datum",
+	"TRANSACTION_CODE":			"Transaktionscode",
+	"TRANSACTION_STAT": 		"Status",
+	
+	"CHECK_T0400":				"Allgemeine Abbuchung",
+	"CHECK_FINISH_STAT":		"Abgeschlossen",
+	"CHECK_CR_TYPE":			"Haben"
+
+}

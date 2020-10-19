@@ -1,0 +1,14 @@
+{
+	"_comment":					"TRANSACTION_* for mapping for table columns",
+
+	"TRANSACTION_EVENTCODE":	"Transaktionsereigniscode",
+	"TRANSACTION_TYPE": 		"Transaktion  Gutschrift oder Belastung",
+	"TRANSACTION_AMOUNT": 		"Bruttotransaktionsbetrag",
+	"TRANSACTION_CHARGETYPE": 	"Gebühr Soll oder Haben",
+	"TRANSACTION_CHARGEAMOUNT":	"Gebührenbetrag",
+	"TRANSACTION_SELLER_ID": 	"Käufer-ID",
+	"TRANSACTION_SELLER_NAME":	"Nachname",
+	"TRANSACTION_DATE": 		"Transaktionseinleitungsdatum",
+	"TRANSACTION_CODE":			"Transaktionscode",
+	"TRANSACTION_STAT": 		"Transaktionsstatus"
+}

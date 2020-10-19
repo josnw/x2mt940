@@ -19,10 +19,10 @@ class MT940_wwsFacto {
 	
 		$sql = "select distinct k.fnum as invoice, k.fxnr as customer from archiv.auftr_kopf k inner join archiv.auftr_pos p using (fblg) 
 					where k.fdtm between :fromdate and :todate and k.fxnr between :fromCustomer and :toCustomer
-						and (p.qnve = :ppid or fabl like 'TB_PAYMENT_TRANSACTION_ID=' || :ppid or qsbz like :ppid)
+						and (p.qnve = :ppid or fabl like 'TB_PAYMENT_TRANSACTION_ID=' || :ppid or qsbz like :ppid )
 						and k.ftyp in (5,6)
 					order by k.fnum desc";
-					
+		print $sql." ".$ppid;			
 
 		$row_qry = $this->pg_pdo->prepare($sql);
 		$row_qry->bindValue(':fromdate', $fromDate);
