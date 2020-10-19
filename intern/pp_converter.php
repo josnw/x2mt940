@@ -6,7 +6,7 @@
  $fileVar = 'trrfile';
  include('./intern/views/mt940_upload_view.php');
 
- $konverterName = 'Paypal Transaktionsdatei (TRR)';
+ $konverterName = 'Paypal CSV Bericht (CSV)';
  $fileVar = 'csvfile';
  include('./intern/views/mt940_upload_view.php');
  
@@ -28,8 +28,6 @@
 		$ppdata->importData();
 		$parameter = $ppdata->getParameter();
 
-	} else {
-		break;
 	}
 		
 	$mt940data = new mt940();
@@ -43,7 +41,7 @@
 	
 	include('./intern/views/mt940_result_view.php');
 
-	}	  
+
  }
 
 
