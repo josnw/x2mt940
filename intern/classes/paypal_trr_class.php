@@ -31,7 +31,7 @@ class paypalTTR {
 		$this->infile = new myfile($fileName);
 		
 		$pp_codes = new myfile("./intern/mapping/paypal_codes.txt","readfull");
-		$this->ppcodes = $pp_codes->getContent();
+		$this->ppcodes = $pp_codes->readJson();
 		
 		$map = new myfile("./intern/mapping/paypal_trr.json","readfull");
 		$this->mapping = $map->readJson();
