@@ -25,7 +25,7 @@ class mt940 {
 			$header = ":20:PP".date("ymdhis")."\n";
 			$header .= ":25:".$parameter['blz']."/".$parameter['konto']."\n";
 			$header .= ":28C:0\n";
-			$header .= ":60F:C".date("ymd",$parameter['startdate']).$parameter['currency']."0,00"."\n";
+			$header .= ":60F:C".date("ymd",strtotime($parameter['startdate'])).$parameter['currency']."0,00"."\n";
 			
 			return $header;
 	}
@@ -33,7 +33,6 @@ class mt940 {
 	private function mt940Pos($data) {
 		
 		if ($data['PAYMENT_STATE']	== "S") {
-			
 			$pos = ":61:".$data['PAYMENT_DATE'];
 			$pos .= $data['PAYMENT_TYPE'];
 			$pos .= $data['PAYMENT_AMOUNT'];
@@ -79,7 +78,7 @@ class mt940 {
 	}
 	
 	private function mt940footer($parameter) {
-			$footer = ":62F:".$parameter["TotalSH"].date("ymd",$parameter["enddate"]).$parameter["currency"].$parameter["TotalAmount"]."\n";
+			$footer = ":62F:".$parameter["TotalSH"].date("ymd",strtotime($parameter["enddate"])).$parameter["currency"].$parameter["TotalAmount"]."\n";
 			$footer = "-\n";
 			
 			return $footer;

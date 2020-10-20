@@ -12,7 +12,7 @@
  
  if (isset($_POST["uploadFile"]) or (isset($argv) and in_array("/csvfile", $argv))) {
 
-	if (is_uploaded_file($_FILES['trrfile']['tmp_name']))  {
+	if (isset($_FILES['trrfile']['tmp_name']) and (is_uploaded_file($_FILES['trrfile']['tmp_name'])))  {
 
 		$uploadFile = new myFile($docpath.'PPUP_'.uniqid().".trr", "newUpload");
 		$uploadFile->moveUploaded($_FILES['trrfile']['tmp_name']);
@@ -20,7 +20,7 @@
 		$ppdata->importData();
 		$parameter = $ppdata->getParameter();
 		
-	} elseif (is_uploaded_file($_FILES['csvfile']['tmp_name']))  {
+	} elseif (isset($_FILES['csvfile']['tmp_name']) and (is_uploaded_file($_FILES['csvfile']['tmp_name'])))  {
 
 		$uploadFile = new myFile($docpath.'PPUP_'.uniqid().".csv", "newUpload");
 		$uploadFile->moveUploaded($_FILES['csvfile']['tmp_name']);
@@ -29,11 +29,11 @@
 		$parameter = $ppdata->getParameter();
 
 	}
-		
+
 	$mt940data = new mt940();
 	$mt940data->generateMT940($ppdata->getAllData(), $parameter);
 
-	$filename = $mt940data->writeToFile($docpath.'Paypal_MT940_'.date("Ymd",$parameter['startdate'])."_".uniqid().".pcc");
+	$filename = $mt940data->writeToFile($docpath.'Paypal_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc");
 	$rowCount = $mt940data->getDataCount();
 	$exportfile = $docpath.$filename;
 	

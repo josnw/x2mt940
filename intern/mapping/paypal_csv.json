@@ -3,17 +3,22 @@
 	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
 
 	"TRANSACTION_EVENTCODE":	"Typ",
-	"TRANSACTION_TYPE": 		"Transaktion  Gutschrift oder Belastung",
-	"TRANSACTION_AMOUNT": 		"Auswirkung auf Guthaben",
+	"TRANSACTION_TYPE": 		"Auswirkung auf Guthaben",
+	"TRANSACTION_AMOUNT": 		"Netto",
 	"TRANSACTION_CHARGETYPE": 	"Auswirkung auf Guthaben",
 	"TRANSACTION_CHARGEAMOUNT":	"Gebühr",
-	"TRANSACTION_SELLER_ID": 	"--",
+	"TRANSACTION_SELLER_ID": 	"Name",
 	"TRANSACTION_SELLER_NAME":	"Name",
 	"TRANSACTION_DATE": 		"Datum",
 	"TRANSACTION_CODE":			"Transaktionscode",
-	"TRANSACTION_STAT": 		"Status",
-	
-	"CHECK_T0400":				"Allgemeine Abbuchung",
+	"TRANSACTION_STAT": 		"Status",	
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"Allgemeine Abbuchung",
+								"1":	"PayPal Express-Zahlung",
+								"2":	"Bankgutschrift auf PayPal-Konto"
+							},
+							
 	"CHECK_FINISH_STAT":		"Abgeschlossen",
 	"CHECK_CR_TYPE":			"Haben"
 

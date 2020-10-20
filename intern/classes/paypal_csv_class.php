@@ -30,14 +30,15 @@ class paypalCSV {
 
 		$this->infile = new myfile($fileName);
 
-		$mapping = new myfile("./intern/mapping/paypal_trr.json","readfull");
-		$this->mapping = $mapping->getContent();
-		
+		$mapping = new myfile("./intern/mapping/paypal_csv.json","readfull");
+		$this->mapping = $mapping->readJson();
+
 		$this->mt940param['startdate'] = null;
 		$this->mt940param['enddate'] = null;
 		$row = $this->infile->readCSV(',');
+		$row[0] = trim($row[0],"\"\xEF\xBB\xBF");
 		$this->ppHeader = $row;
-
+		
 	}
 	
 	public function importData() {
@@ -48,14 +49,16 @@ class paypalCSV {
 		while (($row = $this->infile->readCSV(',')) !== FALSE) {
 			$rowdata = [];
 			$rowdata = array_combine($this->ppHeader,$row);
-			
-			if ($this->mt940param['startdate'] == null) {
-			 $this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
-			}
 
-			if ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] <> $mapping['T0400']) {
+			if ($this->mt940param['startdate'] == null) {
+				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
+			}
+			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
+
+			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
 			
-				if (substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1) == $mapping['CHECK_CR_TYPE']) {
+				if (substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1) == $this->mapping['CHECK_CR_TYPE']) {
 					$rowdata[$this->mapping['TRANSACTION_TYPE']] = "C";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']]/100;
 				} else {
@@ -79,18 +82,20 @@ class paypalCSV {
 				foreach($invoiceData as $invoice) {
 					$invoiceStr .= 'RG'.$invoice['invoice']; 
 				}
+				isset($invoiceData->fnum[0]["invoice"]) ? $defaultInvoice = $invoiceData->fnum[0]["invoice"] : $defaultInvoice = 'NONREF';
+				isset($invoiceData->fnum[0]["customer"]) ? $defaultCustomer = $invoiceData->fnum[0]["customer"] : $defaultCustomer = '';	
 			
 				$mt940 = [];
 				
-				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_STAT']] == $mapping["CHECK_FINISH_STAT"])) {
+				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"])) {
 					
 					$mt940 = [
 						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 						'PAYMENT_TYPE' => substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1),
 						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]/100)),
-						'PAYMENT_NDDT' => $invoiceData->fnum[0]["invoice"],
+						'PAYMENT_NDDT' => $defaultInvoice,
 						'PAYMENT_TEXT00' => 'PAYPAL',
-						'PAYMENT_TEXT20' => 'KD'.$invoiceData->fnum[0]["customer"],
+						'PAYMENT_TEXT20' => 'KD'.$defaultCustomer,
 						'PAYMENT_TEXT21' => $invoiceStr,
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_TEXT23' => preg_replace ( '/[^a-z0-9 ]/i', '', strtoupper($rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]." ".$rowdata[$this->mapping['TRANSACTION_SELLER_ID']])),
@@ -103,11 +108,11 @@ class paypalCSV {
 						'CHARGE_TEXT20' => 'PAYPAL GEBUEHR',
 						'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'CHARGE_TEXT22' => preg_replace ( '/[^a-z0-9 ]/i', '', strtoupper($rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]." ".$rowdata[$this->mapping['TRANSACTION_SELLER_ID']])),
-						'PAYMENT_STATE' =>  $rowdata[$this->mapping['TRANSACTION_STAT']]
+						'PAYMENT_STATE' =>  'S'
 					];
-				} elseif  ($rowdata[$this->mapping['TRANSACTION_STAT']] <> $mapping["CHECK_FINISH_STAT"]) {
+				} elseif  ($rowdata[$this->mapping['TRANSACTION_STAT']] <> $this->mapping["CHECK_FINISH_STAT"]) {
 					$mt940 = [
-						'PAYMENT_NDDT' => $invoiceData->fnum[0]["invoice"],
+						'PAYMENT_NDDT' => $defaultInvoice,
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_TEXT23' => preg_replace ( '/[^a-z0-9 ]/i', '', strtoupper($rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]." ".$rowdata[$this->mapping['TRANSACTION_SELLER_ID']])),
 						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
@@ -119,7 +124,7 @@ class paypalCSV {
 				$this->dataCount++;
 			}
 
-			$this->mt940param['enddate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
+			$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 
 		}
 		

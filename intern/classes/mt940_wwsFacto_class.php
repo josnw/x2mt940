@@ -32,7 +32,7 @@ class MT940_wwsFacto {
 		
 		$row_qry->execute() or die (print_r($row_qry->errorInfo()));;
 		$row = $row_qry->fetchAll( PDO::FETCH_ASSOC );
-		
+
 		return $row;
 
 	}
