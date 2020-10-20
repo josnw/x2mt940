@@ -7,7 +7,8 @@ CREATE ROLE :username WITH
   NOREPLICATION
   PASSWORD :passwd ;
   
-  GRANT USAGE ON SCHEMA public TO bi;
+  GRANT USAGE ON SCHEMA public TO :username;
+  GRANT USAGE ON SCHEMA archiv TO :username;
   GRANT SELECT ON TABLE public.lif_0 TO :username;
   GRANT SELECT ON TABLE archiv.bestell_kopf TO :username;
   GRANT SELECT ON TABLE archiv.bestell_pos TO :username;

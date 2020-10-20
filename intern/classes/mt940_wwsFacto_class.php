@@ -22,6 +22,9 @@ class MT940_wwsFacto {
 						and (p.qnve = :ppid or fabl like 'TB_PAYMENT_TRANSACTION_ID=' || :ppid or qsbz like :ppid )
 						and k.ftyp in (5,6)
 					order by k.fnum desc";
+					
+		print $sql."<br>";
+		print $ppid." ".$fromDate." ".$toDate." ".$fromCustomer." ".$toCustomer;
 
 		$row_qry = $this->pg_pdo->prepare($sql);
 		$row_qry->bindValue(':fromdate', $fromDate);
