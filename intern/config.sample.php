@@ -8,6 +8,14 @@ $paypal['fromCustomer'] = "0"; // customer range
 $paypal['toCustomer'] = "999999"; // customer range 
 $paypal['currency'] = "EUR"; // Default Currency 
 
+# EUROBAUSTOFF
+$eurobaustoff['blz'] = "DUMMYBLZ4EB";  // dummy BLZ for Import
+$eurobaustoff['konto'] = "DUMMYKONTO4EB"; // Default dummy account
+$eurobaustoff['grossPosting'] = true; // customer range 
+$eurobaustoff['alternateSeller'] = true; // customer range 
+$eurobaustoff['currency'] = "EUR"; // Default Currency 
+
+
 # WWS config
 $wwsClassName = "MT940_wwsFacto";
 $wwsserver	= "pgsql:host=dbhost;port=5432;dbname=dbname";

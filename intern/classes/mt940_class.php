@@ -52,7 +52,7 @@ class mt940 {
 			}
 
 			if (isset($data['CHARGE_AMOUNT']) and ($data['CHARGE_AMOUNT'] > 0)) {
-				$pos = ":61:".$data['CHARGE_DATE'];
+				$pos .= ":61:".$data['CHARGE_DATE'];
 				$pos .= $data['CHARGE_TYPE'];
 				$pos .= $data['CHARGE_AMOUNT'];
 				$pos .= "NDDT".$data['CHARGE_NDDT']."\n";
@@ -65,6 +65,27 @@ class mt940 {
 				}
 				if (strlen($data['CHARGE_TEXT22']) > 0) {
 					$pos .= "?22".$data['CHARGE_TEXT22']."\n";
+				}
+			}
+			
+			if (isset($data['DISCOUNT']) and (is_array($data['DISCOUNT'])) ) {
+			
+				foreach ($data['DISCOUNT'] as $discount) {
+					
+					$pos .= ":61:".$discount['DISCOUNT_DATE'];
+					$pos .= $discount['DISCOUNT_TYPE'];
+					$pos .= $discount['DISCOUNT_AMOUNT'];
+					$pos .= "NDDT".$discount['DISCOUNT_NDDT']."\n";
+					$pos .= ":86:166?00".$discount['DISCOUNT_TEXT00']."\n";
+					if (strlen($discount['DISCOUNT_TEXT20']) > 0) {
+						$pos .= "?20".$discount['DISCOUNT_TEXT20']."\n";
+					}
+					if (strlen($discount['DISCOUNT_TEXT21']) > 0) {
+						$pos .= "?21".$discount['DISCOUNT_TEXT21']."\n";
+					}
+					if (strlen($discount['DISCOUNT_TEXT22']) > 0) {
+						$pos .= "?22".$discount['DISCOUNT_TEXT22']."\n";
+					}
 				}
 			}
 			
