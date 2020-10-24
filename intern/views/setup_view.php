@@ -18,21 +18,21 @@
 	<div class="DSEdit">
 		<div class="DSFeld4 ">
 			<div class="DSFeld4 ">
-					Datenbank Host IP: <br/><input name=wwsServerHost type=text placeholder="1.1.1.1" pattern="^[0-9A-Za-z\-\._]*$">
+					Datenbank Host IP: <br/><input name=wwsServerHost type=text pattern="^[0-9A-Za-z\-\._]{3;50}$">
 			</div>
 			<div class="DSFeld4 ">
-					Datenbank Host Port: <br/><input name=wwsServerPort type=text value="5432"  pattern="^[0-9]*$">
+					Datenbank Host Port: <br/><input name=wwsServerPort type=text value="5432"  pattern="^[0-9]{1;6}$">
 			</div>
 			<div class="DSFeld4 ">
-					Datenbank Name: <br/><input name=wwsDBName type=text placeholder="FACTO5-xxx"  pattern="^[0-9A-Za-z\-_]*$">
+					Datenbank Name: <br/><input name=wwsDBName type=text pattern="^[0-9A-Za-z\-_]{1;20}$">
 			</div>
 		</div>
 		<div class="DSFeld4 smallBorder">
 			<div class="DSFeld4 ">
-					Datenbank Admin: <br/><input name=wwsAdmin type=text value="postgres"  pattern="^[0-9A-Za-z\-\._]*$">
+					Datenbank Admin: <br/><input name=wwsAdmin type=text value="postgres"  pattern="^[0-9A-Za-z\-\._]{1,20}$">
 			</div>
 			<div class="DSFeld4 ">
-					Admin Password: <br/><input name=wwsAdminPassword type=password>
+					Admin Password: <br/><input name=wwsAdminPassword type=password minlength=1>
 			</div>
 		</div>
 		<div class="DSFeld4 smallBorder">

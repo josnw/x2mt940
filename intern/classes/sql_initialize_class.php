@@ -25,7 +25,7 @@ class sqlInitialize {
 
 		foreach ($parameter as $value => $key) {
 			// $row_qry->bindValue($value, $key);
-			$sql = str_replace($value,$this->pg_pdo->quote($key),$sql);
+			$sql = str_replace($value,$key,$sql);
 		}
 
 		$statements = explode(";",$sql);

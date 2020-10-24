@@ -28,11 +28,12 @@
 	$wwsServer = "pgsql:host=".$wwsServerHost.";port=".$wwsServerPort.";dbname=".$wwsDBName;
 
 	$wwsUser = substr(preg_replace("[^0-9A-Za-z\-\.\_]","",$_POST["wwsUser"]),0,50);
-	$wwsUserPass = substr(preg_replace("[\"\'\\]","",$_POST["wwsUserPassword"]),0,50);
+	$wwsUserPass = substr(preg_replace("[']","",$_POST["wwsUserPassword"]),0,50);
 	$wwsAdmin = substr(preg_replace("[^0-9A-Za-z\-\.\_]","",$_POST["wwsAdmin"]),0,50);
-	$wwsAdminPassword =substr( preg_replace("[\"\'\\]","",$_POST["wwsAdminPassword"]),0,50);
+	$wwsAdminPassword =substr( preg_replace("[']","",$_POST["wwsAdminPassword"]),0,50);
 
  	try {
+
 		$setup = new sqlInitialize($wwsServer, $wwsAdmin, $wwsAdminPassword);
 		
 		$logtext = "Admin Login successful ...";
