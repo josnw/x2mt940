@@ -29,10 +29,10 @@
 		</div>
 		<div class="DSFeld4 smallBorder">
 			<div class="DSFeld4 ">
-					Datenbank Admin: <br/><input name=wwsAdmin type=text value="postgres"  pattern="^[0-9A-Za-z\-\._]$">
+					Datenbank Admin: <br/><input name=wwsAdmin type=text value="postgres"  pattern="^[0-9A-Za-z\-\._]*$">
 			</div>
 			<div class="DSFeld4 ">
-					Admin Password: <br/><input name=wwsAdminPassword type=password  >
+					Admin Password: <br/><input name=wwsAdminPassword type=password>
 			</div>
 		</div>
 		<div class="DSFeld4 smallBorder">
@@ -40,7 +40,7 @@
 					neuer Datenbank User: <br/><input name=wwsUser type=text placeholder="mt940user"  pattern="[0-9A-Za-z\-\.\_]">
 			</div>
 			<div class="DSFeld4 ">
-					User Password: <br/><input name=wwsUserPassword type=password minlength="8" ">
+					User Password: <br/><input name=wwsUserPassword type=password minlength=8>
 			</div>
 		</div>
 		<div class="DSFeld1 right" style="background: #AA5555;"><input type="submit" name="setup" value="SetUp Database" onclick="wartemal('on')"></div>
