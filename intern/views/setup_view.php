@@ -37,7 +37,7 @@
 		</div>
 		<div class="DSFeld4 smallBorder">
 			<div class="DSFeld4 ">
-					neuer Datenbank User: <br/><input name=wwsUser type=text placeholder="mt940user"  pattern="[0-9A-Za-z\-\.\_]">
+					neuer Datenbank User: <br/><input name=wwsUser type=text  pattern="[0-9A-Za-z\-\.\_]{3,20}">
 			</div>
 			<div class="DSFeld4 ">
 					User Password: <br/><input name=wwsUserPassword type=password minlength=8>
