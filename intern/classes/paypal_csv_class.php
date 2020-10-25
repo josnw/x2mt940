@@ -60,15 +60,15 @@ class paypalCSV {
 			
 				if (substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1) == $this->mapping['CHECK_CR_TYPE']) {
 					$rowdata[$this->mapping['TRANSACTION_TYPE']] = "C";
-					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']]/100;
+					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 				} else {
 					$rowdata[$this->mapping['TRANSACTION_TYPE']] = "D";
-					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']]/100;
+					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 				}
 				if (substr($rowdata[$this->mapping['TRANSACTION_CHARGETYPE']],0,1) == "C") {
-					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]/100;
+					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				} else {
-					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]/100;
+					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				}
 				$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_ID']]));
 
@@ -92,7 +92,7 @@ class paypalCSV {
 					$mt940 = [
 						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 						'PAYMENT_TYPE' => substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1),
-						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]/100)),
+						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_AMOUNT']])),
 						'PAYMENT_NDDT' => $defaultInvoice,
 						'PAYMENT_TEXT00' => 'PAYPAL',
 						'PAYMENT_TEXT20' => 'KD'.$defaultCustomer,
@@ -102,7 +102,7 @@ class paypalCSV {
 						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
 						'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 						'CHARGE_TYPE' => substr($rowdata[$this->mapping['TRANSACTION_CHARGETYPE']],0,1),
-						'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]/100)),
+						'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']])),
 						'CHARGE_NDDT' => 'NONREF',
 						'CHARGE_TEXT00' => 'PAYPAL',
 						'CHARGE_TEXT20' => 'PAYPAL GEBUEHR',
