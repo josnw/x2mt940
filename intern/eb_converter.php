@@ -4,6 +4,13 @@
  
  $konverterName = 'Eurobaustoff Avis';
  $fileVar = 'ebavis';
+ 
+ if (date("N") < 4) { 
+	$paymentDate = date("Y-m-d", time()+2*24*60*60); 
+ } else { 
+	$paymentDate = date("Y-m-d", time()+4*24*60*60); 
+}
+ 
  include('./intern/views/mt940_upload_view.php');
  
  if (isset($_POST["uploadFile"]) or (isset($argv) and in_array("/ebavis", $argv))) {
@@ -13,7 +20,9 @@
 		$uploadFile = new myFile($docpath.'EBUP_'.uniqid().".eba", "newUpload");
 		$uploadFile->moveUploaded($_FILES['ebavis']['tmp_name']);
 		$ebdata =  new eurobaustoffAvis($uploadFile->getCheckedPathName());
-		$ebdata->importData();
+		
+		$paymentDate = preg_replace("[0-9\-\.]","",$_POST["paymentDate"]);
+		$ebdata->importData($paymentDate);
 		$parameter = $ebdata->getParameter();
 		
 	}

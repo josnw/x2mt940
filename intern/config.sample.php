@@ -2,15 +2,16 @@
 
 # MT940 parameter
 # paypal
-$paypal['blz'] = "DUMMYBLZ4PP";  // dummy BLZ for Import
-$paypal['konto'] = "DUMMYKONTO4PP"; // Default dummy account
-$paypal['fromCustomer'] = "0"; // customer range 
+$paypal['blz'] = "90000001";  // dummy BLZ for Import
+$paypal['konto'] = "9100000101"; // Default account
+$paypal['fromCustomer'] = "1"; // customer range 
 $paypal['toCustomer'] = "999999"; // customer range 
 $paypal['currency'] = "EUR"; // Default Currency 
 
 # EUROBAUSTOFF
-$eurobaustoff['blz'] = "DUMMYBLZ4EB";  // dummy BLZ for Import
-$eurobaustoff['konto'] = "DUMMYKONTO4EB"; // Default dummy account
+$eurobaustoff['blz'] = "90000002";  // dummy BLZ for Import
+$eurobaustoff['konto'] = "9000000201"; // Default account
+$eurobaustoff['AccountMaxLength'] = 12; // Length for Bank account number
 $eurobaustoff['grossPosting'] = true; // customer range 
 $eurobaustoff['alternateSeller'] = true; // customer range 
 $eurobaustoff['currency'] = "EUR"; // Default Currency 

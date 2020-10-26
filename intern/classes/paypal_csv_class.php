@@ -59,17 +59,20 @@ class paypalCSV {
 			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
 			
 				if (substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1) == $this->mapping['CHECK_CR_TYPE']) {
-					$rowdata[$this->mapping['TRANSACTION_TYPE']] = "C";
+					$transactionType = "D";
+					$transactionChargeType = "C";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-				} else {
-					$rowdata[$this->mapping['TRANSACTION_TYPE']] = "D";
-					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-				}
-				if (substr($rowdata[$this->mapping['TRANSACTION_CHARGETYPE']],0,1) == "C") {
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				} else {
+					$transactionType = "C";
+					$transactionChargeType = "D";
+					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				}
+				
+				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
+				
 				$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_ID']]));
 
 				$fromDate = date("Y-m-d",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])-(24*60*60*4));
@@ -91,36 +94,37 @@ class paypalCSV {
 					
 					$mt940 = [
 						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
-						'PAYMENT_TYPE' => substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1),
+						'PAYMENT_TYPE' => $transactionType,
 						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_AMOUNT']])),
 						'PAYMENT_NDDT' => $defaultInvoice,
 						'PAYMENT_TEXT00' => 'PAYPAL',
 						'PAYMENT_TEXT20' => 'KD'.$defaultCustomer,
 						'PAYMENT_TEXT21' => $invoiceStr,
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'PAYMENT_TEXT23' => preg_replace ( '/[^a-z0-9 ]/i', '', strtoupper($rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]." ".$rowdata[$this->mapping['TRANSACTION_SELLER_ID']])),
+						'PAYMENT_TEXT23' => strtoupper($name),
 						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
 						'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
-						'CHARGE_TYPE' => substr($rowdata[$this->mapping['TRANSACTION_CHARGETYPE']],0,1),
+						'CHARGE_TYPE' => $transactionChargeType,
 						'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']])),
 						'CHARGE_NDDT' => 'NONREF',
 						'CHARGE_TEXT00' => 'PAYPAL',
 						'CHARGE_TEXT20' => 'PAYPAL GEBUEHR',
 						'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'CHARGE_TEXT22' => preg_replace ( '/[^a-z0-9 ]/i', '', strtoupper($rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]." ".$rowdata[$this->mapping['TRANSACTION_SELLER_ID']])),
+						'CHARGE_TEXT22' => strtoupper($name),
 						'PAYMENT_STATE' =>  'S'
 					];
 				} elseif  ($rowdata[$this->mapping['TRANSACTION_STAT']] <> $this->mapping["CHECK_FINISH_STAT"]) {
 					$mt940 = [
 						'PAYMENT_NDDT' => $defaultInvoice,
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'PAYMENT_TEXT23' => preg_replace ( '/[^a-z0-9 ]/i', '', strtoupper($rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]." ".$rowdata[$this->mapping['TRANSACTION_SELLER_ID']])),
+						'PAYMENT_TEXT23' => strtoupper($name),
 						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
 						'PAYMENT_STATE' =>  $rowdata[$this->mapping['TRANSACTION_STAT']]
 					];
 				}
 				
 				$this->data[] = $mt940;
+				
 				$this->dataCount++;
 			}
 

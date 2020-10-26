@@ -4,8 +4,7 @@
 
 	"TRANSACTION_EVENTCODE":	"Typ",
 	"TRANSACTION_TYPE": 		"Auswirkung auf Guthaben",
-	"TRANSACTION_AMOUNT": 		"Netto",
-	"TRANSACTION_CHARGETYPE": 	"Auswirkung auf Guthaben",
+	"TRANSACTION_AMOUNT": 		"Brutto",
 	"TRANSACTION_CHARGEAMOUNT":	"Gebühr",
 	"TRANSACTION_SELLER_ID": 	"Name",
 	"TRANSACTION_SELLER_NAME":	"Name",

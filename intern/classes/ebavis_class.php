@@ -34,24 +34,29 @@ class eurobaustoffAvis {
 		// $row = trim($row[0],"\"\xEF\xBB\xBF");
 
 		if (substr($row,0,2) == "10") {
-			$this->mt940param['startdate'] = substr($row,10,8);
-			$this->mt940param['enddate'] = substr($row,10,8);
-			$this->mt940param['konto'] =  substr($row,31,13);
+			$this->mt940param['startdate'] = substr($row,14,4)."-".substr($row,12,2)."-".substr($row,10,2);
+			$this->mt940param['enddate'] = substr($row,14,4)."-".substr($row,12,2)."-".substr($row,10,2);
+			$this->mt940param['konto'] =  substr($row,31,$this->mt940param['AccountMaxLength']);
+
 		}	
 
 		
 	}
 	
-	public function importData() {
+	public function importData( $transactionDate = NULL) {
 		if (count($this->data) > 0) {
 			return true;
 		}
 		
 		while ( (($row = $this->infile->readLn()) !== FALSE) and (substr($row,0,2) == "50") ){
 			$rowdata = [];
+			
+			if ( $transactionDate == NULL ) {
+				$rowdata["TRANSACTION_DATE"] = preg_replace ( '/[^0-9\-]/i', '',substr($row,14,4)."-".substr($row,12,2)."-".substr($row,10,2));
+			} else {
+				$rowdata["TRANSACTION_DATE"] = $transactionDate;
+			}
 
-			$rowdata = array();
-			$rowdata["TRANSACTION_DATE"] = date("ymd",strtotime(preg_replace ( '/[^0-9\.]/i', '',substr($row,10,2).".".substr($row,12,2).".".substr($row,16,2))));
 			$rowdata["INVOICE_DATE"] = preg_replace ( '/[^0-9]/i', '',substr($row,53,8)); 
 			$rowdata["TRANSACTION_INVOICE"] =  preg_replace ( '/[^0-9]/i', '',substr($row,42,9));
 			$rowdata["TRANSACTION_AMOUNT"] =  ltrim(substr($row,96,12),"0");
@@ -88,7 +93,8 @@ class eurobaustoffAvis {
 				$discount = [];
 				if (count($invoiceTaxData) > 0) {
 					foreach($invoiceTaxData as $tax) {
-						$discount[$tax["percent"]] = round(($tax["grossPart"] * (1+($tax["percent"]/100)) / $grossValue) * $discountValue ,2); 
+ 
+						$discount[$tax["percent"]] = round(($tax["grosspart"] * (1+($tax["percent"]/100)) / $grossValue) * $discountValue ,2); 
 					}
 					
 					//diff correction

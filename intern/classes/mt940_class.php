@@ -22,7 +22,7 @@ class mt940 {
 	}
 	
 	private function mt940Header($parameter) {
-			$header = ":20:PP".date("ymdhis")."\n";
+			$header = ":20:PP".date("ymdHis")."\n";
 			$header .= ":25:".$parameter['blz']."/".$parameter['konto']."\n";
 			$header .= ":28C:0\n";
 			$header .= ":60F:C".date("ymd",strtotime($parameter['startdate'])).$parameter['currency']."0,00"."\n";
@@ -33,7 +33,7 @@ class mt940 {
 	private function mt940Pos($data) {
 		
 		if ($data['PAYMENT_STATE']	== "S") {
-			$pos = ":61:".$data['PAYMENT_DATE'];
+			$pos = ":61:".date("ymd",strtotime($data['PAYMENT_DATE']));
 			$pos .= $data['PAYMENT_TYPE'];
 			$pos .= $data['PAYMENT_AMOUNT'];
 			$pos .= "NDDT".$data['PAYMENT_NDDT']."\n";
@@ -52,7 +52,7 @@ class mt940 {
 			}
 
 			if (isset($data['CHARGE_AMOUNT']) and ($data['CHARGE_AMOUNT'] > 0)) {
-				$pos .= ":61:".$data['CHARGE_DATE'];
+				$pos .= ":61:".date("ymd",strtotime($data['CHARGE_DATE']));
 				$pos .= $data['CHARGE_TYPE'];
 				$pos .= $data['CHARGE_AMOUNT'];
 				$pos .= "NDDT".$data['CHARGE_NDDT']."\n";
@@ -72,7 +72,7 @@ class mt940 {
 			
 				foreach ($data['DISCOUNT'] as $discount) {
 					
-					$pos .= ":61:".$discount['DISCOUNT_DATE'];
+					$pos .= ":61:".date("ymd",strtotime($discount['DISCOUNT_DATE']));
 					$pos .= $discount['DISCOUNT_TYPE'];
 					$pos .= $discount['DISCOUNT_AMOUNT'];
 					$pos .= "NDDT".$discount['DISCOUNT_NDDT']."\n";
