@@ -14,8 +14,7 @@
 
 	"CHECK_EXCLUDECODE":	{
 								"0":	"Allgemeine Abbuchung",
-								"1":	"PayPal Express-Zahlung",
-								"2":	"Bankgutschrift auf PayPal-Konto"
+								"1":	"PayPal Express-Zahlung"
 							},
 							
 	"CHECK_FINISH_STAT":		"Abgeschlossen",

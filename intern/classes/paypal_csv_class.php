@@ -101,7 +101,7 @@ class paypalCSV {
 						'PAYMENT_TEXT20' => 'KD'.$defaultCustomer,
 						'PAYMENT_TEXT21' => $invoiceStr,
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'PAYMENT_TEXT23' => strtoupper($name),
+						'PAYMENT_TEXT23' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']]." ".strtoupper($name),
 						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
 						'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 						'CHARGE_TYPE' => $transactionChargeType,
