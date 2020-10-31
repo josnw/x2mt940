@@ -100,7 +100,7 @@ class mt940 {
 	
 	private function mt940footer($parameter) {
 			$footer = ":62F:".$parameter["TotalSH"].date("ymd",strtotime($parameter["enddate"])).$parameter["currency"].$parameter["TotalAmount"]."\n";
-			$footer = "-\n";
+			$footer .= "-\n";
 			
 			return $footer;
 	}

@@ -58,6 +58,9 @@ class paypalCSV {
 
 			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
 			
+				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
+
 				if (substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1) == $this->mapping['CHECK_CR_TYPE']) {
 					$transactionType = "D";
 					$transactionChargeType = "C";
@@ -69,9 +72,6 @@ class paypalCSV {
 					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				}
-				
-				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 				
 				$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_ID']]));
 
@@ -98,7 +98,7 @@ class paypalCSV {
 						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_AMOUNT']])),
 						'PAYMENT_NDDT' => $defaultInvoice,
 						'PAYMENT_TEXT00' => 'PAYPAL',
-						'PAYMENT_TEXT20' => 'KD'.$defaultCustomer,
+						'PAYMENT_TEXT20' => 'PAYPAL KD'.$defaultCustomer,
 						'PAYMENT_TEXT21' => $invoiceStr,
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_TEXT23' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']]." ".strtoupper($name),

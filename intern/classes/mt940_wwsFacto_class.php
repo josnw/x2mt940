@@ -17,9 +17,9 @@ class MT940_wwsFacto {
 	
 	public function getInvoiceData($ppid, $fromDate = '1999-12-31', $toDate = '2999-12-31', $fromCustomer = 0, $toCustomer = 999999) {
 	
-		$sql = "select distinct k.fnum as invoice, k.fxnr as customer from archiv.auftr_kopf k inner join archiv.auftr_pos p using (fblg) 
+		$sql = "select distinct k.fnum as invoice, k.fxnr as customer, k.ftyp as invoiceType from archiv.auftr_kopf k inner join archiv.auftr_pos p using (fblg) 
 					where k.fdtm between :fromdate and :todate and k.fxnr between :fromCustomer and :toCustomer
-						and (p.qnve = :ppid or fabl like 'TB_PAYMENT_TRANSACTION_ID=' || :ppid or qsbz like :ppid )
+						and (p.qnve = :ppid or fabl like 'TB_PAYMENT_TRANSACTION_ID=' || :ppid or k.qtxl like :ppid or qsbz like :ppid )
 						and k.ftyp in (5,6)
 					order by k.fnum desc";
 					
