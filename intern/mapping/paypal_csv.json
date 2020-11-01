@@ -14,7 +14,7 @@
 	"TRANSACTION_ORIGINAL_CODE": "Zugehöriger Transaktionscode",	
 
 	"CHECK_EXCLUDECODE":	{
-								"0":	"Allgemeine Abbuchung",
+								"0":	"Bankgutschrift auf PayPal-Konto",
 								"1":	"PayPal Express-Zahlung"
 							},
 							
