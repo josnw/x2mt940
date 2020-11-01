@@ -29,9 +29,10 @@
 		$parameter = $ppdata->getParameter();
 
 	}
-
+	$result = $ppdata->getAllData();
+	
 	$mt940data = new mt940();
-	$mt940data->generateMT940($ppdata->getAllData(), $parameter);
+	$mt940data->generateMT940($result, $parameter);
 
 	$filename = $mt940data->writeToFile($docpath.'Paypal_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc");
 	$rowCount = $mt940data->getDataCount();

@@ -26,16 +26,18 @@
 		$parameter = $ebdata->getParameter();
 		
 	}
+	
+	$result = $ebdata->getAllData();
 
 	$mt940data = new mt940();
-	$mt940data->generateMT940($ebdata->getAllData(), $parameter);
+	$mt940data->generateMT940($result, $parameter);
 
 	$filename = $mt940data->writeToFile($docpath.'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc");
 	$rowCount = $mt940data->getDataCount();
 	$exportfile = $docpath.$filename;
 	
 	unlink($uploadFile->getCheckedPathName());
-	
+
 	include('./intern/views/mt940_result_view.php');
 
 
