@@ -83,7 +83,7 @@ class paypalCSV {
 				
 				$invoiceStr = '';
 				foreach($invoiceData as $invoice) {
-					$invoiceStr .= 'RG'.$invoice['invoice']; 
+					$invoiceStr .= 'RG'.$invoice['invoice']." "; 
 				}
 				isset($invoiceData[0]["invoice"]) ? $defaultInvoice = $invoiceData[0]["invoice"] : $defaultInvoice = 'NONREF';
 				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	

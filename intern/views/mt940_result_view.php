@@ -9,14 +9,14 @@
 	</div>
 </div>
 <div class="DSEdit">
-	<table width=90%>
+	<table class="kaltab">
 		<?php
 			$cnt = 0;
 			foreach($result as $row) {
 				if (!$cnt++) {
 					print "<tr>";
 					foreach(array_keys($row) as $key) {
-						print "<th>".$key."</th>";
+						print "<th>".str_replace("_"," ",$key)."</th>";
 					}
 					print "</tr>";
 				}
