@@ -61,7 +61,7 @@ class paypalCSV {
 				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 
-				if (substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,1) == $this->mapping['CHECK_CR_TYPE']) {
+				if ($rowdata[$this->mapping['TRANSACTION_TYPE']] == $this->mapping['CHECK_CR_TYPE']) {
 					$transactionType = "D";
 					$transactionChargeType = "C";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
@@ -77,7 +77,12 @@ class paypalCSV {
 
 				$fromDate = date("Y-m-d",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])-(24*60*60*4));
 				$toDate = date("Y-m-d",time());
-				$ppid = $rowdata[$this->mapping['TRANSACTION_CODE']];
+				
+				if ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping['CHECK_CANCEL_PAYMENT']) {
+					$ppid = $rowdata[$this->mapping['TRANSACTION_ORIGINAL_CODE']];
+				} else {
+					$ppid = $rowdata[$this->mapping['TRANSACTION_CODE']];
+				}
 				
 				$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
 				
@@ -115,11 +120,25 @@ class paypalCSV {
 					];
 				} elseif  ($rowdata[$this->mapping['TRANSACTION_STAT']] <> $this->mapping["CHECK_FINISH_STAT"]) {
 					$mt940 = [
-						'PAYMENT_NDDT' => $defaultInvoice,
+						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+						'PAYMENT_TYPE' => $transactionType,
+						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_AMOUNT']])),
+						'PAYMENT_NDDT' => '',
+						'PAYMENT_TEXT00' => '',
+						'PAYMENT_TEXT20' => '',
+						'PAYMENT_TEXT21' => '',
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'PAYMENT_TEXT23' => strtoupper($name),
+						'PAYMENT_TEXT23' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']]." ".strtoupper($name),
 						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
-						'PAYMENT_STATE' =>  $rowdata[$this->mapping['TRANSACTION_STAT']]
+						'PAYMENT_STATE' =>  $rowdata[$this->mapping['TRANSACTION_STAT']],
+						'CHARGE_DATE' => '',
+						'CHARGE_TYPE' => '',
+						'CHARGE_AMOUNT' => '',
+						'CHARGE_NDDT' => '',
+						'CHARGE_TEXT00' => '',
+						'CHARGE_TEXT20' => '',
+						'CHARGE_TEXT21' => '',
+						'CHARGE_TEXT22' => ''
 					];
 				}
 				

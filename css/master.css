@@ -584,7 +584,7 @@ visibility: hidden;
 	border: solid 1px green;
 	border-collapse: collapse;
 	display: block;
-    overflow: auto;
+    #overflow: auto;
     white-space: wrap;
 }
 
