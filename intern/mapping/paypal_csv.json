@@ -19,6 +19,6 @@
 							},
 							
 	"CHECK_FINISH_STAT":		"Abgeschlossen",
-	"CHECK_CR_TYPE":			"Haben",
+	"CHECK_CR_TYPE":			"Soll",
 	"CHECK_CANCEL_PAYMENT":		"Rückzahlung"
 }

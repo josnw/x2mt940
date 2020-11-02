@@ -584,15 +584,13 @@ visibility: hidden;
 	border: solid 1px green;
 	border-collapse: collapse;
 	display: block;
-    #overflow: auto;
+    overflow: auto;
     white-space: wrap;
 }
 
 .kaltab thead
 {
-    display: block;
-    overflow: auto;
-   // height: 20px;
+   display: block;
    padding: 0 20px 0 0;
 }
 
@@ -608,18 +606,13 @@ visibility: hidden;
 	border-top: solid 1px green;
 	border-bottom: solid 1px green;
 	border-spacing: 0px; 
-	#max-width: 90px;
-	#min-width: 80px;
 	font-weight: bold;
 	padding: 5px;
-	overflow: 
 }
 
 .kaltab td {
 	border: solid 1px green;
 	border-spacing: 0px; 
-	#max-width: 90px;
-	#min-width: 80px;
 	padding: 3px;
 }
 
