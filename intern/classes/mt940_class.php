@@ -31,10 +31,14 @@ class mt940 {
 	}
 	
 	private function mt940Pos($data) {
+	
 		
 		if ($data['PAYMENT_STATE']	== "S") {
 			$pos = ":61:".date("ymd",strtotime($data['PAYMENT_DATE']));
 			$pos .= $data['PAYMENT_TYPE'];
+			if (substr($data['PAYMENT_AMOUNT'],0,1) == ",") {
+				$data['PAYMENT_AMOUNT'] = "0".$data['PAYMENT_AMOUNT'];
+			}
 			$pos .= $data['PAYMENT_AMOUNT'];
 			$pos .= "NDDT".$data['PAYMENT_NDDT']."\n";
 			$pos .= ":86:166?00".$data['PAYMENT_TEXT00']."\n";
@@ -54,6 +58,9 @@ class mt940 {
 			if (isset($data['CHARGE_AMOUNT']) and ($data['CHARGE_AMOUNT'] > 0)) {
 				$pos .= ":61:".date("ymd",strtotime($data['CHARGE_DATE']));
 				$pos .= $data['CHARGE_TYPE'];
+				if (substr($data['CHARGE_AMOUNT'],0,1) == ",") {
+					$data['CHARGE_AMOUNT'] = "0".$data['CHARGE_AMOUNT'];
+				}
 				$pos .= $data['CHARGE_AMOUNT'];
 				$pos .= "NDDT".$data['CHARGE_NDDT']."\n";
 				$pos .= ":86:166?00".$data['CHARGE_TEXT00']."\n";
@@ -74,6 +81,9 @@ class mt940 {
 					
 					$pos .= ":61:".date("ymd",strtotime($discount['DISCOUNT_DATE']));
 					$pos .= $discount['DISCOUNT_TYPE'];
+					if (substr($data['DISCOUNT_AMOUNT'],0,1) == ",") {
+						$data['DISCOUNT_AMOUNT'] = "0".$data['DISCOUNT_AMOUNT'];
+					}
 					$pos .= $discount['DISCOUNT_AMOUNT'];
 					$pos .= "NDDT".$discount['DISCOUNT_NDDT']."\n";
 					$pos .= ":86:166?00".$discount['DISCOUNT_TEXT00']."\n";
