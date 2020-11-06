@@ -55,7 +55,7 @@ class mt940 {
 				$pos .= "?23".$data['PAYMENT_TEXT23']."\n";
 			}
 
-			if (isset($data['CHARGE_AMOUNT']) and ($data['CHARGE_AMOUNT'] > 0)) {
+			if (isset($data['CHARGE_AMOUNT']) ) {
 				$pos .= ":61:".date("ymd",strtotime($data['CHARGE_DATE']));
 				$pos .= $data['CHARGE_TYPE'];
 				if (substr($data['CHARGE_AMOUNT'],0,1) == ",") {
