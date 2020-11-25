@@ -8,6 +8,13 @@ $paypal['fromCustomer'] = "1"; // customer range
 $paypal['toCustomer'] = "999999"; // customer range 
 $paypal['currency'] = "EUR"; // Default Currency 
 
+# otto payment
+$otto['blz'] = "90000001";  // dummy BLZ for Import
+$otto['konto'] = "9100000102"; // Default account
+$otto['fromCustomer'] = "100000"; // customer range 
+$otto['toCustomer'] = "100010"; // customer range 
+$otto['currency'] = "EUR"; // Default Currency 
+
 # EUROBAUSTOFF
 $eurobaustoff['blz'] = "90000002";  // dummy BLZ for Import
 $eurobaustoff['konto'] = "9000000201"; // Default account
@@ -40,12 +47,15 @@ date_default_timezone_set("Europe/Berlin");
 $menu_name['root']['Startseite']  = './home.php';
 $menu_name['root']['Test']  = './test.php';
 $menu_name['root']['PayPal']  = './pp_converter.php';
+$menu_name['root']['Otto Payment']  = './ottopayment.php';
 $menu_name['root']['Eurobaustoff']  = './eb_converter.php';
 $menu_name['root']['Logout']  = './logout.php';
 
 $menu_name['user']['Startseite']  = './home.php'; 
 if (isset($_SESSION["uid"])) {
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['PayPal']  = './pp_converter.php'; }
+	if ($_SESSION['level'] >= 0) { $menu_name['user']['Otto Payment']  = './ottopayment.php'; }
+	if ($_SESSION['level'] >= 0) { $menu_name['user']['Eurobaustoff']  = './eb_converter.php'; }
 }
 
 $menu_name['user']['Logout']  = './logout.php';
