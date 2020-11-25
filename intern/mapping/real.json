@@ -1,0 +1,22 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
+
+	"TRANSACTION_EVENTCODE":	"booking_text",
+	"TRANSACTION_AMOUNT_ALT": 	"amount",
+	"TRANSACTION_AMOUNT": 		"sum_price_gross",
+	"TRANSACTION_CHARGEAMOUNT":	"fee_gross",
+	"TRANSACTION_SELLER_ID": 	"buyer.id_buyer",
+	"TRANSACTION_SELLER_NAME":	"billing.last_name",
+	"TRANSACTION_DATE": 		"booking_date",
+	"TRANSACTION_CODE":			"order_number",
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"--",
+								"1":	"--"
+							},
+							
+	"CHECK_FINISH_STAT":		"--",
+	"CHECK_CR_TYPE":			"--",
+	"CHECK_CANCEL_PAYMENT":		"--"
+}

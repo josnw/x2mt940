@@ -1,0 +1,19 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
+
+	"TRANSACTION_EVENTCODE":	"Vorgangstyp",
+	"TRANSACTION_AMOUNT": 		"Betrag",
+	"TRANSACTION_INVOICE_ID": 	"RechnungID",
+	"TRANSACTION_DATE": 		"Forderungsdatum",
+	"TRANSACTION_CODE":			"Auftragsnummer",
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"--",
+								"1":	"--"
+							},
+							
+	"CHECK_FINISH_STAT":		"--",
+	"CHECK_CR_TYPE":			"--",
+	"CHECK_CANCEL_PAYMENT":		"--"
+}
