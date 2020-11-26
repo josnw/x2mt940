@@ -23,7 +23,7 @@ class MT940_wwsFacto {
 	
 		$sql = "select distinct k.fnum as invoice, k.fxnr as customer, k.ftyp as invoiceType from archiv.auftr_kopf k inner join archiv.auftr_pos p using (fblg) 
 					where k.fdtm between :fromdate and :todate and k.fxnr between :fromCustomer and :toCustomer
-						and (p.qnve = :ppid or fabl like 'TB_PAYMENT_TRANSACTION_ID=' || :ppid or k.qtxl ~ :ppid or qsbz ~ :ppid or ffbl ~ :ppid )
+						and (p.qnve = :ppid or fabl like 'TB_PAYMENT_TRANSACTION_ID=' || :ppid or k.qtxl ~ :ppid or qsbz ~ :ppid or ffbg ~ :ppid )
 						and k.ftyp in (5,6)
 					order by k.fnum desc";
 					
