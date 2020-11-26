@@ -97,12 +97,7 @@ class realPayment {
 				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	
 			
 				$spacePos = strpos($rowdata[$this->mapping['TRANSACTION_EVENTCODE']]," ",10);
-				if (! $spacePos) { $spacePos = 20; 
-
-					print ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']]);
-				   
-				   
-				   }
+				if (! $spacePos) { $spacePos = 20; }
 				$event = substr($rowdata[$this->mapping['TRANSACTION_EVENTCODE']],0,$spacePos);
 				
 				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] <> 0)) {
