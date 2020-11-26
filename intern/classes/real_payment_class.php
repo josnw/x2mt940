@@ -62,13 +62,13 @@ class realPayment {
 			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
 			
 				if ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] > 0) {
-					$transactionType = "D";
-					$transactionChargeType = "C";
+					$transactionType = "C";
+					$transactionChargeType = "D";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				} else {
-					$transactionType = "C";
-					$transactionChargeType = "D";
+					$transactionType = "D";
+					$transactionChargeType = "C";
 					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 

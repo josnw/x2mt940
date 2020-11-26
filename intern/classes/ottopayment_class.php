@@ -60,11 +60,11 @@ class ottoPayment {
 			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
 			
 				if ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] > 0) {
-					$transactionType = "D";
+					$transactionType = "C";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 				} else {
 					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-					$transactionType = "C";
+					$transactionType = "D";
 					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 				}
 				
