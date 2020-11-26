@@ -77,6 +77,7 @@ class ottoPayment {
 				$invoiceStr = '';
 				if (strlen($ppid) > 0) {
 					$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
+					print $ppid." ".$fromDate." ".$toDate." ".$this->mt940param['fromCustomer']." ".$this->mt940param['toCustomer']."<br>";
 						foreach($invoiceData as $invoice) {
 							$invoiceStr .= 'RG'.$invoice['invoice']." "; 
 						}

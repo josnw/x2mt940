@@ -17,7 +17,7 @@ class MT940_wwsFacto {
 	
 	public function getInvoiceData($ppid, $fromDate = '1999-12-31', $toDate = '2999-12-31', $fromCustomer = 0, $toCustomer = 999999) {
 	
-		if (($ppid == '') or ($ppid = null)) {
+		if (($ppid == '') or ($ppid == null)) {
 			return [];
 		}
 	
