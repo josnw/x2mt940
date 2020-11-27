@@ -143,10 +143,10 @@ class realPayment {
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
-			$this->amountTotal = str_replace(".",",",sprintf("%01.2f",$this->amountTotal * (-1)));
+			$this->amountTotal = $this->amountTotal * (-1);
 		} else {
 			$SH = "C";
-			$this->amountTotal = str_replace(".",",",sprintf("%01.2f",$this->amountTotal));
+			$this->amountTotal = $this->amountTotal;
 		}
 		 $this->mt940param["TotalAmount"] = $this->amountTotal;
 		 $this->mt940param["TotalSH"] = $SH;

@@ -20,7 +20,7 @@ class ottoPayment {
 		// initialize variables
 		$this->mt940param = $otto;
 		$this->data = [];
-		$this->amountTotal = 0;
+		$this->amountTotal = 0.00;
 		$this->dataPos = 0;
 		$this->dataCount = 0;
 		
@@ -124,11 +124,11 @@ class ottoPayment {
 		if ($this->amountTotal < 0) {
 			$SH = "D";
 			$payoutType = "C";
-			$this->amountTotal = str_replace(".",",",sprintf("%01.2f",$this->amountTotal * (-1)));
+			$this->amountTotal = $this->amountTotal * (-1);
 		} else {
 			$SH = "C";
 			$payoutType = "D";
-			$this->amountTotal = str_replace(".",",",sprintf("%01.2f",$this->amountTotal));
+			$this->amountTotal = $this->amountTotal;
 		}
 		
 		$this->data[] = [

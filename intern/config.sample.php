@@ -32,11 +32,16 @@ $eurobaustoff['currency'] = "EUR"; // Default Currency
 
 
 # WWS config
+
+# WWS config
+$wwsClassName = "MT940_dummyERP";
+/*
 $wwsClassName = "MT940_wwsFacto";
-$wwsserver	= "pgsql:host=dbhost;port=5432;dbname=dbname";
+$wwsserver	= "pgsql:host=172.20.1.251;port=5432;dbname=FACTO5-001";
 $wwsuser='dbuser';
 $wwspass='dbpass';
 $options  = null;
+*/
 
 $wwsAdminUsers = [ 1];
 
@@ -52,7 +57,6 @@ date_default_timezone_set("Europe/Berlin");
 
 ######## menu config ##############
 $menu_name['root']['Startseite']  = './home.php';
-$menu_name['root']['Test']  = './test.php';
 $menu_name['root']['PayPal']  = './pp_converter.php';
 $menu_name['root']['Otto Payment']  = './ottopayment.php';
 $menu_name['root']['Real.de Payment']  = './realpayment.php';
@@ -64,7 +68,6 @@ if (isset($_SESSION["uid"])) {
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['PayPal']  = './pp_converter.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Otto Payment']  = './ottopayment.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Real.de Payment']  = './realpayment.php'; }
-	if ($_SESSION['level'] >= 0) { $menu_name['user']['Eurobaustoff']  = './eb_converter.php'; }
 }
 
 $menu_name['user']['Logout']  = './logout.php';

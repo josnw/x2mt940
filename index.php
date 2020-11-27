@@ -24,8 +24,12 @@ session_set_cookie_params(36000);session_start();
 </header>
 <?php
 include_once './intern/config.php';
-include_once './intern/auth.php';
-
+ if ( file_exists('./intern/config.json') ) {
+	include_once './intern/auth.php';
+} else {
+	$_SESSION['typ'] = 'user';
+	$_SESSION['level'] = '1';
+}
 $usertyp = $_SESSION['typ'];
 
 #if ( $_SESSION['penr'] <> '999') {
