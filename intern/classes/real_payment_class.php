@@ -101,7 +101,9 @@ class realPayment {
 				$event = substr($rowdata[$this->mapping['TRANSACTION_EVENTCODE']],0,$spacePos);
 				
 				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] <> 0)) {
-					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']];
+					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']]);
+					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+		print $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 				}
 			
 				$mt940 = [];
