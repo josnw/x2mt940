@@ -77,7 +77,7 @@ class ottoPayment {
 				$invoiceStr = '';
 				if (strlen($ppid) > 0) {
 					$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
-					print $ppid." ".$fromDate." ".$toDate." ".$this->mt940param['fromCustomer']." ".$this->mt940param['toCustomer']."<br>";
+
 						foreach($invoiceData as $invoice) {
 							$invoiceStr .= 'RG'.$invoice['invoice']." "; 
 						}
@@ -123,11 +123,37 @@ class ottoPayment {
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
+			$payoutType = "C";
 			$this->amountTotal = str_replace(".",",",sprintf("%01.2f",$this->amountTotal * (-1)));
 		} else {
 			$SH = "C";
+			$payoutType = "D";
 			$this->amountTotal = str_replace(".",",",sprintf("%01.2f",$this->amountTotal));
 		}
+		
+		$this->data[] = [
+				'PAYMENT_DATE' => date("ymd",strtotime($this->mt940param['enddate'])),
+				'PAYMENT_TYPE' => $payoutType,
+				'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$this->amountTotal)),
+				'PAYMENT_NDDT' => 'NONREF',
+				'PAYMENT_TEXT00' => 'OTTO PAYMENT',
+				'PAYMENT_TEXT20' => 'OTTO PAYMENT PAYOUT',
+				'PAYMENT_TEXT21' => 'Auszahlung',
+				'PAYMENT_TEXT22' => '',
+				'PAYMENT_TEXT23' => '',
+				'PAYMENT_CODE' => 'PAYOUT',
+				'CHARGE_DATE' => '',
+				'CHARGE_TYPE' => '',
+				'CHARGE_AMOUNT' => '',
+				'CHARGE_NDDT' => '',
+				'CHARGE_TEXT00' => '',
+				'CHARGE_TEXT20' => '',
+				'CHARGE_TEXT21' => '',
+				'CHARGE_TEXT22' => '',
+				'PAYMENT_STATE' => 'S'
+		];		
+		$this->dataCount++;
+		
 		 $this->mt940param["TotalAmount"] = $this->amountTotal;
 		 $this->mt940param["TotalSH"] = $SH;
 	}

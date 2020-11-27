@@ -1,3 +1,6 @@
-2020-10-13;x2MT940 Konverter;Konvertieren verschiedener Listenformate in das MT940 Format zum automatischen Abgleich offener Posten in der Finanzbuchhaltung
-2020-10-15;Paypal Transaktionsdatei;Konvertieren der Paypal Transaktionsdatei (TRR und CSV) in MT940 
+2020-11-27;Otto.de Payment;Otto Payment um Auzahlungsbuchung ergänzt
+2020-11-24;Real.de Payment;Konverter für Real.de Payment Dateien hinzugefügt
+2020-11-16;Otto.de Payment;Konverter für Otto Payment Dateien hinzugefügt
 2020-10-24;Eurobaustoff Avis;Konvertieren der Avis in MT940 
+2020-10-15;Paypal Transaktionsdatei;Konvertieren der Paypal Transaktionsdatei (TRR und CSV) in MT940 
+2020-10-13;x2MT940 Konverter;Konvertieren verschiedener Listenformate in das MT940 Format zum automatischen Abgleich offener Posten in der Finanzbuchhaltung
