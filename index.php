@@ -28,6 +28,7 @@ include_once './intern/config.php';
 	include_once './intern/auth.php';
 } else {
 	$_SESSION['typ'] = 'user';
+	$_SESSION["uid"] = 0;
 	$_SESSION['level'] = '1';
 }
 $usertyp = $_SESSION['typ'];

@@ -103,7 +103,7 @@ class realPayment {
 				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] <> 0)) {
 					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']]);
 					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-		print $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
+
 				}
 			
 				$mt940 = [];
