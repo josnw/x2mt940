@@ -10,6 +10,7 @@
 	"TRANSACTION_SELLER_NAME":	"billing.last_name",
 	"TRANSACTION_DATE": 		"booking_date",
 	"TRANSACTION_CODE":			"order_number",
+	"ORDER_DATE":				"order_date",
 
 	"CHECK_EXCLUDECODE":	{
 								"0":	"--",
