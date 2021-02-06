@@ -1,0 +1,25 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values. TRANSACTION_CODE is the reference to the ERP",
+
+	"TRANSACTION_EVENTCODE":	"Typ",
+	"TRANSACTION_TYPE": 		"--",
+	"TRANSACTION_AMOUNT": 		"Transaktionsbetrag (inkl. Kosten)",
+	"TRANSACTION_CHARGEAMOUNT":	"--",
+	"TRANSACTION_NETAMOUNT":	"Betrag abzügl. Kosten",
+	"TRANSACTION_SELLER_ID": 	"Nutzername des Käufers",
+	"TRANSACTION_SELLER_NAME":	"Name des Käufers",
+	"TRANSACTION_DATE": 		"Transaktionsdatum",
+	"TRANSACTION_CODE":			"Alte Bestellnummer",
+	"TRANSACTION_STAT": 		"Status",	
+	"TRANSACTION_ORIGINAL_CODE": "Referenznummer",	
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"Bankgutschrift auf PayPal-Konto",
+								"1":	"PayPal Express-Zahlung"
+							},
+							
+	"CHECK_FINISH_STAT":		"Auszahlung ist veranlasst",
+	"CHECK_CR_TYPE":			"--",
+	"CHECK_CANCEL_PAYMENT":		"Rückzahlung"
+}
