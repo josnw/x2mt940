@@ -1,6 +1,5 @@
 <?php
 include_once 'config.php';
-
 if (isset($_GET['mode']) and ($_GET['mode'] == 'DEMO')) {
 	if (isset($_COOKIE['scandesk'])) {
 		//print "Cookie found ...";
@@ -30,6 +29,26 @@ if (isset($_GET['mode']) and ($_GET['mode'] == 'DEMO')) {
 			setcookie("scandesk", '', time()-28800);
 		} else {
 			//print "and initialized";
+		}
+	} elseif (array_key_exists('PHP_AUTH_USER', $_SERVER) and ($strlen($_SERVER['PHP_AUTH_USER'] > 0))) {
+		if (in_array($_SERVER['PHP_AUTH_USER'],$wwsAdminUsers) ) {
+			$_SESSION['typ'] = 'root';
+			$_SESSION['level'] = '9';
+			$_SESSION['user'] = $_SERVER['PHP_AUTH_USER'];
+			$_SESSION['uid'] = 1;
+			$_SESSION['PENR'] = 1;
+		} elseif (in_array($_SERVER['PHP_AUTH_USER'],wwsChiefGroups) ) {
+			$_SESSION['typ'] = 'user';
+			$_SESSION['level'] = '6';
+			$_SESSION['user'] = $_SERVER['PHP_AUTH_USER'];
+			$_SESSION['uid'] = 1;
+			$_SESSION['PENR'] = 1;
+		} else {
+			$_SESSION['typ'] = 'user';
+			$_SESSION['level'] = '1';
+			$_SESSION['user'] = $_SERVER['PHP_AUTH_USER'];
+			$_SESSION['uid'] = 1;
+			$_SESSION['PENR'] = 1;
 		}
 	} else {
 

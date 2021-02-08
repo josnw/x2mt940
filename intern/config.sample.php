@@ -30,6 +30,13 @@ $eurobaustoff['grossPosting'] = true; // customer range
 $eurobaustoff['alternateSeller'] = true; // customer range 
 $eurobaustoff['currency'] = "EUR"; // Default Currency 
 
+# adyen payment
+$adyen['blz'] = "90000001";  // dummy BLZ for Import
+$adyen['konto'] = "9100000104"; // Default account
+$adyen['fromCustomer'] = "100000"; // customer range 
+$adyen['toCustomer'] = "100010"; // customer range 
+$adyen['currency'] = "EUR"; // Default Currency 
+
 
 # WWS config
 
@@ -60,6 +67,7 @@ $menu_name['root']['Startseite']  = './home.php';
 $menu_name['root']['PayPal']  = './pp_converter.php';
 $menu_name['root']['Otto Payment']  = './ottopayment.php';
 $menu_name['root']['Real.de Payment']  = './realpayment.php';
+$menu_name['root']['Adyen']  = './adyen.php';
 $menu_name['root']['Eurobaustoff']  = './eb_converter.php';
 $menu_name['root']['Logout']  = './logout.php';
 
@@ -68,6 +76,7 @@ if (isset($_SESSION["uid"])) {
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['PayPal']  = './pp_converter.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Otto Payment']  = './ottopayment.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Real.de Payment']  = './realpayment.php'; }
+	if ($_SESSION['level'] >= 0) { $menu_name['user']['Adyen']  = './adyen.php'; }
 }
 
 $menu_name['user']['Logout']  = './logout.php';

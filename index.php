@@ -24,7 +24,7 @@ session_set_cookie_params(36000);session_start();
 </header>
 <?php
 include_once './intern/config.php';
- if ( file_exists('./intern/config.json') ) {
+ if ( (file_exists('./intern/config.json')) or (array_key_exists('PHP_AUTH_USER', $_SERVER) and ($strlen($_SERVER['PHP_AUTH_USER'] > 0))) ) {
 	include_once './intern/auth.php';
 } else {
 	$_SESSION['typ'] = 'user';
