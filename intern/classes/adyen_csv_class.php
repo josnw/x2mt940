@@ -35,6 +35,7 @@ class adyenCSV {
 
 		$this->mt940param['startdate'] = null;
 		$this->mt940param['enddate'] = null;
+		
 		while (($row = $this->infile->readCSV(';')) !== FALSE) {
 			if ( $row[0] == $this->mapping['TRANSACTION_DATE']) {
 				$this->ppHeader = $row;
@@ -48,6 +49,8 @@ class adyenCSV {
 		if (count($this->data) > 0) {
 			return true;
 		}
+		$sumOfDay = 0;
+		
 		
 		while (($row = $this->infile->readCSV(';')) !== FALSE) {
 			$rowdata = [];
@@ -55,7 +58,9 @@ class adyenCSV {
 
 			if ($this->mt940param['startdate'] == null) {
 				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
+				$payoutdate = $rowdata[$this->mapping['PAYOUT_DATE']];
 			}
+			
 			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 			$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']]);
 
@@ -63,7 +68,6 @@ class adyenCSV {
 			$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']]);
 			
 			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']] - $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
-			
 
 			if  ( ! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE']) or 
 				  ($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0 )  
@@ -158,10 +162,44 @@ class adyenCSV {
 				}
 				
 				$this->data[] = $mt940;
-				
+		
 				$this->dataCount++;
-			}
+				
+				//count sum of day and export
+				if (($this->mt940param['payout']) and ($payoutdate == $rowdata[$this->mapping['PAYOUT_DATE']] )) {
+					$sumOfDay += $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
+				} elseif (($this->mt940param['payout']) and (strtotime($payoutdate) > 0) ) {
+					 
+					$mt940 = [
+						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['PAYOUT_DATE']])),
+						'PAYMENT_TYPE' => 'D',
+						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$sumOfDay)),
+						'PAYMENT_NDDT' => '',
+						'PAYMENT_TEXT00' => 'ADYEN',
+						'PAYMENT_TEXT20' => 'ADYEN PAYOUT '.$payoutdate,
+						'PAYMENT_TEXT21' => '',
+						'PAYMENT_TEXT22' => '',
+						'PAYMENT_TEXT23' => '',
+						'PAYMENT_CODE' => 'PayOut',
+						'CHARGE_DATE' => '',
+						'CHARGE_TYPE' => '',
+						'CHARGE_AMOUNT' => '',
+						'CHARGE_NDDT' => '',
+						'CHARGE_TEXT00' => '',
+						'CHARGE_TEXT20' => '',
+						'CHARGE_TEXT21' => '',
+						'CHARGE_TEXT22' => '',
+						'PAYMENT_STATE' =>  'S'
+					];
+					$this->data[] = $mt940;
+					$sumOfDay = $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
+					$payoutdate = $rowdata[$this->mapping['PAYOUT_DATE']]; 
+				} else {
+					$sumOfDay = $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
+					$payoutdate = $rowdata[$this->mapping['PAYOUT_DATE']]; 
+				}
 
+			}
 			$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 
 		}

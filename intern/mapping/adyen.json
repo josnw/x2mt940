@@ -10,6 +10,7 @@
 	"TRANSACTION_SELLER_ID": 	"Nutzername des Käufers",
 	"TRANSACTION_SELLER_NAME":	"Name des Käufers",
 	"TRANSACTION_DATE": 		"Transaktionsdatum",
+	"PAYOUT_DATE": 				"Auszahlungsdatum",
 	"TRANSACTION_CODE":			"Alte Bestellnummer",
 	"TRANSACTION_STAT": 		"Status",	
 	"TRANSACTION_ORIGINAL_CODE": "Referenznummer",	
