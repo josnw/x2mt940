@@ -100,7 +100,12 @@ class adyenCSV {
 				//if ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping['CHECK_CANCEL_PAYMENT']) {
 				//	$ppid = $rowdata[$this->mapping['TRANSACTION_ORIGINAL_CODE']];
 				//} else {
+				if ($this->mt940param['extractTid']) {
+					$ppidsplit = explode("-",$rowdata[$this->mapping['TRANSACTION_CODE']]);
+					$ppid = $ppidsplit[1];
+				} else {
 					$ppid = $rowdata[$this->mapping['TRANSACTION_CODE']];
+				}
 				//}
 				
 				$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
