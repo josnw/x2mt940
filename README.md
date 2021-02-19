@@ -20,15 +20,21 @@ erp connector for add a reference code
  * charge as extra posting
  * erp connector modul to add addional data in mt940
 
+#### adyen / ebay payment files
+ * charge as extra posting
+ * erp connector modul to add addional data in mt940
+
+
 ## Setup
 
  * download the repo 
  * copy intern/config.sample.php to intern/config.php 
  * edit mt904 parameters in config.php
+ * optionaly add .htpasswd and .htaccess for user auth
 
 In the directory intern/mapping/ you will find mapping files for different file header. Maybe, you must modify it for your own language. 
  
  If you want add an erp connection to get a reference codes ( e.g. an internal invoice number), make a copy of intern/classes/mt940_dummy_erp_class.php.
  Add your code for database or api requests and modify the return array.
  
- If you use the ERP Software Facto 5.x you can use mt940_wwsFacto_class.php and start the setup.php for Database connection. 
+ If you use the ERP Software Facto 5.x you can use mt940_wwsFacto_class.php and user auth from Facto Database. Just start the setup.php for Database connection. 
