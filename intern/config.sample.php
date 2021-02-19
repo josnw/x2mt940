@@ -35,7 +35,8 @@ $adyen['blz'] = "90000001";  // dummy BLZ for Import
 $adyen['konto'] = "9100000104"; // Default account
 $adyen['fromCustomer'] = "100000"; // customer range 
 $adyen['toCustomer'] = "100010"; // customer range 
-$adyen['currency'] = "EUR"; // Default Currency 
+$adyen['extractTid'] = false; // extract real TransactionID without itemID
+$adyen['payout'] = true; // Generate payout mt940 data 
 
 
 # WWS config
