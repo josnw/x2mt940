@@ -81,6 +81,9 @@ class adyenCSV {
 					$transactionChargeType = "D";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
+				} elseif (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == '') and ($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] > 0)){
+					$transactionChargeType = "D";
+					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 				} else {
 					$transactionType = "D";
 					$transactionChargeType = "C";
@@ -119,7 +122,10 @@ class adyenCSV {
 			
 				$mt940 = [];
 				
-				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"])) {
+				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and (
+					 ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"]) or 
+					 (($this->mapping["CHECK_FINISH_STAT"] == '') and ($rowdata[$this->mapping['PAYOUT_DATE']] != '--' )) )
+					)	{
 					
 					$mt940 = [
 						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
@@ -140,6 +146,29 @@ class adyenCSV {
 						'CHARGE_TEXT20' => 'ADYEN GEBUEHR',
 						'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'CHARGE_TEXT22' => strtoupper($name),
+						'PAYMENT_STATE' =>  'S'
+					];
+				} elseif (($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == '') and ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"])) {
+					
+					$mt940 = [
+						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+						'PAYMENT_TYPE' => $transactionChargeType,
+						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']])),
+						'PAYMENT_NDDT' => 'NONREF',
+						'PAYMENT_TEXT00' => 'ADYEN',
+						'PAYMENT_TEXT20' => 'ADYEN CHARGE ',
+						'PAYMENT_TEXT23' => '',
+						'PAYMENT_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
+						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
+						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
+						'CHARGE_DATE' => '',
+						'CHARGE_TYPE' => '',
+						'CHARGE_AMOUNT' => '',
+						'CHARGE_NDDT' => '',
+						'CHARGE_TEXT00' => '',
+						'CHARGE_TEXT20' => '',
+						'CHARGE_TEXT21' => '',
+						'CHARGE_TEXT22' => '',
 						'PAYMENT_STATE' =>  'S'
 					];
 				} elseif  ($rowdata[$this->mapping['TRANSACTION_STAT']] <> $this->mapping["CHECK_FINISH_STAT"]) {
