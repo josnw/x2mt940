@@ -16,11 +16,11 @@
 	"TRANSACTION_ORIGINAL_CODE": "Referenznummer",	
 
 	"CHECK_EXCLUDECODE":	{
-								"0":	"Bankgutschrift auf PayPal-Konto",
-								"1":	"PayPal Express-Zahlung"
+								"0":	"--",
+								"1":	"--"
 							},
 							
-	"CHECK_FINISH_STAT":		"Auszahlung ist veranlasst",
+	"CHECK_FINISH_STAT":		"--",
 	"CHECK_CR_TYPE":			"--",
 	"CHECK_CANCEL_PAYMENT":		"Rückzahlung"
 }

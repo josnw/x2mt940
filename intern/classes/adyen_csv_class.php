@@ -73,9 +73,6 @@ class adyenCSV {
 				  ($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0 )  
 				) {
 			
-				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
-
 				if ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] > 0) {
 					$transactionType = "C";
 					$transactionChargeType = "D";
@@ -94,7 +91,6 @@ class adyenCSV {
 					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				}
 			
-				
 				$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_ID']]));
 
 				$fromDate = date("Y-m-d",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])-(24*60*60*4));
