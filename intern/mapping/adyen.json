@@ -14,13 +14,14 @@
 	"TRANSACTION_CODE":			"Alte Bestellnummer",
 	"TRANSACTION_STAT": 		"Status",	
 	"TRANSACTION_ORIGINAL_CODE": "Referenznummer",	
+	"TRANSACTION_INFO": 		"Beschreibung",	
 
 	"CHECK_EXCLUDECODE":	{
 								"0":	"--",
 								"1":	"--"
 							},
 							
-	"CHECK_FINISH_STAT":		"--",
+	"CHECK_FINISH_STAT":		"",
 	"CHECK_CR_TYPE":			"--",
 	"CHECK_CANCEL_PAYMENT":		"Rückzahlung"
 }

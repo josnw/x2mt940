@@ -66,9 +66,14 @@ class adyenCSV {
 
 			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 			$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']]);
+
+			if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == '--') and ($rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] <> 0)){
+				 $rowdata[$this->mapping['TRANSACTION_AMOUNT']] = $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
+			}
 			
 			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']] - $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
 
+			
 			if  ( ! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE']) or 
 				  ($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0 )  
 				) {
@@ -106,18 +111,24 @@ class adyenCSV {
 					$ppid = $rowdata[$this->mapping['TRANSACTION_CODE']];
 				}
 				//}
-				
-				$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
+				if(strlen($ppid)>2) {
+					$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
+				} else {
+					$invoiceData = [];
+				}
 				
 				$invoiceStr = '';
 				foreach($invoiceData as $invoice) {
 					$invoiceStr .= 'RG'.$invoice['invoice']." "; 
 				}
+				
+				if ($rowdata[$this->mapping['TRANSACTION_INFO']] != '--') {	$invoiceStr .= ' '.$rowdata[$this->mapping['TRANSACTION_INFO']]; }
+				if ($rowdata[$this->mapping['TRANSACTION_ORIGINAL_CODE']] != '--') {	$invoiceStr .= ' '.$rowdata[$this->mapping['TRANSACTION_ORIGINAL_CODE']]; }
 				isset($invoiceData[0]["invoice"]) ? $defaultInvoice = $invoiceData[0]["invoice"] : $defaultInvoice = 'NONREF';
 				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	
 			
 				$mt940 = [];
-				
+							
 				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and (
 					 ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"]) or 
 					 (($this->mapping["CHECK_FINISH_STAT"] == '') and ($rowdata[$this->mapping['PAYOUT_DATE']] != '--' )) )
