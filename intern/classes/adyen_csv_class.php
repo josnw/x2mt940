@@ -56,8 +56,8 @@ class adyenCSV {
 			$rowdata = [];
 			$rowdata = array_combine($this->ppHeader,$row);
 
-			if ($this->mt940param['startdate'] == null) {
-				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
+			if ($this->mt940param['enddate'] == null) {
+				$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 				$payoutdate = $rowdata[$this->mapping['PAYOUT_DATE']];
 			}
 			
@@ -119,7 +119,7 @@ class adyenCSV {
 				
 				$invoiceStr = '';
 				foreach($invoiceData as $invoice) {
-					$invoiceStr .= 'RG'.$invoice['invoice']." "; 
+					$invoiceStr .= 'RG'.$invoice['invoice']."_"; 
 				}
 				
 				if ($rowdata[$this->mapping['TRANSACTION_INFO']] != '--') {	$invoiceStr .= ' '.$rowdata[$this->mapping['TRANSACTION_INFO']]; }
@@ -241,7 +241,7 @@ class adyenCSV {
 				}
 
 			}
-			$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
+			$this->mt940param['startdate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 
 		}
 		

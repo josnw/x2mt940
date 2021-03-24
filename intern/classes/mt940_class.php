@@ -34,7 +34,7 @@ class mt940 {
 	
 		
 		if ($data['PAYMENT_STATE']	== "S") {
-			$pos = ":61:".date("ymd",strtotime($data['PAYMENT_DATE']));
+			$pos = ":61:".$data['PAYMENT_DATE'];
 			$pos .= $data['PAYMENT_TYPE'];
 			if (substr($data['PAYMENT_AMOUNT'],0,1) == ",") {
 				$data['PAYMENT_AMOUNT'] = "0".$data['PAYMENT_AMOUNT'];
@@ -56,7 +56,7 @@ class mt940 {
 			}
 
 			if ((isset($data['CHARGE_AMOUNT'])) and ( str_replace(",",".",$data['CHARGE_AMOUNT']) <> 0 ) ) {
-				$pos .= ":61:".date("ymd",strtotime($data['CHARGE_DATE']));
+				$pos .= ":61:".$data['CHARGE_DATE'];
 				$pos .= $data['CHARGE_TYPE'];
 				if (substr($data['CHARGE_AMOUNT'],0,1) == ",") {
 					$data['CHARGE_AMOUNT'] = "0".$data['CHARGE_AMOUNT'];
@@ -79,7 +79,7 @@ class mt940 {
 			
 				foreach ($data['DISCOUNT'] as $discount) {
 					
-					$pos .= ":61:".date("ymd",strtotime($discount['DISCOUNT_DATE']));
+					$pos .= ":61:".$discount['DISCOUNT_DATE'];
 					$pos .= $discount['DISCOUNT_TYPE'];
 					if (substr($data['DISCOUNT_AMOUNT'],0,1) == ",") {
 						$data['DISCOUNT_AMOUNT'] = "0".$data['DISCOUNT_AMOUNT'];
