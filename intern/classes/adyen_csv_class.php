@@ -51,10 +51,14 @@ class adyenCSV {
 		}
 		$sumOfDay = 0;
 		
-		
+
+
 		while (($row = $this->infile->readCSV(';')) !== FALSE) {
 			$rowdata = [];
 			$rowdata = array_combine($this->ppHeader,$row);
+			
+			$rowdata[$this->mapping['TRANSACTION_DATE']] = str_replace("Mär","Mar",$rowdata[$this->mapping['TRANSACTION_DATE']]);
+			$rowdata[$this->mapping['PAYOUT_DATE']] = str_replace("Mär","Mar",$rowdata[$this->mapping['PAYOUT_DATE']]);
 
 			if ($this->mt940param['enddate'] == null) {
 				$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
