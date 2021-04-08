@@ -30,7 +30,11 @@ class realPayment {
 
 		$this->infile = new myfile($fileName);
 
-		$mapping = new myfile("./intern/mapping/real.json","readfull");
+		if (file_exists("./intern/mapping/".$mapping_prefix."real.json")) {
+			$mapping = new myfile("./intern/mapping/".$mapping_prefix."real.json","readfull");
+		} else {
+			$mapping = new myfile("./intern/mapping/real.json","readfull");
+		}
 		$this->mapping = $mapping->readJson();
 
 		$this->mt940param['startdate'] = null;
@@ -67,7 +71,7 @@ class realPayment {
 
 				}
 			
-				if ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] > 0) {
+				if ($rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] > 0) {
 					$transactionType = "C";
 					$transactionChargeType = "D";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];

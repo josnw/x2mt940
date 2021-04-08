@@ -30,7 +30,11 @@ class paypalCSV {
 
 		$this->infile = new myfile($fileName);
 
-		$mapping = new myfile("./intern/mapping/paypal_csv.json","readfull");
+		if (file_exists("./intern/mapping/".$mapping_prefix."paypal_csv.json")) {
+			$mapping = new myfile("./intern/mapping/".$mapping_prefix."paypal_csv.json","readfull");
+		} else {
+			$mapping = new myfile("./intern/mapping/paypal_csv.json","readfull");
+		}
 		$this->mapping = $mapping->readJson();
 
 		$this->mt940param['startdate'] = null;

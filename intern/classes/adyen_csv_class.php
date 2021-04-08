@@ -30,7 +30,11 @@ class adyenCSV {
 
 		$this->infile = new myfile($fileName);
 
-		$mapping = new myfile("./intern/mapping/adyen.json","readfull");
+		if (file_exists("./intern/mapping/".$mapping_prefix."adyen.json")) {
+			$mapping = new myfile("./intern/mapping/".$mapping_prefix."adyen.json","readfull");
+		} else {
+			$mapping = new myfile("./intern/mapping/adyen.json","readfull");
+		}
 		$this->mapping = $mapping->readJson();
 
 		$this->mt940param['startdate'] = null;

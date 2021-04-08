@@ -1,5 +1,7 @@
 <?php
 
+$mapping_prefix = "";    // filename prefix for customized mapping files
+
 # MT940 parameter
 # paypal
 $paypal['blz'] = "90000001";  // dummy BLZ for Import

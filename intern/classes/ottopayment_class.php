@@ -30,7 +30,11 @@ class ottoPayment {
 
 		$this->infile = new myfile($fileName);
 
-		$mapping = new myfile("./intern/mapping/otto.json","readfull");
+		if (file_exists("./intern/mapping/".$mapping_prefix."otto.json")) {
+			$mapping = new myfile("./intern/mapping/".$mapping_prefix."otto.json","readfull");
+		} else {
+			$mapping = new myfile("./intern/mapping/otto.json","readfull");
+		}
 		$this->mapping = $mapping->readJson();
 
 		$this->mt940param['startdate'] = null;

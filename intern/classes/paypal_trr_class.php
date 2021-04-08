@@ -30,10 +30,14 @@ class paypalTTR {
 
 		$this->infile = new myfile($fileName);
 		
-		$pp_codes = new myfile("./intern/mapping/paypal_codes.txt","readfull");
+		$pp_codes = new myfile("./intern/mapping/".$mapping_prefix."paypal_codes.txt","readfull");
 		$this->ppcodes = $pp_codes->readJson();
 		
-		$map = new myfile("./intern/mapping/paypal_trr.json","readfull");
+		if (file_exists("./intern/mapping/".$mapping_prefix."paypal_trr.json")) {
+			$map = new myfile("./intern/mapping/".$mapping_prefix."paypal_trr.json","readfull");
+		} else {
+			$map = new myfile("./intern/mapping/paypal_trr.json","readfull");
+		}
 		$this->mapping = $map->readJson();
 		
 		// initiate inFile and read Header
