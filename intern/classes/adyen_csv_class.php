@@ -219,28 +219,8 @@ class adyenCSV {
 					$sumOfDay += $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
 				} elseif (($this->mt940param['payout']) and (strtotime($payoutdate) > 0) ) {
 					 
-					$mt940 = [
-						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['PAYOUT_DATE']])),
-						'PAYMENT_TYPE' => 'D',
-						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$sumOfDay)),
-						'PAYMENT_NDDT' => '',
-						'PAYMENT_TEXT00' => 'ADYEN',
-						'PAYMENT_TEXT20' => 'ADYEN PAYOUT '.$payoutdate,
-						'PAYMENT_TEXT21' => '',
-						'PAYMENT_TEXT22' => '',
-						'PAYMENT_TEXT23' => '',
-						'PAYMENT_CODE' => 'PayOut',
-						'CHARGE_DATE' => '',
-						'CHARGE_TYPE' => '',
-						'CHARGE_AMOUNT' => '',
-						'CHARGE_NDDT' => '',
-						'CHARGE_TEXT00' => '',
-						'CHARGE_TEXT20' => '',
-						'CHARGE_TEXT21' => '',
-						'CHARGE_TEXT22' => '',
-						'PAYMENT_STATE' =>  'S'
-					];
-					$this->data[] = $mt940;
+					$this->createPayoutData($sumOfDay,$payoutdate);
+					
 					$sumOfDay = $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
 					$payoutdate = $rowdata[$this->mapping['PAYOUT_DATE']]; 
 				} else {
@@ -252,6 +232,10 @@ class adyenCSV {
 			$this->mt940param['startdate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 
 		}
+		
+		if (($this->mt940param['payout']) and (strtotime($payoutdate) > 0) ) {
+			$this->createPayoutData($sumOfDay,$payoutdate);
+		}		
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
@@ -280,7 +264,30 @@ class adyenCSV {
 		return $this->mt940param;
 	}
 
-	
+	private function createPayoutData($sumOfDay,$payoutdate) {
+		$mt940 = [
+			'PAYMENT_DATE' => date("ymd",strtotime($payoutdate)),
+			'PAYMENT_TYPE' => 'D',
+			'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$sumOfDay)),
+			'PAYMENT_NDDT' => '',
+			'PAYMENT_TEXT00' => 'ADYEN',
+			'PAYMENT_TEXT20' => 'ADYEN PAYOUT '.$payoutdate,
+			'PAYMENT_TEXT21' => '',
+			'PAYMENT_TEXT22' => '',
+			'PAYMENT_TEXT23' => '',
+			'PAYMENT_CODE' => 'PayOut',
+			'CHARGE_DATE' => '',
+			'CHARGE_TYPE' => '',
+			'CHARGE_AMOUNT' => '',
+			'CHARGE_NDDT' => '',
+			'CHARGE_TEXT00' => '',
+			'CHARGE_TEXT20' => '',
+			'CHARGE_TEXT21' => '',
+			'CHARGE_TEXT22' => '',
+			'PAYMENT_STATE' =>  'S'
+		];
+		$this->data[] = $mt940;
+	}
 }
 
 ?>
