@@ -122,7 +122,7 @@ class paypalCSV {
 						'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']])),
 						'CHARGE_NDDT' => 'NONREF',
 						'CHARGE_TEXT00' => 'PAYPAL',
-						'CHARGE_TEXT20' => 'PAYPAL GEBUEHR',
+						'CHARGE_TEXT20' => 'PAYPAL GEB.',
 						'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'CHARGE_TEXT22' => strtoupper($name),
 						'PAYMENT_STATE' =>  'S'

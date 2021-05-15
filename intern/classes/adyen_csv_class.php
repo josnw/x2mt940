@@ -150,17 +150,17 @@ class adyenCSV {
 						'PAYMENT_TEXT00' => 'ADYEN',
 						'PAYMENT_TEXT20' => 'ADYEN KD'.$defaultCustomer,
 						'PAYMENT_TEXT21' => $invoiceStr,
-						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'PAYMENT_TEXT23' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']]." ".strtoupper($name),
+					    'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']]." ".strtoupper($name),
+					    'PAYMENT_TEXT23' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
 						'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 						'CHARGE_TYPE' => $transactionChargeType,
 						'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']])),
 						'CHARGE_NDDT' => 'NONREF',
 						'CHARGE_TEXT00' => 'ADYEN',
-						'CHARGE_TEXT20' => 'ADYEN GEBUEHR',
-						'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'CHARGE_TEXT22' => strtoupper($name),
+						'CHARGE_TEXT20' => 'ADYEN GEB.',
+					    'CHARGE_TEXT21' => strtoupper($name),
+					    'CHARGE_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_STATE' =>  'S'
 					];
 				} elseif (($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == '') and ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"])) {

@@ -42,19 +42,11 @@ class mt940 {
 			$pos .= $data['PAYMENT_AMOUNT'];
 			$pos .= "NDDT".$data['PAYMENT_NDDT']."\n";
 			$pos .= ":86:166?00".$data['PAYMENT_TEXT00']."\n";
-			if (strlen($data['PAYMENT_TEXT20']) > 0) {
-				$pos .= "?20".$data['PAYMENT_TEXT20']."\n";
+			for( $i = 20; $i < 30; $i++) {
+    			if (!empty($data['PAYMENT_TEXT'.$i])) {
+    			    $pos .= "?".$i.$data['PAYMENT_TEXT'.$i]."\n";
+    			}
 			}
-			if (strlen($data['PAYMENT_TEXT21']) > 0) {
-				$pos .= "?21".$data['PAYMENT_TEXT21']."\n";
-			}
-			if (strlen($data['PAYMENT_TEXT22']) > 0) {
-				$pos .= "?22".$data['PAYMENT_TEXT22']."\n";
-			}
-			if (strlen($data['PAYMENT_TEXT23']) > 0) {
-				$pos .= "?23".$data['PAYMENT_TEXT23']."\n";
-			}
-
 			if ((isset($data['CHARGE_AMOUNT'])) and ( str_replace(",",".",$data['CHARGE_AMOUNT']) <> 0 ) ) {
 				$pos .= ":61:".$data['CHARGE_DATE'];
 				$pos .= $data['CHARGE_TYPE'];
@@ -64,14 +56,10 @@ class mt940 {
 				$pos .= $data['CHARGE_AMOUNT'];
 				$pos .= "NDDT".$data['CHARGE_NDDT']."\n";
 				$pos .= ":86:166?00".$data['CHARGE_TEXT00']."\n";
-				if (strlen($data['CHARGE_TEXT20']) > 0) {
-					$pos .= "?20".$data['CHARGE_TEXT20']."\n";
-				}
-				if (strlen($data['CHARGE_TEXT21']) > 0) {
-					$pos .= "?21".$data['CHARGE_TEXT21']."\n";
-				}
-				if (strlen($data['CHARGE_TEXT22']) > 0) {
-					$pos .= "?22".$data['CHARGE_TEXT22']."\n";
+				for( $i = 20; $i < 30; $i++) {
+				    if (!empty($data['CHARGE_TEXT'.$i])) {
+				        $pos .= "?".$i.$data['PAYMENT_TEXT'.$i]."\n";
+				    }
 				}
 			}
 			
