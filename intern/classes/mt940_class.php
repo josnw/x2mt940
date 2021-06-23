@@ -58,7 +58,7 @@ class mt940 {
 				$pos .= ":86:166?00".$data['CHARGE_TEXT00']."\n";
 				for( $i = 20; $i < 30; $i++) {
 				    if (!empty($data['CHARGE_TEXT'.$i])) {
-				        $pos .= "?".$i.$data['PAYMENT_TEXT'.$i]."\n";
+				        $pos .= "?".$i.$data['CHARGE_TEXT'.$i]."\n";
 				    }
 				}
 			}
