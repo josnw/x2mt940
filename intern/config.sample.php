@@ -42,20 +42,18 @@ $adyen['payout'] = true; // Generate payout mt940 data
 
 
 # WWS config
-
-# WWS config
 $wwsClassName = "MT940_dummyERP";
-/*
-$wwsClassName = "MT940_wwsFacto";
-$wwsserver	= "pgsql:host=172.20.1.251;port=5432;dbname=FACTO5-001";
-$wwsuser='dbuser';
-$wwspass='dbpass';
-$options  = null;
-*/
+//$wwsClassName = "MT940_wwsFacto";
 
-$wwsAdminUsers = [ 1];
+if (file_exists('./intern/config.json')) {
+	
+	$configFile = new myFile('./intern/config.json', 'readfull');
+	$parameter = $configFile->readJson();
+}
 
-if ($_SESSION['user'] == 1) {
+$wwsAdminUsers = [ 1 ];
+
+if ($_SESSION['user'] == 999) {
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
 }
@@ -71,7 +69,7 @@ $menu_name['root']['PayPal']  = './pp_converter.php';
 $menu_name['root']['Otto Payment']  = './ottopayment.php';
 $menu_name['root']['Real.de Payment']  = './realpayment.php';
 $menu_name['root']['Adyen']  = './adyen.php';
-$menu_name['root']['Eurobaustoff']  = './eb_converter.php';
+//$menu_name['root']['Eurobaustoff']  = './eb_converter.php';
 $menu_name['root']['Logout']  = './logout.php';
 
 $menu_name['user']['Startseite']  = './home.php'; 
@@ -80,6 +78,7 @@ if (isset($_SESSION["uid"])) {
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Otto Payment']  = './ottopayment.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Real.de Payment']  = './realpayment.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Adyen']  = './adyen.php'; }
+	if ($_SESSION['level'] >= 9) { $menu_name['user']['Eurobaustoff']  = './eb_converter.php'; }
 }
 
 $menu_name['user']['Logout']  = './logout.php';

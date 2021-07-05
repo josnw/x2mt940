@@ -82,7 +82,7 @@ END;
 elseif (isset($_POST['loginuser']) and strlen($_POST['loginuser']) > 0)
 {
 
-	$pw_pdo = new PDO($wwsserver, $wwsuser, $wwspass, $options);
+	$pw_pdo = new PDO($parameter['wwsserver'], $parameter['wwsuser'], $parameter['wwspass'], null);
 	
 	if ( is_numeric($_POST['loginuser']) ) {
 		$qry  = 'select penr, qna1, qna2, qgrp, pusr, pcod,ptat,qkkz  from public.per_0 where penr = :personal';
