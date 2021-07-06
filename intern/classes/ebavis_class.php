@@ -54,7 +54,7 @@ class eurobaustoffAvis {
 			if ( $transactionDate == NULL ) {
 				$rowdata["TRANSACTION_DATE"] = preg_replace ( '/[^0-9\-]/i', '',substr($row,14,4)."-".substr($row,12,2)."-".substr($row,10,2));
 			} else {
-				$rowdata["TRANSACTION_DATE"] = $transactionDate;
+				$rowdata["TRANSACTION_DATE"] = date("ymd",strtotime($transactionDate));
 			}
 
 			$rowdata["INVOICE_DATE"] = preg_replace ( '/[^0-9]/i', '',substr($row,53,8)); 

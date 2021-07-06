@@ -12,7 +12,7 @@ class MT940_wwsFacto {
 		// initialize variables
 		
 		// connect to wws/erp fpr invoice details
-		$this->pg_pdo = new PDO($wwsserver, $wwsuser, $wwspass, $options);
+		$this->pg_pdo = new PDO($parameter['wwsserver'], $parameter['wwsuser'], $parameter['wwspass'], null);
 	}
 	
 	public function getInvoiceData($ppid, $fromDate = '1999-12-31', $toDate = '2999-12-31', $fromCustomer = 0, $toCustomer = 999999) {
