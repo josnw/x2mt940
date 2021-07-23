@@ -1,0 +1,24 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
+
+	"TRANSACTION_EVENTCODE":	"Partnernummer",
+	"TRANSACTION_AMOUNT_ALT": 	"Korrekturbuchungen in Euro (Brutto)",
+	"TRANSACTION_AMOUNT": 		"Marktplatzumsatz in Euro (Brutto)",
+	"TRANSACTION_CHARGEAMOUNT":	"Marktplatzgebühr in Euro (Brutto)",
+	"TRANSACTION_PAYMENTAMOUNT":"Zahlungsgebühr in Euro (Brutto)",
+	"TRANSACTION_SELLER_ID": 	"Korrekturtext",
+	"TRANSACTION_SELLER_NAME":	"Vor-und Nachname",
+	"TRANSACTION_DATE": 		"Datum (Versand)",
+	"TRANSACTION_CODE":			"Bestell-Nr. (Marktplatz)",
+	"ORDER_DATE":				"Datum (Bestellung)",
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"--",
+								"1":	"--"
+							},
+							
+	"CHECK_FINISH_STAT":		"--",
+	"CHECK_CR_TYPE":			"--",
+	"CHECK_CANCEL_PAYMENT":		"--"
+}
