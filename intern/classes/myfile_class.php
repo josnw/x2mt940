@@ -117,12 +117,12 @@ class myfile {
 		}
 	}
 
-	public function readCSV($sep = ';') {
+	public function readCSV($sep = ';', $enc = '"') {
 		if ($this->fileHandle == NULL) {
 			return false;
 		}
 		if ($this->mode == "read") {
-			return fgetcsv($this->fileHandle, 4048, $sep);
+			return fgetcsv($this->fileHandle, 4048, $sep, $enc);
 		} else {
 			return false;
 		}
