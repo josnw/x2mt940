@@ -5,6 +5,7 @@
 	"TRANSACTION_EVENTCODE":	"Partnernummer",
 	"TRANSACTION_AMOUNT_ALT": 	"Korrekturbuchungen in Euro (Brutto)",
 	"TRANSACTION_AMOUNT": 		"Marktplatzumsatz in Euro (Brutto)",
+	"TRANSACTION_NETAMOUNT": 	"Auszahlung",
 	"TRANSACTION_CHARGEAMOUNT":	"Marktplatzgebühr in Euro (Brutto)",
 	"TRANSACTION_PAYMENTAMOUNT":"Zahlungsgebühr in Euro (Brutto)",
 	"TRANSACTION_SELLER_ID": 	"Korrekturtext",
@@ -12,6 +13,7 @@
 	"TRANSACTION_DATE": 		"Datum (Versand)",
 	"TRANSACTION_CODE":			"Bestell-Nr. (Marktplatz)",
 	"ORDER_DATE":				"Datum (Bestellung)",
+	"PAYOUT_DATE": 				"Datum (Versand)",
 
 	"CHECK_EXCLUDECODE":	{
 								"0":	"--",

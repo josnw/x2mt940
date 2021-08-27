@@ -48,13 +48,16 @@ class check24Payment {
 		if (count($this->data) > 0) {
 			return true;
 		}
+		$sumOfDay = 0;
 		
 		while (($row = $this->infile->readCSV(';','"')) !== FALSE) {
 			$rowdata = [];
 			$rowdata = array_combine($this->ppHeader,$row);
+			
 			if ($this->mt940param['startdate'] == null) {
 				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
 			}
+			
 			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 			$rowdata[$this->mapping['TRANSACTION_PAYMENTAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_PAYMENTAMOUNT']]);
@@ -81,6 +84,11 @@ class check24Payment {
 					
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
+					
+					$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']] 
+																			- $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] 
+																			- $rowdata[$this->mapping['TRANSACTION_PAYMENTAMOUNT']];
+					
 				} else {
 					$transactionType = "D";
 					$transactionChargeType = "C";
@@ -146,11 +154,24 @@ class check24Payment {
 				$this->data[] = $mt940;
 				
 				$this->dataCount++;
+				
+				//count sum of day and export
+				if ($this->mt940param['payout'])  {
+					$sumOfDay += $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
+					$payoutdate = $rowdata[$this->mapping['PAYOUT_DATE']];
+					
+				}
+				
 			}
 
 			$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 
 		}
+		
+		if (($this->mt940param['payout']) and (strtotime($payoutdate) > 0) ) {
+			$this->createPayoutData($sumOfDay,$payoutdate);
+		}
+		
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
@@ -179,6 +200,30 @@ class check24Payment {
 		return $this->mt940param;
 	}
 
+	private function createPayoutData($sumOfDay,$payoutdate) {
+		$mt940 = [
+				'PAYMENT_DATE' => date("ymd",strtotime($payoutdate)),
+				'PAYMENT_TYPE' => 'D',
+				'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$sumOfDay)),
+				'PAYMENT_NDDT' => '',
+				'PAYMENT_TEXT00' => 'CHECK24',
+				'PAYMENT_TEXT20' => 'CHECK24 PAYOUT '.$payoutdate,
+				'PAYMENT_TEXT21' => '',
+				'PAYMENT_TEXT22' => '',
+				'PAYMENT_TEXT23' => '',
+				'PAYMENT_CODE' => 'PayOut',
+				'CHARGE_DATE' => '',
+				'CHARGE_TYPE' => '',
+				'CHARGE_AMOUNT' => '',
+				'CHARGE_NDDT' => '',
+				'CHARGE_TEXT00' => '',
+				'CHARGE_TEXT20' => '',
+				'CHARGE_TEXT21' => '',
+				'CHARGE_TEXT22' => '',
+				'PAYMENT_STATE' =>  'S'
+		];
+		$this->data[] = $mt940;
+	}
 	
 }
 
