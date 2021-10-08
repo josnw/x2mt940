@@ -61,8 +61,8 @@ class adyenCSV {
 			$rowdata = [];
 			$rowdata = array_combine($this->ppHeader,$row);
 			
-			$rowdata[$this->mapping['TRANSACTION_DATE']] = str_replace(["Mär","Mai"],["Mar", "May"],$rowdata[$this->mapping['TRANSACTION_DATE']]);
-			$rowdata[$this->mapping['PAYOUT_DATE']] = str_replace(["Mär","Mai"],["Mar", "May"],$rowdata[$this->mapping['PAYOUT_DATE']]);
+			$rowdata[$this->mapping['TRANSACTION_DATE']] = str_replace(["Mär","Mai", "Okt"],["Mar", "May","Oct"],$rowdata[$this->mapping['TRANSACTION_DATE']]);
+			$rowdata[$this->mapping['PAYOUT_DATE']] = str_replace(["Mär","Mai","Okt"],["Mar", "May","Oct"],$rowdata[$this->mapping['PAYOUT_DATE']]);
 
 			if ($this->mt940param['enddate'] == null) {
 				$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
