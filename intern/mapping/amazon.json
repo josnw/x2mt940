@@ -1,0 +1,26 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
+
+	"SETTLEMENT_START":			"settlement-start-date",
+	"SETTLEMENT_END":			"settlement-end-date",
+	"AMOUNT_TYPE":				"amount-type",
+	"TRANSACTION_EVENTCODE":	"settlement-id",
+	"TRANSACTION_AMOUNT": 		"amount",
+	"TRANSACTION_CHARGEAMOUNT":	"amount",
+	"TRANSACTION_DATE": 		"posted-date",
+	"TRANSACTION_CODE":			"order-id",
+	"ORDER_DATE":				"order-date",
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"--",
+								"1":	"--"
+							},
+							
+	"CHECK_FINISH_STAT":		"--",
+	"CHECK_CR_TYPE":			"--",
+	"CHECK_CANCEL_PAYMENT":		"--",
+	"TYPE_PRICE":				"ItemPrice",
+	"TYPE_FEE":					"ItemFee"
+	
+}
