@@ -9,7 +9,7 @@
 	"TRANSACTION_NETAMOUNT":	"Betrag abzügl. Kosten",
 	"TRANSACTION_SELLER_ID": 	"Nutzername des Käufers",
 	"TRANSACTION_SELLER_NAME":	"Name des Käufers",
-	"TRANSACTION_DATE": 		"Transaktionsdatum",
+	"TRANSACTION_DATE": 		"Datum der Transaktionserstellung",
 	"PAYOUT_DATE": 				"Auszahlungsdatum",
 	"TRANSACTION_CODE":			"Bestellnummer",
 	"TRANSACTION_STAT": 		"Status",	

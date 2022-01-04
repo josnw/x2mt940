@@ -118,6 +118,8 @@ class adyenCSV {
 				} else {
 					$ppid = $rowdata[$this->mapping['TRANSACTION_CODE']];
 				}
+
+				
 				//}
 				if(strlen($ppid)>2) {
 					$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
