@@ -71,7 +71,7 @@ class amazonPayment {
 				$mt940 = [
 							'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 							'PAYMENT_TYPE' => $transactionType,
-							'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$transactionSumAmount)),
+							'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",abs($transactionSumAmount))),
 							'PAYMENT_NDDT' => $defaultInvoice,
 							'PAYMENT_TEXT00' => 'AMAZON',
 							'PAYMENT_TEXT20' => 'AMAZON KD'.$defaultCustomer,
@@ -81,7 +81,7 @@ class amazonPayment {
 							'PAYMENT_CODE' => $event,
 							'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 							'CHARGE_TYPE' => $transactionChargeType,
-							'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$transactionSumAmount)),
+							'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",abs($transactionSumCharge))),
 							'CHARGE_NDDT' => 'NONREF',
 							'CHARGE_TEXT00' => 'AMAZON',
 							'CHARGE_TEXT20' => 'AMAZON GEB.',
@@ -120,7 +120,7 @@ class amazonPayment {
 				    $transactionSumCharge += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 			    }
 			    
-				if ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] > 0) {
+			    if ($transactionSumAmount > 0) {
 					$transactionType = "C";
 					$transactionChargeType = "D";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
@@ -131,8 +131,8 @@ class amazonPayment {
 					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 
-					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
+					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
+					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				}
 			
 				//$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]));
