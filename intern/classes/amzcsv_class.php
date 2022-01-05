@@ -57,14 +57,51 @@ class amazonPayment {
 		
 		while (($row = $this->infile->readCSV("\t")) !== FALSE) {
 		    
-			$rowdata = [];
-			$rowdata = array_combine($this->ppHeader,$row);
+			$rowdatanew = [];
+			$rowdatanew = array_combine($this->ppHeader,$row);
 			
-			if ( $rowdata[$this->mapping['TRANSACTION_CODE']] != $orderNumber ) {
+			if ( $rowdatanew[$this->mapping['TRANSACTION_CODE']] != $orderNumber ) {
+				
+				
+				$mt940 = [];
+				
+				//				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping["CHECK_FINISH_STAT"])) {
+				if ($transactionSumAmount <> 0) {
+					
+				$mt940 = [
+							'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+							'PAYMENT_TYPE' => $transactionType,
+							'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$transactionSumAmount)),
+							'PAYMENT_NDDT' => $defaultInvoice,
+							'PAYMENT_TEXT00' => 'AMAZON',
+							'PAYMENT_TEXT20' => 'AMAZON KD'.$defaultCustomer,
+							'PAYMENT_TEXT21' => $invoiceStr,
+							'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
+							'PAYMENT_TEXT23' => $event,
+							'PAYMENT_CODE' => $event,
+							'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+							'CHARGE_TYPE' => $transactionChargeType,
+							'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$transactionSumAmount)),
+							'CHARGE_NDDT' => 'NONREF',
+							'CHARGE_TEXT00' => 'AMAZON',
+							'CHARGE_TEXT20' => 'AMAZON GEB.',
+							'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
+							'CHARGE_TEXT22' => '', // strtoupper($name),
+							'PAYMENT_STATE' =>  'S'
+					];
+				}
+				
+				$this->data[] = $mt940;
+				
+				$this->dataCount++;
+				
 			    $orderNumber = $rowdata[$this->mapping['TRANSACTION_CODE']];  
 			    $transactionSumAmount = 0;
 			    $transactionSumCharge = 0;
 			}
+			
+			$rowdata = $rowdatanew;
+			
 
 			if ($this->mt940param['startdate'] == null) {
 				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
@@ -120,38 +157,7 @@ class amazonPayment {
 				$event = substr($rowdata[$this->mapping['TRANSACTION_EVENTCODE']],0,$spacePos);
 				
 
-			
-				$mt940 = [];
-				
-//				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping["CHECK_FINISH_STAT"])) {
-				if ($transactionSumAmount <> 0) {
-					
-					$mt940 = [
-						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
-						'PAYMENT_TYPE' => $transactionType,
-					    'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$transactionSumAmount)),
-						'PAYMENT_NDDT' => $defaultInvoice,
-						'PAYMENT_TEXT00' => 'AMAZON',
-						'PAYMENT_TEXT20' => 'AMAZON KD'.$defaultCustomer,
-						'PAYMENT_TEXT21' => $invoiceStr,
-						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'PAYMENT_TEXT23' => $event,
-						'PAYMENT_CODE' => $event,
-						'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
-						'CHARGE_TYPE' => $transactionChargeType,
-					    'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$transactionSumAmount)),
-						'CHARGE_NDDT' => 'NONREF',
-						'CHARGE_TEXT00' => 'AMAZON',
-						'CHARGE_TEXT20' => 'AMAZON GEB.',
-						'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
-						'CHARGE_TEXT22' => '', // strtoupper($name),
-						'PAYMENT_STATE' =>  'S'
-					];
-				} 
-				
-				$this->data[] = $mt940;
-				
-				$this->dataCount++;
+
 			
 			}
 
