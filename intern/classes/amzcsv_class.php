@@ -62,7 +62,7 @@ class amazonPayment {
 			
 			if ( $rowdatanew[$this->mapping['TRANSACTION_CODE']] != $orderNumber ) {
 				
-				
+				print $rowdatanew[$this->mapping['TRANSACTION_CODE']]." -> ".$orderNumber.": ".$transactionSumAmount."<br>";
 				$mt940 = [];
 				
 				//				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping["CHECK_FINISH_STAT"])) {
@@ -95,7 +95,7 @@ class amazonPayment {
 				
 				$this->dataCount++;
 				
-			    $orderNumber = $rowdata[$this->mapping['TRANSACTION_CODE']];  
+			    $orderNumber = $rowdatanew[$this->mapping['TRANSACTION_CODE']];  
 			    $transactionSumAmount = 0;
 			    $transactionSumCharge = 0;
 			}
