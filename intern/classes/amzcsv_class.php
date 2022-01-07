@@ -60,15 +60,19 @@ class amazonPayment {
 			$rowdatanew = [];
 			$rowdatanew = array_combine($this->ppHeader,$row);
 			
-			if ( $rowdatanew[$this->mapping['TRANSACTION_CODE']] != $orderNumber ) {
-				
-				print $rowdatanew[$this->mapping['TRANSACTION_CODE']]." -> ".$orderNumber.": ".$transactionSumAmount."<br>";
+			if ( ( $this->dataCount == 0 ) and ($orderNumber == '') ) {
+			    $orderNumber = $rowdatanew[$this->mapping['TRANSACTION_CODE']];
+			}
+
+			if ( ( $rowdatanew[$this->mapping['TRANSACTION_CODE']] != $orderNumber ) or 
+			    ( $rowdata[$this->mapping['TRANSACTION_TYPE']] != $this->mapping['TYPE_ORDER'] ) ) {
+			    print $rowdata[$this->mapping['TRANSACTION_TYPE']]." -> ".$rowdata[$this->mapping['TRANSACTION_CODE']]." -> ".$orderNumber.": ".$transactionSumAmount."<br>";
 				$mt940 = [];
 				
 				//				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping["CHECK_FINISH_STAT"])) {
 				if ($transactionSumAmount <> 0) {
 					
-				$mt940 = [
+				    $mt940 = [
 							'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
 							'PAYMENT_TYPE' => $transactionType,
 							'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",abs($transactionSumAmount))),
@@ -89,6 +93,34 @@ class amazonPayment {
 							'CHARGE_TEXT22' => '', // strtoupper($name),
 							'PAYMENT_STATE' =>  'S'
 					];
+				} elseif ( $transactionSumCharge <> 0 ) {
+				    
+				    if (in_array($rowdata[$this->mapping['AMOUNT_DESCRIPTION']], $this->mapping['TYPE_FEE'])) {
+				        $type = "GEB.";
+				    } else {
+				        $type = $rowdata[$this->mapping['TRANSACTION_CODE']];
+				    }
+				    $mt940 = [
+				        'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+				        'PAYMENT_TYPE' => $transactionType,
+				        'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",abs($transactionSumCharge))),
+				        'PAYMENT_NDDT' => $defaultInvoice,
+				        'PAYMENT_TEXT00' => 'AMAZON',
+				        'PAYMENT_TEXT20' => 'AMAZON '.$type,
+				        'PAYMENT_TEXT21' => $rowdata[$this->mapping['AMOUNT_DESCRIPTION']],
+				        'PAYMENT_TEXT22' => '',
+				        'PAYMENT_TEXT23' => $event,
+				        'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
+				        'CHARGE_DATE' => '',
+				        'CHARGE_TYPE' => '',
+				        'CHARGE_AMOUNT' => '',
+				        'CHARGE_NDDT' => '',
+				        'CHARGE_TEXT00' => '',
+				        'CHARGE_TEXT20' => '',
+				        'CHARGE_TEXT21' => '',
+				        'CHARGE_TEXT22' => '', // strtoupper($name),
+				        'PAYMENT_STATE' =>  'S'
+				    ];
 				}
 				
 				$this->data[] = $mt940;
@@ -117,22 +149,18 @@ class amazonPayment {
 			    if ($rowdata[$this->mapping['AMOUNT_TYPE']] == $this->mapping['TYPE_PRICE']) {
 			        $transactionSumAmount += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 			    } else {
-				    $transactionSumCharge += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
+				    $transactionSumCharge += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 			    }
 			    
 			    if ($transactionSumAmount > 0) {
 					$transactionType = "C";
 					$transactionChargeType = "D";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				} else {
 					$transactionType = "D";
 					$transactionChargeType = "C";
-					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
 				}
 			
 				//$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]));
@@ -152,9 +180,9 @@ class amazonPayment {
 				isset($invoiceData[0]["invoice"]) ? $defaultInvoice = $invoiceData[0]["invoice"] : $defaultInvoice = 'NONREF';
 				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	
 			
-				$spacePos = strpos($rowdata[$this->mapping['TRANSACTION_EVENTCODE']]," ",10);
+				$spacePos = strpos($rowdata[$this->mapping['TRANSACTION_TYPE']]," ",10);
 				if (! $spacePos) { $spacePos = 30; }
-				$event = substr($rowdata[$this->mapping['TRANSACTION_EVENTCODE']],0,$spacePos);
+				$event = substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,$spacePos);
 				
 
 
@@ -164,6 +192,67 @@ class amazonPayment {
 			$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 
 		}
+		
+		if ($transactionSumAmount <> 0) {
+		    
+		    $mt940 = [
+		        'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+		        'PAYMENT_TYPE' => $transactionType,
+		        'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",abs($transactionSumAmount))),
+		        'PAYMENT_NDDT' => $defaultInvoice,
+		        'PAYMENT_TEXT00' => 'AMAZON',
+		        'PAYMENT_TEXT20' => 'AMAZON KD'.$defaultCustomer,
+		        'PAYMENT_TEXT21' => $invoiceStr,
+		        'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
+		        'PAYMENT_TEXT23' => $event,
+		        'PAYMENT_CODE' => $event,
+		        'CHARGE_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+		        'CHARGE_TYPE' => $transactionChargeType,
+		        'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",abs($transactionSumCharge))),
+		        'CHARGE_NDDT' => 'NONREF',
+		        'CHARGE_TEXT00' => 'AMAZON',
+		        'CHARGE_TEXT20' => 'AMAZON GEB.',
+		        'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
+		        'CHARGE_TEXT22' => '', // strtoupper($name),
+		        'PAYMENT_STATE' =>  'S'
+		    ];
+		} elseif ( $transactionSumCharge <> 0 ) {
+		    
+		    if (in_array($rowdata[$this->mapping['AMOUNT_DESCRIPTION']], $this->mapping['TYPE_FEE'])) {
+		        $type = "GEB.";
+		    } else {
+		        $type = $rowdata[$this->mapping['TRANSACTION_CODE']];
+		    }
+		    $mt940 = [
+		        'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
+		        'PAYMENT_TYPE' => $transactionType,
+		        'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",abs($transactionSumCharge))),
+		        'PAYMENT_NDDT' => $defaultInvoice,
+		        'PAYMENT_TEXT00' => 'AMAZON',
+		        'PAYMENT_TEXT20' => 'AMAZON '.$type,
+		        'PAYMENT_TEXT21' => $rowdata[$this->mapping['AMOUNT_DESCRIPTION']],
+		        'PAYMENT_TEXT22' => '',
+		        'PAYMENT_TEXT23' => $event,
+		        'PAYMENT_CODE' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
+		        'CHARGE_DATE' => '',
+		        'CHARGE_TYPE' => '',
+		        'CHARGE_AMOUNT' => '',
+		        'CHARGE_NDDT' => '',
+		        'CHARGE_TEXT00' => '',
+		        'CHARGE_TEXT20' => '',
+		        'CHARGE_TEXT21' => '',
+		        'CHARGE_TEXT22' => '', // strtoupper($name),
+		        'PAYMENT_STATE' =>  'S'
+		    ];
+		}
+		
+		$this->data[] = $mt940;
+		
+		$this->dataCount++;
+		
+		if (($this->mt940param['payout']) ) {
+		    $this->createPayoutData($this->amountTotal, $this->mt940param['enddate']);
+		}	
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
@@ -192,6 +281,30 @@ class amazonPayment {
 		return $this->mt940param;
 	}
 
+	private function createPayoutData($sumOfDay,$payoutdate) {
+	    $mt940 = [
+	        'PAYMENT_DATE' => date("ymd",strtotime($payoutdate)),
+	        'PAYMENT_TYPE' => 'D',
+	        'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$sumOfDay)),
+	        'PAYMENT_NDDT' => '',
+	        'PAYMENT_TEXT00' => 'AMAZON',
+	        'PAYMENT_TEXT20' => 'AMAZON PAYOUT '.$payoutdate,
+	        'PAYMENT_TEXT21' => '',
+	        'PAYMENT_TEXT22' => '',
+	        'PAYMENT_TEXT23' => '',
+	        'PAYMENT_CODE' => 'PayOut',
+	        'CHARGE_DATE' => '',
+	        'CHARGE_TYPE' => '',
+	        'CHARGE_AMOUNT' => '',
+	        'CHARGE_NDDT' => '',
+	        'CHARGE_TEXT00' => '',
+	        'CHARGE_TEXT20' => '',
+	        'CHARGE_TEXT21' => '',
+	        'CHARGE_TEXT22' => '',
+	        'PAYMENT_STATE' =>  'S'
+	    ];
+	    $this->data[] = $mt940;
+	}
 	
 }
 

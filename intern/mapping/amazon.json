@@ -5,12 +5,15 @@
 	"SETTLEMENT_START":			"settlement-start-date",
 	"SETTLEMENT_END":			"settlement-end-date",
 	"AMOUNT_TYPE":				"amount-type",
+	"AMOUNT_DESCRIPTION":		"amount-description",
 	"TRANSACTION_EVENTCODE":	"settlement-id",
 	"TRANSACTION_AMOUNT": 		"amount",
+	"TRANSACTION_TYPE": 		"transaction-type",
 	"TRANSACTION_CHARGEAMOUNT":	"amount",
 	"TRANSACTION_DATE": 		"posted-date",
 	"TRANSACTION_CODE":			"order-id",
 	"ORDER_DATE":				"order-date",
+	
 
 	"CHECK_EXCLUDECODE":	{
 								"0":	"--",
@@ -20,7 +23,11 @@
 	"CHECK_FINISH_STAT":		"--",
 	"CHECK_CR_TYPE":			"--",
 	"CHECK_CANCEL_PAYMENT":		"--",
+	"TYPE_ORDER":				"Order",
 	"TYPE_PRICE":				"ItemPrice",
-	"TYPE_FEE":					"ItemFee"
+	"TYPE_FEE":				{
+								"0":	"ItemFees",
+								"1":	"Subscription Fee"
+							}	
 	
 }
