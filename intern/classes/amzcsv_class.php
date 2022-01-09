@@ -66,8 +66,8 @@ class amazonPayment {
 
 			if ( ( $rowdatanew[$this->mapping['TRANSACTION_CODE']] != $orderNumber ) or 
 			    ( $rowdata[$this->mapping['TRANSACTION_TYPE']] != $this->mapping['TYPE_ORDER'] ) ) {
-			    print $rowdata[$this->mapping['TRANSACTION_TYPE']]." -> ".$rowdata[$this->mapping['TRANSACTION_CODE']]." -> ".$orderNumber.": ".$transactionSumAmount."<br>";
-				$mt940 = [];
+
+			    $mt940 = [];
 				
 				//				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping["CHECK_FINISH_STAT"])) {
 				if ($transactionSumAmount <> 0) {
@@ -155,14 +155,19 @@ class amazonPayment {
 			    if ($transactionSumAmount > 0) {
 					$transactionType = "C";
 					$transactionChargeType = "D";
-					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-				} else {
+			    } elseif ($transactionSumAmount < 0) { 
 					$transactionType = "D";
 					$transactionChargeType = "C";
+			    } elseif ($transactionSumCharge > 0) {
+			        $transactionType = "C";
+			        $transactionChargeType = "D";
+			    } else {
+			        $transactionType = "D";
+			        $transactionChargeType = "C";
+			    }
 
-					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-				}
-			
+			    $this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
+			    
 				//$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]));
 
 				$fromDate = date("Y-m-d",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']]));
