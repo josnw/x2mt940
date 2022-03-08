@@ -94,9 +94,15 @@ class check24Payment {
 					$transactionChargeType = "C";
 					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
-
+					$rowdata[$this->mapping['TRANSACTION_PAYMENTAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_PAYMENTAMOUNT']]);
+					
 					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 					$this->amountTotal -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
+					
+					$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = (-1) * $rowdata[$this->mapping['TRANSACTION_AMOUNT']]
+																			+ $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]
+																			+ $rowdata[$this->mapping['TRANSACTION_PAYMENTAMOUNT']];
+					
 				}
 			
 				$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]));

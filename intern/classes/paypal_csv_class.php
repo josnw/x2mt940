@@ -94,11 +94,14 @@ class paypalCSV {
 				}
 				
 				$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
-				
+				if (count($invoiceData) == 0) {
+				    $invoiceData = $this->wwsInvoices->getInvoiceData($rowdata[$this->mapping['TRANSACTION_INVOICE']], $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
+				}
 				$invoiceStr = '';
 				foreach($invoiceData as $invoice) {
 					$invoiceStr .= 'RG'.$invoice['invoice']." "; 
 				}
+
 				isset($invoiceData[0]["invoice"]) ? $defaultInvoice = $invoiceData[0]["invoice"] : $defaultInvoice = 'NONREF';
 				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	
 			
@@ -150,6 +153,7 @@ class paypalCSV {
 						'CHARGE_TEXT22' => ''
 					];
 				}
+
 				
 				$this->data[] = $mt940;
 				

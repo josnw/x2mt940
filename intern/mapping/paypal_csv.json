@@ -10,12 +10,13 @@
 	"TRANSACTION_SELLER_NAME":	"Name",
 	"TRANSACTION_DATE": 		"Datum",
 	"TRANSACTION_CODE":			"Transaktionscode",
+	"TRANSACTION_INVOICE":			"Rechnungsnummer",
 	"TRANSACTION_STAT": 		"Status",	
 	"TRANSACTION_ORIGINAL_CODE": "Zugehöriger Transaktionscode",	
 
 	"CHECK_EXCLUDECODE":	{
 								"0":	"Bankgutschrift auf PayPal-Konto",
-								"1":	"PayPal Express-Zahlung"
+								"1":	"--"
 							},
 							
 	"CHECK_FINISH_STAT":		"Abgeschlossen",
