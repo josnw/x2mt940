@@ -64,7 +64,10 @@ class eurobaustoffAvis {
 			$rowdata["TRANSACTION_DISCOUNTAMOUNT"] =  ltrim(substr($row,109,12),"0");
 			$rowdata["TRANSACTION_NETAMOUNT"] =  ltrim(substr($row,122,12),"0");
 			$rowdata["TRANSACTION_SELLER_ID"] =  preg_replace ( '/[^0-9]/i', '',substr($row,153,5));
-
+			
+			if (substr($rowdata["TRANSACTION_AMOUNT"],0,1) == ',') { $rowdata["TRANSACTION_AMOUNT"] = '0'.$rowdata["TRANSACTION_AMOUNT"]; }
+			if (substr($rowdata["TRANSACTION_DISCOUNTAMOUNT"],0,1) == ',') { $rowdata["TRANSACTION_DISCOUNTAMOUNT"] = '0'.$rowdata["TRANSACTION_DISCOUNTAMOUNT"]; }
+			
 			$grossValue = str_replace(",",".",$rowdata["TRANSACTION_AMOUNT"]);
 			$discountValue = str_replace(",",".",$rowdata["TRANSACTION_DISCOUNTAMOUNT"]);
 			
