@@ -14,6 +14,7 @@
 	"TRANSACTION_CODE":			"Bestell-Nr. (Marktplatz)",
 	"ORDER_DATE":				"Datum (Bestellung)",
 	"PAYOUT_DATE": 				"Datum (Versand)",
+	"TAX_RATE":					"Steuersatz",
 
 	"CHECK_EXCLUDECODE":	{
 								"0":	"--",

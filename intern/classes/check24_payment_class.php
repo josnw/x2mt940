@@ -150,7 +150,7 @@ class check24Payment {
 						'CHARGE_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']])),
 						'CHARGE_NDDT' => 'NONREF',
 						'CHARGE_TEXT00' => 'check24.DE',
-						'CHARGE_TEXT20' => 'check24.DE GEB.',
+							'CHARGE_TEXT20' => 'check24.DE GEB.'. sprintf("%d",$rowdata[$this->mapping['TAX_RATE']]),
 						'CHARGE_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'CHARGE_TEXT22' => strtoupper($name),
 						'PAYMENT_STATE' =>  'S'
