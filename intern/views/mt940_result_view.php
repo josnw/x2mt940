@@ -23,9 +23,6 @@
 				
 				print "<tr>";
 				foreach($row as $value) {
-					if (is_array($value)) {
-						$value = print_r($value,1);
-					}
 					print "<td>".$value."</td>";
 				}
 				print "</tr>";

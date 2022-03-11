@@ -80,10 +80,15 @@ class idealoPayment {
 				$invoiceStr = '';
 				if (strlen($ppid) > 0) {
 					$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
+					
+					if (count($invoiceData) == 0) {
+						$ppid = $rowdata[$this->mapping['TRANSACTION_CODE']];
+						$invoiceData = $this->wwsInvoices->getInvoiceData($ppid, $fromDate, $toDate, $this->mt940param['fromCustomer'], $this->mt940param['toCustomer']);
+					}
 
-						foreach($invoiceData as $invoice) {
-							$invoiceStr .= 'RG'.$invoice['invoice']." "; 
-						}
+					foreach($invoiceData as $invoice) {
+						$invoiceStr .= 'RG'.$invoice['invoice']." "; 
+					}
 				} 
 				isset($invoiceData[0]["invoice"]) ? $defaultInvoice = $invoiceData[0]["invoice"] : $defaultInvoice = 'NONREF';
 				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	
