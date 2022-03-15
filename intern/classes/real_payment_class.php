@@ -58,9 +58,11 @@ class realPayment {
 				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
 			}
 			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+			$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 
 			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+			$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
 			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 
 			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
