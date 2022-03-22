@@ -53,24 +53,21 @@ class realPayment {
 		while (($row = $this->infile->readCSV(';')) !== FALSE) {
 			$rowdata = [];
 			$rowdata = array_combine($this->ppHeader,$row);
-
 			if ($this->mt940param['startdate'] == null) {
 				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
 			}
 			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-			$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+			$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']]);
 			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 
 			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-			$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+			$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']]);
 			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 
 			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
 
 				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] <> 0)) {
-					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']]);
-					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-
+					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']];
 				}
 			
 				if ($rowdata[$this->mapping['TRANSACTION_AMOUNT_ALT']] > 0) {
@@ -148,8 +145,7 @@ class realPayment {
 			}
 
 			$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
-
-		}
+		}		
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
