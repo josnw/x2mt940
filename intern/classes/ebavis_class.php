@@ -131,17 +131,20 @@ class eurobaustoffAvis {
 			
 			foreach($discount as $percent => $grossPart) {
 				
-				$mt940['DISCOUNT'][] = [
-					'DISCOUNT_DATE' => $rowdata["TRANSACTION_DATE"],
-					'DISCOUNT_TYPE' => $rowdata['TRANSACTION_DISCOUNTTYPE'],
-					'DISCOUNT_AMOUNT' => str_replace(".",",",$grossPart),
-					'DISCOUNT_NDDT' => 'NONREF',
-					'DISCOUNT_TEXT00' => 'EBAVIS '. $rowdata["TRANSACTION_DATE"],
-					'DISCOUNT_TEXT20' => 'SKONTO'. $percent." FB".$rowdata["TRANSACTION_INVOICE"],
-					'DISCOUNT_TEXT21' => 'LI'.$rowdata["TRANSACTION_SELLER_ID"],
-					'DISCOUNT_TEXT22' => 'FB'.$rowdata["TRANSACTION_INVOICE"],
-					'DISCOUNT_TEXT23' => ''
-				];
+				if ($grossPart <> 0) {
+				
+					$mt940['DISCOUNT'][] = [
+						'DISCOUNT_DATE' => $rowdata["TRANSACTION_DATE"],
+						'DISCOUNT_TYPE' => $rowdata['TRANSACTION_DISCOUNTTYPE'],
+						'DISCOUNT_AMOUNT' => str_replace(".",",",$grossPart),
+						'DISCOUNT_NDDT' => 'NONREF',
+						'DISCOUNT_TEXT00' => 'EBAVIS '. $rowdata["TRANSACTION_DATE"],
+						'DISCOUNT_TEXT20' => 'SKONTO'. $percent." FB".$rowdata["TRANSACTION_INVOICE"],
+						'DISCOUNT_TEXT21' => 'LI'.$rowdata["TRANSACTION_SELLER_ID"],
+						'DISCOUNT_TEXT22' => 'FB'.$rowdata["TRANSACTION_INVOICE"],
+						'DISCOUNT_TEXT23' => ''
+					];
+				}
 				
 			}
 
