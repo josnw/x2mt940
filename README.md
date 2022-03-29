@@ -24,6 +24,19 @@ erp connector for add a reference code
  * charge as extra posting
  * erp connector modul to add addional data in mt940
 
+#### amazon payment files
+ * charge as extra posting
+ * erp connector modul to add addional data in mt940
+
+#### check24 payment files
+ * charge as extra posting
+ * erp connector modul to add addional data in mt940
+
+#### idealo payment files
+ * charge as extra posting
+ * erp connector modul to add addional data in mt940
+
+
 
 ## Setup
 
