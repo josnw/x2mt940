@@ -12,7 +12,18 @@
 
 		$uploadFile = new myFile($docpath.'AMAZON_UP_'.uniqid().".csv", "newUpload");
 		$uploadFile->moveUploaded($_FILES['csvfile']['tmp_name']);
-		$opdata =  new amazonPayment($uploadFile->getCheckedPathName());
+		
+		$paymentFile = new myFile($uploadFile->getCheckedPathName());
+		$line = $paymentFile->readLn();
+		$line = trim($line,"\"\xEF\xBB\xBF");
+		$paymentFile->close();
+		if (substr($line, 0, 24) == 'Amazon Payments Advanced') {
+			print "<b>Amazon Payments Advanced found</b><br/>";
+			$opdata =  new amazonPayExternal($uploadFile->getCheckedPathName());
+		} else {
+			print "<b>Amazon Std Payment found</b><br/>";
+			$opdata =  new amazonPayment($uploadFile->getCheckedPathName());
+		}
 		$opdata->importData();
 		$parameter = $opdata->getParameter();
 
