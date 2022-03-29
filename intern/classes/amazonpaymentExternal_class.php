@@ -71,6 +71,7 @@ class amazonPayExternal {
 					$transactionChargeType = "D";
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
 					$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
+
 					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = abs($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
 				} else {
 					$transactionType = "D";
@@ -143,7 +144,11 @@ class amazonPayExternal {
 
 			$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 
-		}		
+		}	
+		
+		if (($this->mt940param['payout']) ) {
+			$this->createPayoutData($this->amountTotal, $this->mt940param['enddate']);
+		}	
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
@@ -171,7 +176,38 @@ class amazonPayExternal {
 	public function getParameter() {
 		return $this->mt940param;
 	}
-
+	
+	private function createPayoutData($sumOfDay,$payoutdate) {
+		if ($sumOfDay < 0) {
+			$sumOfDay = abs($sumOfDay);
+			$type = 'D';
+		} else {
+			$type = 'C';
+		}
+		
+		$mt940 = [
+				'PAYMENT_DATE' => date("ymd",strtotime($payoutdate)),
+				'PAYMENT_TYPE' => $type,
+				'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$sumOfDay)),
+				'PAYMENT_NDDT' => '',
+				'PAYMENT_TEXT00' => 'AMAZON',
+				'PAYMENT_TEXT20' => 'AMAZON PAYOUT '.$payoutdate,
+				'PAYMENT_TEXT21' => '',
+				'PAYMENT_TEXT22' => '',
+				'PAYMENT_TEXT23' => '',
+				'PAYMENT_CODE' => 'PayOut',
+				'CHARGE_DATE' => '',
+				'CHARGE_TYPE' => '',
+				'CHARGE_AMOUNT' => '',
+				'CHARGE_NDDT' => '',
+				'CHARGE_TEXT00' => '',
+				'CHARGE_TEXT20' => '',
+				'CHARGE_TEXT21' => '',
+				'CHARGE_TEXT22' => '',
+				'PAYMENT_STATE' =>  'S'
+		];
+		$this->data[] = $mt940;
+	}
 	
 }
 
