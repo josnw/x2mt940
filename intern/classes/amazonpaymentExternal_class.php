@@ -101,12 +101,14 @@ class amazonPayExternal {
 					$invoiceStr .= 'RG'.$invoice['invoice']." "; 
 				}
 				isset($invoiceData[0]["invoice"]) ? $defaultInvoice = $invoiceData[0]["invoice"] : $defaultInvoice = 'NONREF';
-				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	
+				isset($invoiceData[0]["customer"]) ? $defaultCustomer = 'KD '.$invoiceData[0]["customer"] : $defaultCustomer = '';	
 			
 				$spacePos = strpos($rowdata[$this->mapping['TRANSACTION_EVENTCODE']]," ",5);
 				if (! $spacePos) { $spacePos = 30; }
 				$event = substr($rowdata[$this->mapping['TRANSACTION_EVENTCODE']],0,$spacePos);
-				
+				if ($event == $this->mapping['TRANSACTION_EVENTCODE']) {
+					$event .= " PAYOUT";
+				}
 
 			
 				$mt940 = [];
@@ -120,7 +122,7 @@ class amazonPayExternal {
 						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_AMOUNT']])),
 						'PAYMENT_NDDT' => $defaultInvoice,
 						'PAYMENT_TEXT00' => 'AMAZON',
-						'PAYMENT_TEXT20' => 'AMAZON KD'.$defaultCustomer,
+						'PAYMENT_TEXT20' => 'AMAZON '.$defaultCustomer,
 						'PAYMENT_TEXT21' => $invoiceStr,
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_TEXT23' => $event." ".strtoupper($name),
@@ -146,9 +148,11 @@ class amazonPayExternal {
 
 		}	
 		
+		/* in original file included
 		if (($this->mt940param['payout']) ) {
 			$this->createPayoutData($this->amountTotal, $this->mt940param['enddate']);
-		}	
+		}
+		*/	
 		
 		if ($this->amountTotal < 0) {
 			$SH = "D";
