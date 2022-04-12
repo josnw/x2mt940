@@ -219,4 +219,8 @@ class myfile {
 	public function moveUploaded($uploadFile) {
 		move_uploaded_file($uploadFile,$this->checkedPathName);	
 	}
+	
+	public function chmod($mod = 664) {
+	    chmod($this->checkedPathName, $mod);
+	}
 }

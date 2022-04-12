@@ -118,6 +118,7 @@ class mt940 {
 		if (strlen($this->dataset) > 0) {
 			$this->outfile = new myfile($fileName, 'writefull');
 			$this->outfile->putContent($this->dataset);
+			$this->outfile->chmod(0664);
 			return $this->outfile->getCheckedName();
 		} else {
 			return false;
