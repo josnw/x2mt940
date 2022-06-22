@@ -65,8 +65,9 @@ class amazonPayment {
 			}
 
 			if ( ( $rowdatanew[$this->mapping['TRANSACTION_CODE']] != $orderNumber ) or 
-			    ( $rowdata[$this->mapping['TRANSACTION_TYPE']] != $this->mapping['TYPE_ORDER'] ) ) {
-
+//			    ( $rowdata[$this->mapping['TRANSACTION_TYPE']] != $this->mapping['TYPE_ORDER'] ) ) {
+				( strlen( $rowdatanew[$this->mapping['TRANSACTION_CODE']]) == 0) ) {
+						
 			    $mt940 = [];
 				
 				//				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_EVENTCODE']] == $this->mapping["CHECK_FINISH_STAT"])) {
