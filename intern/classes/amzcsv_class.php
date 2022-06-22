@@ -138,20 +138,32 @@ class amazonPayment {
 			if ($this->mt940param['startdate'] == null) {
 				$this->mt940param['startdate']	= $rowdata[$this->mapping['TRANSACTION_DATE']];
 			}
-			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
-
-			$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
+			
+			if (array_key_exists($this->mapping['AMOUNT_TYPE'], $rowdata)) {
+				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
+	
+				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']]);
+			}
 			
 			if (! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE'])) {
 
-			    if ($rowdata[$this->mapping['AMOUNT_TYPE']] == $this->mapping['TYPE_PRICE']) {
-			        $transactionSumAmount += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-			    } else {
-				    $transactionSumCharge += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-			    }
-			    
+				if (array_key_exists($this->mapping['AMOUNT_TYPE'], $rowdata)) {
+					if ($rowdata[$this->mapping['AMOUNT_TYPE']] == $this->mapping['TYPE_PRICE']) {
+				        $transactionSumAmount += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
+				    } else {
+					    $transactionSumCharge += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
+				    }
+				} else {
+					if (is_numeric($rowdata[$this->mapping['PRICE_AMOUNT']])) {
+						$transactionSumAmount += $rowdata[$this->mapping['PRICE_AMOUNT']];
+					}
+					if (is_numeric($rowdata[$this->mapping['FEE_AMOUNT']])) {
+						$transactionSumCharge += $rowdata[$this->mapping['FEE_AMOUNT']];
+					}
+				}
+						    
 			    if ($transactionSumAmount > 0) {
 					$transactionType = "C";
 					$transactionChargeType = "D";
@@ -166,8 +178,12 @@ class amazonPayment {
 			        $transactionChargeType = "C";
 			    }
 
-			    $this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-			    
+			    if (array_key_exists($this->mapping['AMOUNT_TYPE'], $rowdata)) {
+			    	$this->amountTotal += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
+			    } else {
+			    	$this->amountTotal += $rowdata[$this->mapping['PRICE_AMOUNT']];
+			    	$this->amountTotal += $rowdata[$this->mapping['FEE_AMOUNT']];
+			    }
 				//$name = strtoupper(preg_replace( '/[^a-z0-9 ]/i', '_', $rowdata[$this->mapping['TRANSACTION_SELLER_NAME']]));
 
 				$fromDate = date("Y-m-d",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']]));

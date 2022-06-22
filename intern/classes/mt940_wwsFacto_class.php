@@ -14,7 +14,7 @@ class MT940_wwsFacto {
 		// connect to wws/erp fpr invoice details
 		$this->pg_pdo = new PDO($parameter['wwsserver'], $parameter['wwsuser'], $parameter['wwspass'], null);
 		//prevent Browser Timeout
-		print " ";
+		print ".";
 	}
 	
 	public function getInvoiceData($ppid, $fromDate = '1999-12-31', $toDate = '2999-12-31', $fromCustomer = 0, $toCustomer = 999999) {

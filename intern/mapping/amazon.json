@@ -13,6 +13,8 @@
 	"TRANSACTION_DATE": 		"posted-date",
 	"TRANSACTION_CODE":			"order-id",
 	"ORDER_DATE":				"order-date",
+	"PRICE_AMOUNT": 			"price-amount",
+	"FEE_AMOUNT": 				"item-related-fee-amount",
 	
 
 	"CHECK_EXCLUDECODE":	{
