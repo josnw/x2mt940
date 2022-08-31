@@ -10,21 +10,23 @@ class mt940 {
 	private $wwsInvoices;
 	private $dataPos;
 	private $dataCount;
+	private $avisNumber;
 	
 	
-	public function __construct() {
+	public function __construct($avisNumber = 0) {
 
 		include './intern/config.php';
 
 		// initialize variables
 		$this->dataset = null;
+		$this->$avisNumber = $avisNumber;
 		
 	}
 	
 	private function mt940Header($parameter) {
 			$header = ":20:PP".date("ymdHis")."\n";
 			$header .= ":25:".$parameter['blz']."/".$parameter['konto']."\n";
-			$header .= ":28C:0\n";
+			$header .= ":28C:".$this->$avisNumber."\n";
 			$header .= ":60F:C".date("ymd",strtotime($parameter['startdate'])).$parameter['currency']."0,00"."\n";
 			
 			return $header;

@@ -29,7 +29,7 @@
 	
 	$result = $ebdata->getAllData();
 
-	$mt940data = new mt940();
+	$mt940data = new mt940(date("ymd",strtotime($paymentDate)));
 	$mt940data->generateMT940($result, $parameter);
 
 	$filename = $mt940data->writeToFile($docpath.'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc");
