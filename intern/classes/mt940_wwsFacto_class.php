@@ -39,6 +39,12 @@ class MT940_wwsFacto {
 		
 		$row_qry->execute() or die (print_r($row_qry->errorInfo()));;
 		$row = $row_qry->fetchAll( PDO::FETCH_ASSOC );
+		
+		if (count($row) < 1 ) {
+			$row_qry->bindValue(':fromdate', date("Y-m-d",strtotime($fromDate) - (86400 * 60)));
+			$row_qry->execute() or die (print_r($row_qry->errorInfo()));;
+			$row = $row_qry->fetchAll( PDO::FETCH_ASSOC );
+		}
 
 		return $row;
 
