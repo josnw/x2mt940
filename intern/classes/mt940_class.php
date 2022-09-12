@@ -16,17 +16,17 @@ class mt940 {
 	public function __construct($avisNumber = 0) {
 
 		include './intern/config.php';
-
+		
 		// initialize variables
 		$this->dataset = null;
-		$this->$avisNumber = $avisNumber;
+		$this->avisNumber = $avisNumber;
 		
 	}
 	
 	private function mt940Header($parameter) {
 			$header = ":20:PP".date("ymdHis")."\n";
 			$header .= ":25:".$parameter['blz']."/".$parameter['konto']."\n";
-			$header .= ":28C:".$this->$avisNumber."\n";
+			$header .= ":28C:".$this->avisNumber."\n";
 			$header .= ":60F:C".date("ymd",strtotime($parameter['startdate'])).$parameter['currency']."0,00"."\n";
 			
 			return $header;

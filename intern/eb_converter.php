@@ -21,15 +21,15 @@
 		$uploadFile->moveUploaded($_FILES['ebavis']['tmp_name']);
 		$ebdata =  new eurobaustoffAvis($uploadFile->getCheckedPathName());
 		
-		$paymentDate = preg_replace("[0-9\-\.]","",$_POST["paymentDate"]);
+		$paymentDate = date("ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"])));
 		$ebdata->importData($paymentDate);
 		$parameter = $ebdata->getParameter();
 		
 	}
 	
 	$result = $ebdata->getAllData();
-
-	$mt940data = new mt940(date("ymd",strtotime($paymentDate)));
+	
+	$mt940data = new mt940(date("Ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"]))));
 	$mt940data->generateMT940($result, $parameter);
 
 	$filename = $mt940data->writeToFile($docpath.'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc");
