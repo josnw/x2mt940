@@ -25,7 +25,7 @@
 		$ebdata->importData($paymentDate);
 		$parameter = $ebdata->getParameter();
 		if (!empty($eurobaustoff['bdateIsAdate']) and $eurobaustoff['bdateIsAdate']) {
-			$parameter["balanceDate"] =  date("Ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"])));
+			$parameter["balanceDate"] =  date("ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"])));
 		}
 	}
 	
