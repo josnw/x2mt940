@@ -21,7 +21,7 @@
 		$uploadFile->moveUploaded($_FILES['ebavis']['tmp_name']);
 		$ebdata =  new eurobaustoffAvis($uploadFile->getCheckedPathName());
 		
-		$paymentDate = date("ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"])));
+		$paymentDate = date("Y-m-d",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"])));
 		$ebdata->importData($paymentDate);
 		$parameter = $ebdata->getParameter();
 		
