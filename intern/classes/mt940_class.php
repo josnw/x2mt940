@@ -27,7 +27,11 @@ class mt940 {
 			$header = ":20:PP".date("ymdHis")."\n";
 			$header .= ":25:".$parameter['blz']."/".$parameter['konto']."\n";
 			$header .= ":28C:".$this->avisNumber."\n";
-			$header .= ":60F:C".date("ymd",strtotime($parameter['startdate'])).$parameter['currency']."0,00"."\n";
+			if (!empty($parameter["balanceDate"])) {
+				$header .= ":60F:C".$parameter["balanceDate"].$parameter['currency']."0,00"."\n";
+			} else {
+				$header .= ":60F:C".date("ymd",strtotime($parameter['startdate'])).$parameter['currency']."0,00"."\n";
+			}
 			
 			return $header;
 	}

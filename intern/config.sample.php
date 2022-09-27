@@ -31,6 +31,7 @@ $eurobaustoff['AccountMaxLength'] = 12; // Length for Bank account number
 $eurobaustoff['grossPosting'] = true; // customer range 
 $eurobaustoff['alternateSeller'] = true; // customer range 
 $eurobaustoff['currency'] = "EUR"; // Default Currency 
+$eurobaustoff['bdateIsAdate'] = true; // set avis date to booking date
 
 # adyen payment
 $adyen['blz'] = "90000001";  // dummy BLZ for Import
