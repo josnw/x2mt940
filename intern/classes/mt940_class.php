@@ -50,7 +50,7 @@ class mt940 {
 			$pos .= ":86:166?00".$data['PAYMENT_TEXT00']."\n";
 			for( $i = 20; $i < 30; $i++) {
     			if (!empty($data['PAYMENT_TEXT'.$i])) {
-    			    $pos .= "?".$i.$data['PAYMENT_TEXT'.$i]."\n";
+    			    $pos .= "?".$i.$data['PAYMENT_TEXT'.$i]."_\n";
     			}
 			}
 			if ((isset($data['CHARGE_AMOUNT'])) and ( str_replace(",",".",$data['CHARGE_AMOUNT']) <> 0 ) ) {
@@ -64,7 +64,7 @@ class mt940 {
 				$pos .= ":86:166?00".$data['CHARGE_TEXT00']."\n";
 				for( $i = 20; $i < 30; $i++) {
 				    if (!empty($data['CHARGE_TEXT'.$i])) {
-				        $pos .= "?".$i.$data['CHARGE_TEXT'.$i]."\n";
+				        $pos .= "?".$i.$data['CHARGE_TEXT'.$i]."_\n";
 				    }
 				}
 			}
