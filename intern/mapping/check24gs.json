@@ -1,0 +1,27 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
+
+	"TRANSACTION_EVENTCODE":	"Partnernummer",
+	"TRANSACTION_AMOUNT_ALT": 	"Korrekturbuchungen in Euro (Brutto)",
+	"TRANSACTION_AMOUNT": 		"Wareneinkauf in Euro (Brutto)",
+	"TRANSACTION_NETAMOUNT": 	"Auszahlung",
+	"TRANSACTION_CHARGEAMOUNT":	"Preisreduzierung WE in Euro (Brutto)",
+	"TRANSACTION_PAYMENTAMOUNT":"Preisreduzierung ZK in Euro (Brutto)",
+	"TRANSACTION_SELLER_ID": 	"Korrekturtext",
+	"TRANSACTION_SELLER_NAME":	"Vor-und Nachname",
+	"TRANSACTION_DATE": 		"Datum (Leistung)",
+	"TRANSACTION_CODE":			"Bestell-Nr. (CHECK24)",
+	"ORDER_DATE":				"Datum (Bestellung)",
+	"PAYOUT_DATE": 				"Datum (Leistung)",
+	"TAX_RATE":					"Steuersatz",
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"--",
+								"1":	"--"
+							},
+							
+	"CHECK_FINISH_STAT":		"--",
+	"CHECK_CR_TYPE":			"--",
+	"CHECK_CANCEL_PAYMENT":		"--"
+}
