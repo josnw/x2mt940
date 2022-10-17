@@ -28,20 +28,32 @@ class check24Payment {
 		// dynamically wws/erp connection in config.php with a new class
 		$this->wwsInvoices = new $wwsClassName();
 
-		$this->infile = new myfile($fileName);
-
 		if (file_exists("./intern/mapping/".$mapping_prefix."check24.json")) {
 			$mapping = new myfile("./intern/mapping/".$mapping_prefix."check24.json","readfull");
 		} else {
 			$mapping = new myfile("./intern/mapping/check24.json","readfull");
 		}
 		$this->mapping = $mapping->readJson();
+		
+		$this->infile = new myfile($fileName);
 
 		$this->mt940param['startdate'] = null;
 		$this->mt940param['enddate'] = null;
 		$row = $this->infile->readCSV(';','"');
 		$row[0] = trim($row[0],"\"\xEF\xBB\xBF");
 		$this->ppHeader = $row;
+		
+		if(! in_array($this->mapping['TRANSACTION_AMOUNT'],$this->ppHeader)) {
+			if (file_exists("./intern/mapping/".$mapping_prefix."check24gs.json")) {
+				$mapping = new myfile("./intern/mapping/".$mapping_prefix."check24gs.json","readfull");
+			} else {
+				$mapping = new myfile("./intern/mapping/check24gs.json","readfull");
+			}
+			$this->mapping = $mapping->readJson();
+		}
+		
+		
+		
 	}
 	
 	public function importData() {
