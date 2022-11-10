@@ -23,5 +23,8 @@
 							
 	"CHECK_FINISH_STAT":		"",
 	"CHECK_CR_TYPE":			"--",
-	"CHECK_CANCEL_PAYMENT":		"Rückzahlung"
+	"CHECK_CANCEL_PAYMENT":		"Rückzahlung",
+	"CHECK_CHARGE_CODE":	{
+								"0":	"Andere Gebühr"
+							}
 }

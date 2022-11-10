@@ -79,8 +79,14 @@ class adyenCSV {
 				 $rowdata[$this->mapping['TRANSACTION_AMOUNT']] = $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
 			}
 			
-			$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']] - $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
 
+			if (in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_CHARGE_CODE'])) {
+				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
+				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = 0;
+			} else {
+				$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']] - $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
+			}
+			
 			
 			if  ( ! in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_EXCLUDECODE']) or 
 				  ($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0 )  
@@ -165,7 +171,8 @@ class adyenCSV {
 					    'CHARGE_TEXT22' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_STATE' =>  'S'
 					];
-				} elseif (($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == '') and ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"])) {
+				} elseif (($rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] <> 0) and ($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == '') 
+						   and ($rowdata[$this->mapping['TRANSACTION_STAT']] == $this->mapping["CHECK_FINISH_STAT"])) {
 					
 					$mt940 = [
 						'PAYMENT_DATE' => date("ymd",strtotime($rowdata[$this->mapping['TRANSACTION_DATE']])),
