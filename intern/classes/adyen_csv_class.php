@@ -180,7 +180,7 @@ class adyenCSV {
 						'PAYMENT_AMOUNT' => str_replace(".",",",sprintf("%01.2f",$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']])),
 						'PAYMENT_NDDT' => 'NONREF',
 						'PAYMENT_TEXT00' => 'ADYEN',
-						'PAYMENT_TEXT20' => 'ADYEN CHARGE ',
+						'PAYMENT_TEXT20' => 'ADYEN GEB. ',
 						'PAYMENT_TEXT23' => '',
 						'PAYMENT_TEXT21' => $rowdata[$this->mapping['TRANSACTION_CODE']],
 						'PAYMENT_TEXT22' => $rowdata[$this->mapping['TRANSACTION_EVENTCODE']],
