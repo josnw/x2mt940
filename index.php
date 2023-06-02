@@ -31,7 +31,11 @@ include_once './intern/config.php';
 	$_SESSION["uid"] = 0;
 	$_SESSION['level'] = '1';
 }
-$usertyp = $_SESSION['typ'];
+if (!empty($_SESSION['typ'])) {
+	$usertyp = $_SESSION['typ'];
+} else {
+	$usertyp = 'logout';
+}
 
 #if ( $_SESSION['penr'] <> '999') {
 # print "<BR><error>Wegen Wartungsarbeiten geschlossen!</error>";
