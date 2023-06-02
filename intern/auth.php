@@ -5,7 +5,7 @@ if (isset($_GET['mode']) and ($_GET['mode'] == 'DEMO')) {
 		//print "Cookie found ...";
 		$_SESSION = unserialize(base64_decode($_COOKIE['scandesk']));
 		if ((!isset($_SESSION['level'])) or ( $_SESSION['level'] == 0)) {
-			setcookie("scandesk", '', time()-28800);
+			setcookie("x2mt940", '', time()-28800);
 		} else {
 			//print "and initialized";
 		}
@@ -26,7 +26,7 @@ if (isset($_GET['mode']) and ($_GET['mode'] == 'DEMO')) {
 		//print "Cookie found ....";
 		$_SESSION = unserialize(base64_decode($_COOKIE['scandesk']));
 		if ((!isset($_SESSION['level'])) or ( $_SESSION['level'] == 0)) {
-			setcookie("scandesk", '', time()-28800);
+			setcookie("x2mt940", '', time()-28800);
 		} else {
 			//print "and initialized";
 		}
@@ -111,7 +111,7 @@ elseif (isset($_POST['loginuser']) and strlen($_POST['loginuser']) > 0)
 			$_SESSION['typ'] = 'user';
 			$_SESSION['level'] = '1';
 		}
-		if (setcookie("scandesk", base64_encode(serialize($_SESSION)), time()+28800)) {
+		if (setcookie("x2mt940", base64_encode(serialize($_SESSION)), time()+28800)) {
 			print "Keks erfolgreich gespeichert!";
 		}
 		include 'config.php';
