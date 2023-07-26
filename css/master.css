@@ -8,7 +8,7 @@ html {
 body{
   margin: 10px auto;
   min-width: 16em;
-  //max-width: 80em;
+
   max-width: 80%;
   font-family: arial;
   font-size: 12px;
@@ -63,7 +63,7 @@ nav li {
   font-size: 1em;
   list-style: none;
   margin: 0;
-  //padding: 0.5em ;
+
 }
  
 nav a {
@@ -143,7 +143,6 @@ footer p {
 @media (min-width: 50em) {
   body {
 	min-width: 20em;  
-	//max-width: 85em;  
 	max-width: 100%;  
 	font-size: 12px;
   }	
@@ -168,7 +167,6 @@ footer p {
 	
 	nav:hover {
 	  width: 15em;
-	  //float: left;
    	  background: #FFFFFF;
 	}
 	
@@ -189,7 +187,6 @@ footer p {
 @media (min-width: 1300px)  {	 
   body {
 	min-width: 20em;  
-	//max-width: 85em;  
 	max-width: 97%;  
 	font-size: 12px;
   }	
@@ -251,14 +248,13 @@ footer p {
 
 
 .DSSuche {
-//	display: block;
 	width: 95%;
-//	height: 30px;
+
     padding: 10px;
 	margin: 0 0 10px 0;
 	border: 1px solid #EEEEEE;
 	background: #CCD2CC; 
-	//background: linear-gradient(to top, #CCD2CC 20%, #FFFFFF 70%);
+
 	border-radius: 7px;
 	box-shadow: 3px 3px 3px grey;
 	z-index: 0;
@@ -268,9 +264,9 @@ footer p {
 
 
 .DSEdit {
-//	display: block;
+
 	width: 95%;
-//	height: 450px;
+
     padding: 10px;
 	margin: 0 0 10px 0;
 	border: 1px solid #EEEEEE;
@@ -278,7 +274,7 @@ footer p {
 	border-radius: 7px;
 	box-shadow: 4px 4px 3px grey;
 	z-index: 0;
-	//float: left;
+
 	align: right;
 	display: flex;
 	flex-flow: row wrap;
@@ -627,7 +623,6 @@ visibility: hidden;
 	border-spacing: 0px; 
 	font-weight: bold;
 	padding: 5px;
-	overflow: 
 }
 
 .ukaltab td {
@@ -727,7 +722,7 @@ visibility: hidden;
 .oderinfo {
 	display: block;
 	width: 30%;
-	//height: 100px;
+
     padding: 5px;
 	margin: 0 30px 20px 0;
 	border: 1px solid #EEEEEE;
@@ -769,7 +764,7 @@ visibility: hidden;
 	min-width: 500px;
 	max-height: 700px;
 	width: 60%;
-	//height: 60%;
+
 	background: #f5fcff; 
 	color: #009145;
 	position: 	fixed;

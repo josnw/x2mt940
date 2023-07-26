@@ -4,6 +4,9 @@
 
 		print $rowCount." Datensätze exportiert!<br/>";
 		print "<a href=".$exportfile.">[Download ".$filename."]</a>";
+		if (!empty($importerrors)) {
+			print "<error>".$importerrors."</error>";
+		}
 
 		?>
 	</div>

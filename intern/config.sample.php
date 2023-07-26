@@ -53,6 +53,7 @@ if (file_exists('./intern/config.json')) {
 }
 
 $wwsAdminUsers = [ 1 ];
+$wwsChiefGroups = [];
 
 if ($_SESSION['user'] == 999) {
     error_reporting(E_ALL);

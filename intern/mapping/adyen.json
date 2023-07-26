@@ -12,7 +12,7 @@
 	"TRANSACTION_DATE": 		"Datum der Transaktionserstellung",
 	"PAYOUT_DATE": 				"Auszahlungsdatum",
 	"TRANSACTION_CODE":			"Bestellnummer",
-	"TRANSACTION_STAT": 		"Status",	
+	"TRANSACTION_STAT": 		"Auszahlungsstatus",	
 	"TRANSACTION_ORIGINAL_CODE": "Referenznummer",	
 	"TRANSACTION_INFO": 		"Beschreibung",	
 
@@ -21,7 +21,7 @@
 								"1":	"--"
 							},
 							
-	"CHECK_FINISH_STAT":		"",
+	"CHECK_FINISH_STAT":		"Betrag überwiesen",
 	"CHECK_CR_TYPE":			"--",
 	"CHECK_CANCEL_PAYMENT":		"Rückzahlung",
 	"CHECK_CHARGE_CODE":	{

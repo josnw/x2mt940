@@ -15,6 +15,7 @@
 		$ppdata =  new adyenCSV($uploadFile->getCheckedPathName());
 		$ppdata->importData();
 		$parameter = $ppdata->getParameter();
+		$importerrors = $ppdata->getErrors();
 
 	}
 	$result = $ppdata->getAllData();
