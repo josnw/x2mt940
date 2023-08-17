@@ -201,10 +201,14 @@ class amazonPayment {
 				}
 				isset($invoiceData[0]["invoice"]) ? $defaultInvoice = $invoiceData[0]["invoice"] : $defaultInvoice = 'NONREF';
 				isset($invoiceData[0]["customer"]) ? $defaultCustomer = $invoiceData[0]["customer"] : $defaultCustomer = '';	
-			
-				$spacePos = strpos($rowdata[$this->mapping['TRANSACTION_TYPE']]," ",10);
-				if (! $spacePos) { $spacePos = 30; }
-				$event = substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,$spacePos);
+
+				if (strlen($rowdata[$this->mapping['TRANSACTION_TYPE']]) > 30) {
+					$spacePos = strpos($rowdata[$this->mapping['TRANSACTION_TYPE']]," ",10);
+					if (empty($spacePos)) { $spacePos = 30; }
+					$event = substr($rowdata[$this->mapping['TRANSACTION_TYPE']],0,$spacePos);
+				} else {
+					$event = $rowdata[$this->mapping['TRANSACTION_TYPE']];
+				}
 				
 
 
