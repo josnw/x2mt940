@@ -84,7 +84,7 @@ class adyenCSV {
 	
 				if (in_array($rowdata[$this->mapping['TRANSACTION_EVENTCODE']], $this->mapping['CHECK_CHARGE_CODE'])) {
 					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = 0;
+					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = "";
 				} else {
 					$rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']] = $rowdata[$this->mapping['TRANSACTION_AMOUNT']] - $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
 				}
