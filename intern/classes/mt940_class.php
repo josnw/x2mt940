@@ -39,7 +39,7 @@ class mt940 {
 	private function mt940Pos($data) {
 	
 		
-		if ($data['PAYMENT_STATE']	== "S") {
+		if (($data['PAYMENT_STATE']	== "S") and (preg_match('/[1-9]+/', $data['PAYMENT_AMOUNT']))){
 			$pos = ":61:".$data['PAYMENT_DATE'];
 			$pos .= $data['PAYMENT_TYPE'];
 			if (substr($data['PAYMENT_AMOUNT'],0,1) == ",") {
@@ -53,7 +53,7 @@ class mt940 {
     			    $pos .= "?".$i.$data['PAYMENT_TEXT'.$i]."_\n";
     			}
 			}
-			if ((isset($data['CHARGE_AMOUNT'])) and ( str_replace(",",".",$data['CHARGE_AMOUNT']) <> 0 ) ) {
+			if ((isset($data['CHARGE_AMOUNT'])) and ( str_replace(",",".",$data['CHARGE_AMOUNT']) <> 0 )  and (preg_match('/[1-9]+/', $data['CHARGE_AMOUNT'])) ) {
 				$pos .= ":61:".$data['CHARGE_DATE'];
 				$pos .= $data['CHARGE_TYPE'];
 				if (substr($data['CHARGE_AMOUNT'],0,1) == ",") {
