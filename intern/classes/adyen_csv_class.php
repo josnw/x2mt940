@@ -40,8 +40,15 @@ class adyenCSV {
 
 		$this->mt940param['startdate'] = null;
 		$this->mt940param['enddate'] = null;
+		$firstline == $this->infile->readLn();
 		
-		while (($row = $this->infile->readCSV(';')) !== FALSE) {
+		if(strpos($firstline,",") > 0) {
+			$splitChar = ",";
+		} else {
+			$splitChar = ";";
+		}
+		
+		while (($row = $this->infile->readCSV($splitChar)) !== FALSE) {
 			if ( $row[0] == $this->mapping['TRANSACTION_DATE']) {
 				$this->ppHeader = $row;
 				break;
