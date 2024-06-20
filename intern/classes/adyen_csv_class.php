@@ -13,6 +13,7 @@ class adyenCSV {
 	private $ppcodes;
 	private $mapping;
 	private $errorlist = "";
+	private $splitChar = ";";
 	
 	public function __construct($fileName) {
 
@@ -40,20 +41,24 @@ class adyenCSV {
 
 		$this->mt940param['startdate'] = null;
 		$this->mt940param['enddate'] = null;
-		$firstline = $this->infile->readLn();
 		
-		if(strpos($firstline,",") > 0) {
-			$splitChar = ",";
-		} else {
-			$splitChar = ";";
-		}
-		
-		while (($row = $this->infile->readCSV($splitChar)) !== FALSE) {
+		while (($row = $this->infile->readCSV($this->splitChar)) !== FALSE) {
 			if ( $row[0] == $this->mapping['TRANSACTION_DATE']) {
 				$this->ppHeader = $row;
 				break;
 			}	
 		}
+		if (! is_array($this->ppHeader)) {
+			$this->splitChar = ",";
+			$this->infile = new myfile($fileName);
+			while (($row = $this->infile->readCSV($this->splitChar)) !== FALSE) {
+				if ( $row[0] == $this->mapping['TRANSACTION_DATE']) {
+					$this->ppHeader = $row;
+					break;
+				}
+			}
+		}
+		
 		
 	}
 	
@@ -65,7 +70,7 @@ class adyenCSV {
 		
 		$this->errorlist = "";
 		$rowcnt = 0;
-		while (($row = $this->infile->readCSV(';')) !== FALSE) {
+		while (($row = $this->infile->readCSV($this->splitChar)) !== FALSE) {
 			$rowcnt++;
 		 	try {
 				$rowdata = array_combine($this->ppHeader,$row);
