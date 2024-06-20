@@ -82,12 +82,13 @@ class adyenCSV {
 					$this->mt940param['enddate'] = $rowdata[$this->mapping['TRANSACTION_DATE']];
 					$payoutdate = $rowdata[$this->mapping['PAYOUT_DATE']];
 				}
-				
-				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-				$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']]);
-	
-				$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
-				$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']]);
+				if ($this->splitChar == ";") {
+					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+					$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = str_replace(".","",$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']]);
+		
+					$rowdata[$this->mapping['TRANSACTION_AMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_AMOUNT']]);
+					$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] = str_replace(",",".",$rowdata[$this->mapping['TRANSACTION_NETAMOUNT']]);
+				}
 	
 				if (($rowdata[$this->mapping['TRANSACTION_AMOUNT']] == '--') and ($rowdata[$this->mapping['TRANSACTION_NETAMOUNT']] <> 0)){
 					 $rowdata[$this->mapping['TRANSACTION_AMOUNT']] = $rowdata[$this->mapping['TRANSACTION_NETAMOUNT']];
