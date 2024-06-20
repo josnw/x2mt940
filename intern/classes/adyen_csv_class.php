@@ -40,7 +40,7 @@ class adyenCSV {
 
 		$this->mt940param['startdate'] = null;
 		$this->mt940param['enddate'] = null;
-		$firstline == $this->infile->readLn();
+		$firstline = $this->infile->readLn();
 		
 		if(strpos($firstline,",") > 0) {
 			$splitChar = ",";
