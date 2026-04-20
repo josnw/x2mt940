@@ -41,6 +41,13 @@ $adyen['toCustomer'] = "100010"; // customer range
 $adyen['extractTid'] = false; // extract real TransactionID without itemID
 $adyen['payout'] = true; // Generate payout mt940 data 
 
+# shopify payment
+$shopify['blz'] = "90000001";  // dummy BLZ for Import
+$shopify['konto'] = "9100000105"; // Default account
+$shopify['fromCustomer'] = "100000"; // customer range
+$shopify['toCustomer'] = "100010"; // customer range
+$shopify['currency'] = "EUR"; // Default Currency
+$shopify['payout'] = true; // generate payout data 
 
 # WWS config
 $wwsClassName = "MT940_dummyERP";
@@ -55,7 +62,7 @@ if (file_exists('./intern/config.json')) {
 $wwsAdminUsers = [ 1 ];
 $wwsChiefGroups = [];
 
-if ($_SESSION['user'] == 999) {
+if ($_SESSION['uid'] == 999) {
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
 }
@@ -71,6 +78,7 @@ $menu_name['root']['PayPal']  = './pp_converter.php';
 $menu_name['root']['Otto Payment']  = './ottopayment.php';
 $menu_name['root']['Real.de Payment']  = './realpayment.php';
 $menu_name['root']['Adyen']  = './adyen.php';
+$menu_name['root']['Shopify CSV']  = './shopify.php';
 //$menu_name['root']['Eurobaustoff']  = './eb_converter.php';
 $menu_name['root']['Logout']  = './logout.php';
 
@@ -80,6 +88,7 @@ if (isset($_SESSION["uid"])) {
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Otto Payment']  = './ottopayment.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Real.de Payment']  = './realpayment.php'; }
 	if ($_SESSION['level'] >= 0) { $menu_name['user']['Adyen']  = './adyen.php'; }
+	if ($_SESSION['level'] >= 0) { $menu_name['user']['Shopify CSV']  = './shopify.php'; }
 	if ($_SESSION['level'] >= 9) { $menu_name['user']['Eurobaustoff']  = './eb_converter.php'; }
 }
 

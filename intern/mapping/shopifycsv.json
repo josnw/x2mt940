@@ -1,0 +1,24 @@
+{
+
+	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
+
+	"TRANSACTION_EVENTCODE":	"Type",
+	"TRANSACTION_AMOUNT_ALT": 	"",
+	"TRANSACTION_AMOUNT": 		"Amount",
+	"TRANSACTION_CHARGEAMOUNT":	"Fee",
+	"TRANSACTION_SELLER_ID": 	"",
+	"TRANSACTION_SELLER_NAME":	"",
+	"TRANSACTION_DATE": 		"Payout Date",
+	"TRANSACTION_STATE": 		"Payout Status",
+	"TRANSACTION_ID":	 		"Payout ID",
+	"ORDER_ID":					"Order",
+
+	"CHECK_EXCLUDECODE":	{
+								"0":	"pending",
+								"1":	"--"
+							},
+							
+	"CHECK_FINISH_STAT":		"--",
+	"CHECK_CR_TYPE":			"--",
+	"CHECK_CANCEL_PAYMENT":		"--"
+}

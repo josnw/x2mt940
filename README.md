@@ -36,6 +36,10 @@ erp connector for add a reference code
  * charge as extra posting
  * erp connector modul to add addional data in mt940
 
+#### shopify transaction detail files
+ * charge as extra posting
+ * erp connector modul to add addional data in mt940
+
 
 
 ## Setup
