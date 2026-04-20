@@ -3,7 +3,7 @@
 	"_comment":					"TRANSACTION_* for mapping for table columns and CHECK_* for mapping compare values.",
 
 	"TRANSACTION_EVENTCODE":	"Type",
-	"TRANSACTION_AMOUNT_ALT": 	"",
+	"TRANSACTION_AMOUNT_NET": 	"Net",
 	"TRANSACTION_AMOUNT": 		"Amount",
 	"TRANSACTION_CHARGEAMOUNT":	"Fee",
 	"TRANSACTION_SELLER_ID": 	"",

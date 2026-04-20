@@ -146,8 +146,7 @@ class shopifyCSV {
 				
 				//count sum of day and export
 				if ($this->mt940param['payout'])  {
-					$sumOfDay += $rowdata[$this->mapping['TRANSACTION_AMOUNT']];
-					$sumOfDay -= $rowdata[$this->mapping['TRANSACTION_CHARGEAMOUNT']];
+					$sumOfDay += $rowdata[$this->mapping['TRANSACTION_AMOUNT_NET']];
 					$payoutdate = $rowdata[$this->mapping['TRANSACTION_DATE']];
 					
 				}
