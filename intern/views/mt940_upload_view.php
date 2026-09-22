@@ -12,6 +12,17 @@
 		<div class="DSFeld4 smallBorder">
 				Datei bitte auswählen: <br/><input name="<?php print $fileVar; ?>" type=file>
 		</div>
+		<div class="DSFeld1 smallBorder">
+				Ausgabeformat: <br/>
+				<select name=format>
+<?php
+		foreach ($exportformat as $key => $value) {
+			if ($prefered_format == $key) {$sel = " selected"; } else { $sel = ""; }
+    		echo '<option '.$sel.' value="' . $key . '">'. $value . '</option>';
+		}
+?>				
+				</select>
+		</div>
 		<div class="DSFeld1 right" style="background: #AA5555;"><input type="submit" name="uploadFile" value="Upload" onclick="wartemal('on')"></div>
 	</div>
 </form>

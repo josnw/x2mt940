@@ -34,6 +34,7 @@ class camt053 {
 		$header .= '    </GrpHdr>'."\n";
 		$header .= '    <Stmt>'."\n";
 		$header .= '      <Id>'.$this->avisNumber.'</Id>'."\n";
+		$header .= '      <CreDtTm>'.date("Y-m-d\TH:i:s", strtotime($parameter['startdate'])).'</CreDtTm>'."\n";
 		
 		// Account information
 		$header .= '      <Acct>'."\n";
@@ -47,9 +48,9 @@ class camt053 {
 		
 		// Opening balance
 		if (!empty($parameter["balanceDate"])) {
-			$balanceDate = $parameter["balanceDate"];
+			$balanceDate =  date("Y-m-d", strtotime($parameter["balanceDate"]));
 		} else {
-			$balanceDate = date("Ymd", strtotime($parameter['startdate']));
+			$balanceDate = date("Y-m-d", strtotime($parameter['startdate']));
 		}
 		$header .= '      <Bal>'."\n";
 		$header .= '        <Tp>'."\n";
@@ -67,7 +68,7 @@ class camt053 {
 		return $header;
 	}
 	
-	private function camt053Pos($data) {
+	private function camt053Pos($data, $parameter) {
 		
 		if (($data['PAYMENT_STATE'] == "S") and (preg_match('/[1-9]+/', $data['PAYMENT_AMOUNT']))){
 			$pos = '';
@@ -83,7 +84,7 @@ class camt053 {
 			$amount = ltrim($amount, '-');
 			
 			$pos .= '      <Ntry>'."\n";
-			$pos .= '        <Amt Ccy="'.$data['PAYMENT_CURRENCY'].'">'.$amount.'</Amt>'."\n";
+			$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$amount.'</Amt>'."\n";
 			$pos .= '        <CdtDbtInd>'.$cdtDbtInd.'</CdtDbtInd>'."\n";
 			$pos .= '        <Sts>BOOK</Sts>'."\n";
 			
@@ -92,6 +93,7 @@ class camt053 {
 			if (strlen($bookingDate) == 6) {
 				$bookingDate = substr($bookingDate, 0, 2) . '-' . substr($bookingDate, 2, 2) . '-' . substr($bookingDate, 4, 2);
 			}
+			$bookingDate = date("Y-m-d", strtotime($bookingDate));
 			$pos .= '        <BookgDt>'."\n";
 			$pos .= '          <Dt>'.$bookingDate.'</Dt>'."\n";
 			$pos .= '        </BookgDt>'."\n";
@@ -101,7 +103,11 @@ class camt053 {
 				$valueDate = $data['PAYMENT_NDDT'];
 				if (strlen($valueDate) == 6) {
 					$valueDate = substr($valueDate, 0, 2) . '-' . substr($valueDate, 2, 2) . '-' . substr($valueDate, 4, 2);
+					$valueDate = date("Y-m-d", strtotime($valueDate));
+				} else {
+					$valueDate = $bookingDate;
 				}
+				
 				$pos .= '        <ValDt>'."\n";
 				$pos .= '          <Dt>'.$valueDate.'</Dt>'."\n";
 				$pos .= '        </ValDt>'."\n";
@@ -110,9 +116,22 @@ class camt053 {
 			// Account servicer reference
 			$pos .= '        <AcctSvcrRef>'.htmlspecialchars($data['PAYMENT_TYPE'] ?? 'TRF').'</AcctSvcrRef>'."\n";
 			
+			// Bank transaction code
+			$pos .= '        <BkTxCd>'."\n";
+			$pos .= '          <Domn>'."\n";
+			$pos .= '            <Cd>PMNT</Cd>'."\n";
+			$pos .= '            <Fmly>'."\n";
+			$pos .= '              <Cd>RTPM</Cd>'."\n";
+			$pos .= '              <SubFmlyCd>TRF</SubFmlyCd>'."\n";
+			$pos .= '            </Fmly>'."\n";
+			$pos .= '          </Domn>'."\n";
+			$pos .= '        </BkTxCd>'."\n";
+
 			// Remittance information
-			$pos .= '        <RmtInf>'."\n";
-			$pos .= '          <Ustrd>';
+			$pos .= '        <NtryDtls>'."\n";
+			$pos .= '          <TxDtls>'."\n";
+			$pos .= '            <RmtInf>'."\n";
+			$pos .= '              <Ustrd>';
 			
 			// Build remittance text from PAYMENT_TEXT fields
 			$remittanceText = '';
@@ -129,18 +148,10 @@ class camt053 {
 			}
 			$pos .= htmlspecialchars($remittanceText);
 			$pos .= '</Ustrd>'."\n";
-			$pos .= '        </RmtInf>'."\n";
+			$pos .= '            </RmtInf>'."\n";
+			$pos .= '          </TxDtls>'."\n";
+			$pos .= '        </NtryDtls>'."\n";
 			
-			// Bank transaction code
-			$pos .= '        <BkTxCd>'."\n";
-			$pos .= '          <Domn>'."\n";
-			$pos .= '            <Cd>PMNT</Cd>'."\n";
-			$pos .= '            <Fmly>'."\n";
-			$pos .= '              <Cd>RTPM</Cd>'."\n";
-			$pos .= '              <SubFmlyCd>TRF</SubFmlyCd>'."\n";
-			$pos .= '            </Fmly>'."\n";
-			$pos .= '          </Domn>'."\n";
-			$pos .= '        </BkTxCd>'."\n";
 			
 			$pos .= '      </Ntry>'."\n";
 			
@@ -152,7 +163,7 @@ class camt053 {
 				}
 				
 				$pos .= '      <Ntry>'."\n";
-				$pos .= '        <Amt Ccy="'.$data['CHARGE_CURRENCY'].'">'.$chargeAmount.'</Amt>'."\n";
+				$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$chargeAmount.'</Amt>'."\n";
 				$pos .= '        <CdtDbtInd>DBIT</CdtDbtInd>'."\n";
 				$pos .= '        <Sts>BOOK</Sts>'."\n";
 				
@@ -160,6 +171,9 @@ class camt053 {
 				$chargeBookingDate = $data['CHARGE_DATE'];
 				if (strlen($chargeBookingDate) == 6) {
 					$chargeBookingDate = substr($chargeBookingDate, 0, 2) . '-' . substr($chargeBookingDate, 2, 2) . '-' . substr($chargeBookingDate, 4, 2);
+					$chargeBookingDate = date("Y-m-d", strtotime($chargeBookingDate));
+				} else {
+					$chargeBookingDate = date("Y-m-d", strtotime($bookingDate));
 				}
 				$pos .= '        <BookgDt>'."\n";
 				$pos .= '          <Dt>'.$chargeBookingDate.'</Dt>'."\n";
@@ -170,6 +184,9 @@ class camt053 {
 					$chargeValueDate = $data['CHARGE_NDDT'];
 					if (strlen($chargeValueDate) == 6) {
 						$chargeValueDate = substr($chargeValueDate, 0, 2) . '-' . substr($chargeValueDate, 2, 2) . '-' . substr($chargeValueDate, 4, 2);
+						$chargeValueDate = date("Y-m-d", strtotime($chargeValueDate));
+					} else {
+						$chargeValueDate = date("Y-m-d", strtotime($bookingDate));
 					}
 					$pos .= '        <ValDt>'."\n";
 					$pos .= '          <Dt>'.$chargeValueDate.'</Dt>'."\n";
@@ -178,9 +195,22 @@ class camt053 {
 				
 				$pos .= '        <AcctSvcrRef>'.htmlspecialchars($data['CHARGE_TYPE'] ?? 'CHAR').'</AcctSvcrRef>'."\n";
 				
+				// Bank transaction code for charges
+				$pos .= '        <BkTxCd>'."\n";
+				$pos .= '          <Domn>'."\n";
+				$pos .= '            <Cd>CHRG</Cd>'."\n";
+				$pos .= '            <Fmly>'."\n";
+				$pos .= '              <Cd>CHRG</Cd>'."\n";
+				$pos .= '              <SubFmlyCd>FEES</SubFmlyCd>'."\n";
+				$pos .= '            </Fmly>'."\n";
+				$pos .= '          </Domn>'."\n";
+				$pos .= '        </BkTxCd>'."\n";
+				
 				// Charge remittance information
-				$pos .= '        <RmtInf>'."\n";
-				$pos .= '          <Ustrd>';
+				$pos .= '        <NtryDtls>'."\n";
+				$pos .= '          <TxDtls>'."\n";
+				$pos .= '            <RmtInf>'."\n";
+				$pos .= '              <Ustrd>';
 				
 				$chargeRemittanceText = '';
 				if (!empty($data['CHARGE_TEXT00'])) {
@@ -196,19 +226,9 @@ class camt053 {
 				}
 				$pos .= htmlspecialchars($chargeRemittanceText);
 				$pos .= '</Ustrd>'."\n";
-				$pos .= '        </RmtInf>'."\n";
-				
-				// Bank transaction code for charges
-				$pos .= '        <BkTxCd>'."\n";
-				$pos .= '          <Domn>'."\n";
-				$pos .= '            <Cd>CHRG</Cd>'."\n";
-				$pos .= '            <Fmly>'."\n";
-				$pos .= '              <Cd>CHRG</Cd>'."\n";
-				$pos .= '              <SubFmlyCd>FEES</SubFmlyCd>'."\n";
-				$pos .= '            </Fmly>'."\n";
-				$pos .= '          </Domn>'."\n";
-				$pos .= '        </BkTxCd>'."\n";
-				
+				$pos .= '            </RmtInf>'."\n";
+				$pos .= '          </TxDtls>'."\n";
+				$pos .= '        </NtryDtls>'."\n";
 				$pos .= '      </Ntry>'."\n";
 			}
 			
@@ -221,7 +241,7 @@ class camt053 {
 					}
 					
 					$pos .= '      <Ntry>'."\n";
-					$pos .= '        <Amt Ccy="'.$discount['DISCOUNT_CURRENCY'].'">'.$discountAmount.'</Amt>'."\n";
+					$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$discountAmount.'</Amt>'."\n";
 					$pos .= '        <CdtDbtInd>CRDT</CdtDbtInd>'."\n";
 					$pos .= '        <Sts>BOOK</Sts>'."\n";
 					
@@ -229,6 +249,9 @@ class camt053 {
 					$discountBookingDate = $discount['DISCOUNT_DATE'];
 					if (strlen($discountBookingDate) == 6) {
 						$discountBookingDate = substr($discountBookingDate, 0, 2) . '-' . substr($discountBookingDate, 2, 2) . '-' . substr($discountBookingDate, 4, 2);
+						$discountBookingDate = date("Y-m-d", strtotime($discountBookingDate));
+					} else {
+						$discountBookingDate = date("Y-m-d", strtotime($bookingDate));
 					}
 					$pos .= '        <BookgDt>'."\n";
 					$pos .= '          <Dt>'.$discountBookingDate.'</Dt>'."\n";
@@ -239,6 +262,9 @@ class camt053 {
 						$discountValueDate = $discount['DISCOUNT_NDDT'];
 						if (strlen($discountValueDate) == 6) {
 							$discountValueDate = substr($discountValueDate, 0, 2) . '-' . substr($discountValueDate, 2, 2) . '-' . substr($discountValueDate, 4, 2);
+							$discountValueDate = date("Y-m-d", strtotime($discountValueDate));
+						} else {
+							$discountValueDate = date("Y-m-d", strtotime($bookingDate));
 						}
 						$pos .= '        <ValDt>'."\n";
 						$pos .= '          <Dt>'.$discountValueDate.'</Dt>'."\n";
@@ -247,9 +273,23 @@ class camt053 {
 					
 					$pos .= '        <AcctSvcrRef>'.htmlspecialchars($discount['DISCOUNT_TYPE'] ?? 'DISC').'</AcctSvcrRef>'."\n";
 					
+				
+					// Bank transaction code for discounts
+					$pos .= '        <BkTxCd>'."\n";
+					$pos .= '          <Domn>'."\n";
+					$pos .= '            <Cd>DISC</Cd>'."\n";
+					$pos .= '            <Fmly>'."\n";
+					$pos .= '              <Cd>DISC</Cd>'."\n";
+					$pos .= '              <SubFmlyCd>DISC</SubFmlyCd>'."\n";
+					$pos .= '            </Fmly>'."\n";
+					$pos .= '          </Domn>'."\n";
+					$pos .= '        </BkTxCd>'."\n";
+					
 					// Discount remittance information
-					$pos .= '        <RmtInf>'."\n";
-					$pos .= '          <Ustrd>';
+					$pos .= '        <NtryDtls>'."\n";
+					$pos .= '          <TxDtls>'."\n";
+					$pos .= '            <RmtInf>'."\n";
+					$pos .= '              <Ustrd>';
 					
 					$discountRemittanceText = '';
 					if (!empty($discount['DISCOUNT_TEXT00'])) {
@@ -275,18 +315,9 @@ class camt053 {
 					}
 					$pos .= htmlspecialchars($discountRemittanceText);
 					$pos .= '</Ustrd>'."\n";
-					$pos .= '        </RmtInf>'."\n";
-					
-					// Bank transaction code for discounts
-					$pos .= '        <BkTxCd>'."\n";
-					$pos .= '          <Domn>'."\n";
-					$pos .= '            <Cd>DISC</Cd>'."\n";
-					$pos .= '            <Fmly>'."\n";
-					$pos .= '              <Cd>DISC</Cd>'."\n";
-					$pos .= '              <SubFmlyCd>DISC</SubFmlyCd>'."\n";
-					$pos .= '            </Fmly>'."\n";
-					$pos .= '          </Domn>'."\n";
-					$pos .= '        </BkTxCd>'."\n";
+					$pos .= '            </RmtInf>'."\n";
+					$pos .= '          </TxDtls>'."\n";
+					$pos .= '        </NtryDtls>'."\n";
 					
 					$pos .= '      </Ntry>'."\n";
 				}
@@ -305,7 +336,7 @@ class camt053 {
 		$footer = '';
 		
 		// Closing balance
-		$footer .= '      <Bal>'."\n";
+/*		$footer .= '      <Bal>'."\n";
 		$footer .= '        <Tp>'."\n";
 		$footer .= '          <CdOrPrtry>'."\n";
 		$footer .= '            <Cd>CLBD</Cd>'."\n";
@@ -326,7 +357,7 @@ class camt053 {
 		$footer .= '          <Dt>'.$endDate.'</Dt>'."\n";
 		$footer .= '        </Dt>'."\n";
 		$footer .= '      </Bal>'."\n";
-		
+*/		
 		$footer .= '    </Stmt>'."\n";
 		$footer .= '  </BkToCstmrStmt>'."\n";
 		$footer .= '</Document>'."\n";
@@ -338,7 +369,7 @@ class camt053 {
 		$this->dataset = $this->camt053Header($parameter);
 		
 		foreach($data as $line) {
-			$this->dataset .= $this->camt053Pos($line); 	
+			$this->dataset .= $this->camt053Pos($line, $parameter); 	
 		}
 
 		$this->dataset .= $this->camt053Footer($parameter);

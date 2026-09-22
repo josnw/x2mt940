@@ -2,6 +2,12 @@
 
 $mapping_prefix = "";    // filename prefix for customized mapping files
 
+//camt053 oder mt940
+$prefered_format = 'camt053';
+$exportformat = [
+		"camt053" => "CAMT.053.001.02",		
+		"mt940" => "MT940",
+];
 # MT940 parameter
 # paypal
 $paypal['blz'] = "90000001";  // dummy BLZ for Import

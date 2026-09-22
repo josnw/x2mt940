@@ -70,13 +70,12 @@ class mt940 {
 			}
 			
 			if (isset($data['DISCOUNT']) and (is_array($data['DISCOUNT'])) ) {
-			
 				foreach ($data['DISCOUNT'] as $discount) {
 					
 					$pos .= ":61:".$discount['DISCOUNT_DATE'];
 					$pos .= $discount['DISCOUNT_TYPE'];
-					if (substr($data['DISCOUNT_AMOUNT'],0,1) == ",") {
-						$data['DISCOUNT_AMOUNT'] = "0".$data['DISCOUNT_AMOUNT'];
+					if (substr($discount['DISCOUNT_AMOUNT'],0,1) == ",") {
+						$discount['DISCOUNT_AMOUNT'] = "0".$data['DISCOUNT_AMOUNT'];
 					}
 					$pos .= $discount['DISCOUNT_AMOUNT'];
 					$pos .= "NDDT".$discount['DISCOUNT_NDDT']."\n";

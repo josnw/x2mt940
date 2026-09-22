@@ -1,9 +1,9 @@
 <?php
 include_once 'config.php';
 if (isset($_GET['mode']) and ($_GET['mode'] == 'DEMO')) {
-	if (isset($_COOKIE['scandesk'])) {
+	if (isset($_COOKIE['x2mt940'])) {
 		//print "Cookie found ...";
-		$_SESSION = unserialize(base64_decode($_COOKIE['scandesk']));
+		$_SESSION = unserialize(base64_decode($_COOKIE['x2mt940']));
 		if ((!isset($_SESSION['level'])) or ( $_SESSION['level'] == 0)) {
 			setcookie("x2mt940", '', time()-28800);
 		} else {
@@ -22,9 +22,9 @@ if (isset($_GET['mode']) and ($_GET['mode'] == 'DEMO')) {
 	
 } elseif (( !isset($_SESSION['user']) or (strlen($_SESSION['user']) == 0)) and ( !isset($_POST['loginuser']) or (strlen($_POST['loginuser']) == 0)))
 {
-	if (isset($_COOKIE['scandesk'])) {
+	if (isset($_COOKIE['x2mt940'])) {
 		//print "Cookie found ....";
-		$_SESSION = unserialize(base64_decode($_COOKIE['scandesk']));
+		$_SESSION = unserialize(base64_decode($_COOKIE['x2mt940']));
 		if ((!isset($_SESSION['level'])) or ( $_SESSION['level'] == 0)) {
 			setcookie("x2mt940", '', time()-28800);
 		} else {

@@ -10,7 +10,7 @@
 
 		?>
 	</div>
-</div>
+</div> 
 <div class="DSEdit">
 	<table class="kaltab">
 		<?php
@@ -26,7 +26,15 @@
 				
 				print "<tr>";
 				foreach($row as $value) {
-					print "<td>".$value."</td>";
+					if (is_array($value)) {
+						if (isset($value[0]["DISCOUNT_AMOUNT"])) {
+							print "<td>".$value[0]["DISCOUNT_AMOUNT"]."</td>";
+						} else {
+							print "<td> </td>";
+						}
+					} else {
+						print "<td>".$value."</td>";
+					}
 				}
 				print "</tr>";
 			}

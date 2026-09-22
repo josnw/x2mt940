@@ -31,11 +31,18 @@
 	
 	$result = $ebdata->getAllData();
 	
-	$mt940data = new mt940(date("Ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"]))));
+	if ($_POST["format"] == 'camt053') {
+		$mt940data = new camt053(date("Ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"]))));
+		$filename = 'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".xml";
+	} else {
+		$mt940data = new mt940(date("Ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"]))));
+		$filename = 'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc";
+	}
+	
 	$mt940data->generateMT940($result, $parameter);
-
-	$filename = $mt940data->writeToFile($docpath.'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc");
+	$filename = $mt940data->writeToFile($docpath.$filename);
 	$rowCount = $mt940data->getDataCount();
+	
 	$exportfile = $docpath.$filename;
 	
 	unlink($uploadFile->getCheckedPathName());

@@ -1,6 +1,7 @@
 <?php
-ini_set('session.gc_maxlifetime', 36000);
-session_set_cookie_params(36000);session_start();
+ ini_set('session.gc_maxlifetime', 36000);
+ session_set_cookie_params(36000);
+ session_start();
  include_once './intern/autoload.php';
 ?>
 <!DOCTYPE html>
