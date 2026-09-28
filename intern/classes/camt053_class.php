@@ -80,7 +80,7 @@ class camt053 {
 			}
 			
 			// Determine credit/debit indicator
-			$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'DBIT' : 'CRDT';
+			$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'CRDT' :'DBIT' ;
 			$amount = ltrim($amount, '-');
 			
 			$pos .= '      <Ntry>'."\n";
