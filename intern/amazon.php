@@ -30,10 +30,18 @@
 	}
 	$result = $opdata->getAllData();
 
-	$mt940data = new mt940();
+	
+	if ($_POST["format"] == 'camt053') {
+		$mt940data = new camt053();
+		$filename = 'Amazon_Payment_CAMT053_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".xml";
+	} else {
+		$mt940data = new mt940();
+		$filename = 'Amazon_Payment_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc";
+	}
+	
 	$mt940data->generateMT940($result, $parameter);
-
-	$filename = $mt940data->writeToFile($docpath.'Amazon_Payment_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc");
+	
+	$filename = $mt940data->writeToFile($docpath.$filename);
 	$rowCount = $mt940data->getDataCount();
 	$exportfile = $docpath.$filename;
 	

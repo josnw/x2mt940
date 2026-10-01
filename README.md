@@ -1,44 +1,44 @@
 # x2mt940
-Web App to converts textfiles from differnet payment provider to MT940 format
+Web App to converts textfiles from differnet payment provider to MT940 or CAMT.053 format
 erp connector for add a reference code
 
 #### paypal transaction files
  * supports paypal transaction (ttr) files oder csv files from paypal portal
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
  * mapping file for german table header included
  
 #### eb cooperation avis  
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
  * cash discount as extra posting
  
 #### otto.de payment files
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
 
 #### real.de payment files
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
 
 #### adyen / ebay payment files
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
 
 #### amazon payment files
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
 
 #### check24 payment files
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
 
 #### idealo payment files
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
 
 #### shopify transaction detail files
  * charge as extra posting
- * erp connector modul to add addional data in mt940
+ * erp connector modul to add addional data in mt940/camt.053
 
 
 
@@ -46,7 +46,7 @@ erp connector for add a reference code
 
  * download the repo 
  * copy intern/config.sample.php to intern/config.php 
- * edit mt904 parameters in config.php
+ * edit mt904/camt.053 parameters in config.php
  * optionaly add .htpasswd and .htaccess for user auth
 
 In the directory intern/mapping/ you will find mapping files for different file header. Maybe, you must modify it for your own language. 

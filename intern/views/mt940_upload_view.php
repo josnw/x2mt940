@@ -10,7 +10,7 @@
 	}
 ?>
 		<div class="DSFeld4 smallBorder">
-				Datei bitte auswählen: <br/><input name="<?php print $fileVar; ?>" type=file>
+				Datei bitte auswählen: <br/><input name="<?php print $fileVar; ?>" type=file required>
 		</div>
 		<div class="DSFeld1 smallBorder">
 				Ausgabeformat: <br/>

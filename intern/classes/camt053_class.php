@@ -79,9 +79,16 @@ class camt053 {
 				$amount = "0" . $amount;
 			}
 			
-			// Determine credit/debit indicator
-			$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'CRDT' :'DBIT' ;
-			$amount = ltrim($amount, '-');
+			// Check Payment Type
+			if ($data['PAYMENT_TYPE'] == "D") {
+				// Determine credit/debit indicator
+				$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'CRDT' :'DBIT' ;
+				$amount = ltrim($amount, '-');
+			} else {
+				// Determine credit/debit indicator
+				$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'DBIT' :'CRDT' ;
+				$amount = ltrim($amount, '-');
+			}
 			
 			$pos .= '      <Ntry>'."\n";
 			$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$amount.'</Amt>'."\n";
@@ -161,10 +168,21 @@ class camt053 {
 				if (substr($data['CHARGE_AMOUNT'], 0, 1) == ",") {
 					$chargeAmount = "0" . $chargeAmount;
 				}
+
+				// Check Payment Type
+				if ($data['CHARGE_TYPE'] == "D") {
+					// Determine credit/debit indicator
+					$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'CRDT' :'DBIT' ;
+					$amount = ltrim($amount, '-');
+				} else {
+					// Determine credit/debit indicator
+					$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'DBIT' :'CRDT' ;
+					$amount = ltrim($amount, '-');
+				}
 				
 				$pos .= '      <Ntry>'."\n";
 				$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$chargeAmount.'</Amt>'."\n";
-				$pos .= '        <CdtDbtInd>DBIT</CdtDbtInd>'."\n";
+				$pos .= '        <CdtDbtInd>'.$cdtDbtInd.'</CdtDbtInd>'."\n";
 				$pos .= '        <Sts>BOOK</Sts>'."\n";
 				
 				// Charge booking date
@@ -239,10 +257,21 @@ class camt053 {
 					if (substr($discount['DISCOUNT_AMOUNT'], 0, 1) == ",") {
 						$discountAmount = "0" . $discountAmount;
 					}
+
+					// Check Payment Type
+					if ($discount['DISCOUNT_TYPE'] == "D") {
+						// Determine credit/debit indicator
+						$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'CRDT' :'DBIT' ;
+						$amount = ltrim($amount, '-');
+					} else {
+						// Determine credit/debit indicator
+						$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'DBIT' :'CRDT' ;
+						$amount = ltrim($amount, '-');
+					}
 					
 					$pos .= '      <Ntry>'."\n";
 					$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$discountAmount.'</Amt>'."\n";
-					$pos .= '        <CdtDbtInd>CRDT</CdtDbtInd>'."\n";
+					$pos .= '        <CdtDbtInd>'.$cdtDbtInd.'</CdtDbtInd>'."\n";
 					$pos .= '        <Sts>BOOK</Sts>'."\n";
 					
 					// Discount booking date

@@ -27,13 +27,13 @@
 		if (!empty($eurobaustoff['bdateIsAdate']) and $eurobaustoff['bdateIsAdate']) {
 			$parameter["balanceDate"] =  date("ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"])));
 		}
-	}
+	} 
 	
 	$result = $ebdata->getAllData();
 	
 	if ($_POST["format"] == 'camt053') {
 		$mt940data = new camt053(date("Ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"]))));
-		$filename = 'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".xml";
+		$filename = 'Eurobaustoff_CAMT053_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".xml";
 	} else {
 		$mt940data = new mt940(date("Ymd",strtotime(preg_replace("[^0-9\-\.]","",$_POST["paymentDate"]))));
 		$filename = 'Eurobaustoff_MT940_'.date("Ymd",strtotime($parameter['startdate']))."_".uniqid().".pcc";
