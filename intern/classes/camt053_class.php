@@ -89,6 +89,7 @@ class camt053 {
 				$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'DBIT' :'CRDT' ;
 				$amount = ltrim($amount, '-');
 			}
+			$pmnt_fam = ($cdtDbtInd == 'DBIT') ? 'ICDT' :'RCDT' ;
 			
 			$pos .= '      <Ntry>'."\n";
 			$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$amount.'</Amt>'."\n";
@@ -128,15 +129,23 @@ class camt053 {
 			$pos .= '          <Domn>'."\n";
 			$pos .= '            <Cd>PMNT</Cd>'."\n";
 			$pos .= '            <Fmly>'."\n";
-			$pos .= '              <Cd>RTPM</Cd>'."\n";
-			$pos .= '              <SubFmlyCd>TRF</SubFmlyCd>'."\n";
+			$pos .= '              <Cd>'.$pmnt_fam.'</Cd>'."\n";
+			$pos .= '              <SubFmlyCd>ESCT</SubFmlyCd>'."\n";
 			$pos .= '            </Fmly>'."\n";
 			$pos .= '          </Domn>'."\n";
 			$pos .= '        </BkTxCd>'."\n";
 
-			// Remittance information
+			//Referenzen
 			$pos .= '        <NtryDtls>'."\n";
 			$pos .= '          <TxDtls>'."\n";
+
+			if (!empty($data['PAYMENT_CODE'])) {
+				$pos .= '            <Refs>'."\n";
+				$pos .= '              <EndToEndId>'.$data['PAYMENT_CODE'].'</EndToEndId>'."\n";
+				$pos .= '            </Refs>'."\n";
+			}
+			
+			// Remittance information
 			$pos .= '            <RmtInf>'."\n";
 			$pos .= '              <Ustrd>';
 			
@@ -179,6 +188,7 @@ class camt053 {
 					$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'DBIT' :'CRDT' ;
 					$amount = ltrim($amount, '-');
 				}
+				$pmnt_fam = ($cdtDbtInd == 'DBIT') ? 'ICDT' :'RCDT' ;
 				
 				$pos .= '      <Ntry>'."\n";
 				$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$chargeAmount.'</Amt>'."\n";
@@ -216,10 +226,10 @@ class camt053 {
 				// Bank transaction code for charges
 				$pos .= '        <BkTxCd>'."\n";
 				$pos .= '          <Domn>'."\n";
-				$pos .= '            <Cd>CHRG</Cd>'."\n";
+				$pos .= '            <Cd>PMNT</Cd>'."\n";
 				$pos .= '            <Fmly>'."\n";
-				$pos .= '              <Cd>CHRG</Cd>'."\n";
-				$pos .= '              <SubFmlyCd>FEES</SubFmlyCd>'."\n";
+				$pos .= '              <Cd>'.$pmnt_fam.'</Cd>'."\n";
+				$pos .= '              <SubFmlyCd>ESCT</SubFmlyCd>'."\n";
 				$pos .= '            </Fmly>'."\n";
 				$pos .= '          </Domn>'."\n";
 				$pos .= '        </BkTxCd>'."\n";
@@ -227,6 +237,13 @@ class camt053 {
 				// Charge remittance information
 				$pos .= '        <NtryDtls>'."\n";
 				$pos .= '          <TxDtls>'."\n";
+
+				if (!empty($data['CHARGE_CODE'])) {
+					$pos .= '            <Refs>'."\n";
+					$pos .= '              <EndToEndId>'.$data['CHARGE_CODE'].'</EndToEndId>'."\n";
+					$pos .= '            </Refs>'."\n";
+				}
+						
 				$pos .= '            <RmtInf>'."\n";
 				$pos .= '              <Ustrd>';
 				
@@ -268,6 +285,7 @@ class camt053 {
 						$cdtDbtInd = (substr($amount, 0, 1) == '-') ? 'DBIT' :'CRDT' ;
 						$amount = ltrim($amount, '-');
 					}
+					$pmnt_fam = ($cdtDbtInd == 'DBIT') ? 'ICDT' :'RCDT' ;
 					
 					$pos .= '      <Ntry>'."\n";
 					$pos .= '        <Amt Ccy="'.$parameter['currency'].'">'.$discountAmount.'</Amt>'."\n";
@@ -306,10 +324,10 @@ class camt053 {
 					// Bank transaction code for discounts
 					$pos .= '        <BkTxCd>'."\n";
 					$pos .= '          <Domn>'."\n";
-					$pos .= '            <Cd>DISC</Cd>'."\n";
+					$pos .= '            <Cd>PMNT</Cd>'."\n";
 					$pos .= '            <Fmly>'."\n";
-					$pos .= '              <Cd>DISC</Cd>'."\n";
-					$pos .= '              <SubFmlyCd>DISC</SubFmlyCd>'."\n";
+					$pos .= '              <Cd>'.$pmnt_fam.'</Cd>'."\n";
+					$pos .= '              <SubFmlyCd>ESCT</SubFmlyCd>'."\n";
 					$pos .= '            </Fmly>'."\n";
 					$pos .= '          </Domn>'."\n";
 					$pos .= '        </BkTxCd>'."\n";
@@ -317,6 +335,13 @@ class camt053 {
 					// Discount remittance information
 					$pos .= '        <NtryDtls>'."\n";
 					$pos .= '          <TxDtls>'."\n";
+					
+					if (!empty($data['DISCOUNT_CODE'])) {
+						$pos .= '            <Refs>'."\n";
+						$pos .= '              <EndToEndId>'.$data['DISCOUNT_CODE'].'</EndToEndId>'."\n";
+						$pos .= '            </Refs>'."\n";
+					}
+				
 					$pos .= '            <RmtInf>'."\n";
 					$pos .= '              <Ustrd>';
 					

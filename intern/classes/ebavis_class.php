@@ -125,7 +125,7 @@ class eurobaustoffAvis {
 				'PAYMENT_TEXT21' => 'FB'.$rowdata["TRANSACTION_INVOICE"],
 				'PAYMENT_TEXT22' => 'BR'.$rowdata["TRANSACTION_AMOUNT"],
 				'PAYMENT_TEXT23' => 'SK'.$rowdata["TRANSACTION_DISCOUNTAMOUNT"],
-				'PAYMENT_CODE' => '',
+				'PAYMENT_CODE' => $rowdata["TRANSACTION_INVOICE"],
 				'PAYMENT_STATE' =>  'S'
 			];
 			
@@ -142,7 +142,8 @@ class eurobaustoffAvis {
 						'DISCOUNT_TEXT20' => 'SKONTO'. $percent." FB".$rowdata["TRANSACTION_INVOICE"],
 						'DISCOUNT_TEXT21' => 'LI'.$rowdata["TRANSACTION_SELLER_ID"],
 						'DISCOUNT_TEXT22' => 'FB'.$rowdata["TRANSACTION_INVOICE"],
-						'DISCOUNT_TEXT23' => ''
+						'DISCOUNT_TEXT23' => '',
+						'DISCOUNT_CODE' => $rowdata["TRANSACTION_INVOICE"]
 					];
 				}
 				
